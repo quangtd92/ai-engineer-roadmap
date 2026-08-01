@@ -4,18 +4,20 @@
 
 Lộ trình này xây một ứng dụng GenAI có thể kiểm thử qua một project xuyên suốt: `ai-assistant-platform`. Học theo thứ tự tháng → tuần → ngày; mỗi ngày giới hạn 1–2 giờ và có đầu ra, lệnh chạy, cách kiểm tra cùng commit message gợi ý.
 
-Đọc [điều kiện đầu vào](./00-Prerequisites.md), sau đó dùng [ROADMAP_SPEC.md](./ROADMAP_SPEC.md) làm đặc tả và [VALIDATION.md](./VALIDATION.md) làm checklist chất lượng.
+Đọc [điều kiện đầu vào](./docs/00-Prerequisites.md), sau đó dùng [ROADMAP_SPEC.md](./docs/ROADMAP_SPEC.md) làm đặc tả và [VALIDATION.md](./docs/VALIDATION.md) làm checklist chất lượng.
+
+Mở [checklist.html](./checklist.html) (hoặc chạy server Python `python server.py`) để theo dõi tiến độ theo ngày, tuần và tháng.
 
 ## Điều hướng 6 tháng và 24 tuần
 
-| Tháng | Trọng tâm | Tuần học |
-| --- | --- | --- |
-| [Tháng 01](./Month-01/README.md) | Python, FastAPI, Docker, PyTorch foundation | [Tuần 01](./Month-01/Week-01.md) · [02](./Month-01/Week-02.md) · [03](./Month-01/Week-03.md) · [04](./Month-01/Week-04.md) |
-| [Tháng 02](./Month-02/README.md) | Data processing, ML foundation, neural network, Transformer | [Tuần 01](./Month-02/Week-01.md) · [02](./Month-02/Week-02.md) · [03](./Month-02/Week-03.md) · [04](./Month-02/Week-04.md) |
-| [Tháng 03](./Month-03/README.md) | LLM, Structured Output, Tool Calling, MCP | [Tuần 01](./Month-03/Week-01.md) · [02](./Month-03/Week-02.md) · [03](./Month-03/Week-03.md) · [04](./Month-03/Week-04.md) |
-| [Tháng 04](./Month-04/README.md) | RAG, hybrid retrieval, reranking, evaluation | [Tuần 01](./Month-04/Week-01.md) · [02](./Month-04/Week-02.md) · [03](./Month-04/Week-03.md) · [04](./Month-04/Week-04.md) |
-| [Tháng 05](./Month-05/README.md) | LangGraph agent, reliability, human-in-the-loop | [Tuần 01](./Month-05/Week-01.md) · [02](./Month-05/Week-02.md) · [03](./Month-05/Week-03.md) · [04](./Month-05/Week-04.md) |
-| [Tháng 06](./Month-06/README.md) | Production, AWS EC2, CI/CD, observability | [Tuần 01](./Month-06/Week-01.md) · [02](./Month-06/Week-02.md) · [03](./Month-06/Week-03.md) · [04](./Month-06/Week-04.md) |
+| Tháng | Trọng tâm | Tuần học | Báo cáo Review |
+| --- | --- | --- | --- |
+| [Tháng 01](./Month-01/README.md) | Python, FastAPI, Docker, PyTorch foundation | [Tuần 01](./Month-01/Week-01.md) · [02](./Month-01/Week-02.md) · [03](./Month-01/Week-03.md) · [04](./Month-01/Week-04.md) | [Review T01](./reviews/REVIEW-MONTH-01.md) |
+| [Tháng 02](./Month-02/README.md) | Data processing, ML foundation, neural network, Transformer | [Tuần 01](./Month-02/Week-01.md) · [02](./Month-02/Week-02.md) · [03](./Month-02/Week-03.md) · [04](./Month-02/Week-04.md) | [Review T02](./reviews/REVIEW-MONTH-02.md) |
+| [Tháng 03](./Month-03/README.md) | LLM, Structured Output, Tool Calling, MCP | [Tuần 01](./Month-03/Week-01.md) · [02](./Month-03/Week-02.md) · [03](./Month-03/Week-03.md) · [04](./Month-03/Week-04.md) | [Review T03](./reviews/REVIEW-MONTH-03.md) |
+| [Tháng 04](./Month-04/README.md) | RAG, hybrid retrieval, reranking, evaluation | [Tuần 01](./Month-04/Week-01.md) · [02](./Month-04/Week-02.md) · [03](./Month-04/Week-03.md) · [04](./Month-04/Week-04.md) | [Review T04](./reviews/REVIEW-MONTH-04.md) |
+| [Tháng 05](./Month-05/README.md) | LangGraph agent, reliability, human-in-the-loop | [Tuần 01](./Month-05/Week-01.md) · [02](./Month-05/Week-02.md) · [03](./Month-05/Week-03.md) · [04](./Month-05/Week-04.md) | [Review T05](./reviews/REVIEW-MONTH-05.md) |
+| [Tháng 06](./Month-06/README.md) | Production, AWS EC2, CI/CD, observability | [Tuần 01](./Month-06/Week-01.md) · [02](./Month-06/Week-02.md) · [03](./Month-06/Week-03.md) · [04](./Month-06/Week-04.md) | [Review T06](./reviews/REVIEW-MONTH-06.md) |
 
 ## Project progression
 
@@ -28,4 +30,4 @@ Lộ trình này xây một ứng dụng GenAI có thể kiểm thử qua một 
 
 ## Báo cáo review
 
-Xem [final review](./FINAL_REVIEW.md) để biết trạng thái audit toàn repository, các sửa đổi và giới hạn xác minh runtime/cloud.
+Xem [final review](./docs/FINAL_REVIEW.md) để biết trạng thái audit toàn repository, các sửa đổi và giới hạn xác minh runtime/cloud.

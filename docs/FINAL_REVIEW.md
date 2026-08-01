@@ -10,9 +10,9 @@ Technical-curriculum review toàn bộ roadmap 6 tháng theo `ROADMAP_SPEC.md`, 
 
 ## Files reviewed
 
-- `README.md`, `00-Prerequisites.md`, `ROADMAP_SPEC.md`, `VALIDATION.md`.
+- `README.md`, `docs/00-Prerequisites.md`, `docs/ROADMAP_SPEC.md`, `docs/VALIDATION.md`.
 - Sáu `Month-XX/README.md`, 24 `Week-XX.md`, sáu `RESOURCES.md` và sáu `REVIEW.md`.
-- Sáu báo cáo canonical `REVIEW-MONTH-01.md` đến `REVIEW-MONTH-06.md`.
+- Sáu báo cáo canonical trong `reviews/REVIEW-MONTH-01.md` đến `reviews/REVIEW-MONTH-06.md`.
 
 ## Validation summary
 

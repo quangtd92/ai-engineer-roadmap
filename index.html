@@ -1,0 +1,963 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Engineer Roadmap | Roadmap Hub & Chi Tiết Ngày Học</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --border: #334155;
+      --border-accent: #3b82f6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-accent: #60a5fa;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --purple: #8b5cf6;
+      --code-bg: #090d16;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text-main);
+      background: var(--bg-dark);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+    }
+    
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #1e293b 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto 20px;
+    }
+    .logo-area { display: flex; align-items: center; gap: 14px; }
+    .logo-badge {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    }
+    h1 {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .header-actions { display: flex; gap: 12px; align-items: center; }
+    .search-box {
+      position: relative;
+      width: 280px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 9px 14px 9px 36px;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: white;
+      font-size: 0.9rem;
+    }
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border-radius: 10px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { background: var(--bg-card-hover); }
+
+    /* Month Selector Tabs */
+    .months-tabs {
+      display: flex;
+      gap: 10px;
+      max-width: 1400px;
+      margin: 0 auto;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .month-tab {
+      flex: 1;
+      min-width: 180px;
+      padding: 12px 16px;
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+    .month-tab:hover { background: var(--bg-card-hover); border-color: var(--text-accent); }
+    .month-tab.active {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(124, 58, 237, 0.2));
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
+    }
+    .month-tab .m-title { font-weight: 700; font-size: 0.95rem; color: white; }
+    .month-tab .m-desc { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+
+    /* Main Content Area */
+    main {
+      max-width: 1400px;
+      margin: 24px auto 64px;
+      padding: 0 24px;
+    }
+    
+    /* Week pills bar */
+    .weeks-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+    .week-pill {
+      padding: 10px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .week-pill:hover { color: white; border-color: var(--text-accent); }
+    .week-pill.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Content Layout (Sidebar + Details) */
+    .curriculum-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    
+    /* Day selector sidebar */
+    .days-sidebar {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .sidebar-header {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text-accent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .day-item-card {
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(15, 23, 42, 0.5);
+    }
+    .day-item-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border);
+    }
+    .day-item-card.active {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.25), rgba(30, 41, 59, 0.9));
+      border-color: var(--primary);
+    }
+    .day-item-meta { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 4px; }
+    .day-item-title { font-weight: 600; font-size: 0.88rem; color: white; line-height: 1.4; }
+
+    /* Day Detail View */
+    .day-detail-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .panel-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+    .tag-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-primary { background: rgba(37, 99, 235, 0.2); color: var(--text-accent); border: 1px solid rgba(37, 99, 235, 0.4); }
+    .badge-time { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .day-main-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: white;
+    }
+    .goal-box {
+      background: rgba(15, 23, 42, 0.6);
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 16px;
+    }
+    .goal-box h4 { margin: 0 0 4px; font-size: 0.85rem; color: var(--text-accent); text-transform: uppercase; letter-spacing: 0.05em; }
+    .goal-box p { margin: 0; font-size: 0.95rem; color: var(--text-main); font-weight: 500; }
+
+    /* Sections inside detail */
+    .section-block {
+      margin-bottom: 28px;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 8px;
+    }
+
+    /* Grid for Theory & Practice */
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .info-card {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .info-card h4 { margin: 0 0 10px; font-size: 0.9rem; color: var(--text-accent); }
+    .info-card p, .info-card ul { margin: 0; font-size: 0.9rem; color: #cbd5e1; }
+    .info-card ul { padding-left: 18px; }
+    .info-card li { margin-bottom: 6px; }
+
+    /* Code block & Terminal */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    /* GitHub Alert Styles */
+    .alert-box {
+      padding: 14px 18px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+    }
+    .alert-note { background: rgba(37, 99, 235, 0.12); border: 1px solid rgba(37, 99, 235, 0.3); color: #93c5fd; }
+    .alert-warning { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); color: #fde047; }
+    .alert-important { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; }
+
+    /* Self Check Questions Accordion */
+    .question-item {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .question-head {
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #e2e8f0;
+    }
+    .question-head:hover { background: rgba(255,255,255,0.03); }
+
+    /* Search Results Drawer */
+    .search-results-container {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .search-card {
+      padding: 14px;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .search-card:hover { border-color: var(--primary); }
+
+    @media (max-width: 900px) {
+      .curriculum-layout { grid-template-columns: 1fr; }
+      .two-col-grid { grid-template-columns: 1fr; }
+      .months-tabs { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <div class="logo-area">
+        <div class="logo-badge">AI ROADMAP</div>
+        <div>
+          <h1>AI Engineer Roadmap (6 Tháng)</h1>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="Tìm bài học, chủ đề, tool...">
+        </div>
+        <a href="checklist.html" class="btn btn-primary">
+          <span>✅</span> Theo dõi Tiến độ (Checklist)
+        </a>
+      </div>
+    </div>
+
+    <!-- Month Navigation Tabs -->
+    <div class="months-tabs" id="month-tabs">
+      <!-- Injected by JS -->
+    </div>
+  </header>
+
+  <main>
+    <!-- Search Results View -->
+    <div class="search-results-container" id="search-results">
+      <div class="sidebar-header">
+        <span>Kết quả tìm kiếm cho "<span id="search-keyword"></span>"</span>
+        <button class="btn btn-outline" onclick="closeSearch()">Đóng</button>
+      </div>
+      <div id="search-list"></div>
+    </div>
+
+    <!-- Week Pills Navigation -->
+    <div class="weeks-bar" id="week-pills">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Week Overview Banner -->
+    <div id="week-banner" style="background: rgba(30, 41, 59, 0.5); border: 1px solid var(--border); border-radius: 14px; padding: 18px 24px; margin-bottom: 24px;">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Main 2-Column Layout -->
+    <div class="curriculum-layout">
+      <!-- Left Sidebar: Days List -->
+      <div class="days-sidebar">
+        <div class="sidebar-header">
+          <span>Danh sách 7 Ngày</span>
+          <span id="days-count-badge" style="font-size: 0.8rem; color: var(--text-muted);"></span>
+        </div>
+        <div id="days-list">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- Right Panel: Selected Day Details -->
+      <div class="day-detail-panel" id="day-detail">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let curriculumData = null;
+    let selectedMonthIdx = 1;
+    let selectedWeekIdx = 1;
+    let selectedDayIdx = 1; // 1 to 7 within selected week
+
+    const storageKey = 'ai-engineer-roadmap-checklist-v2';
+    let state = { completed: {}, outcomes: {}, completedAt: {}, reasons: {} };
+
+    function id(month, week, day) { return `m${month}-w${week}-d${day}`; }
+
+    async function loadChecklistState() {
+      try {
+        const res = await fetch('/api/checklist');
+        if (res.ok) {
+          const data = await res.json();
+          state = {
+            completed: data.completed || {},
+            outcomes: data.outcomes || {},
+            completedAt: data.completedAt || {},
+            reasons: data.reasons || {}
+          };
+          localStorage.setItem(storageKey, JSON.stringify(state));
+          return;
+        }
+      } catch (e) {}
+      const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      state = saved.completed ? saved : { completed: {}, outcomes: {}, completedAt: {}, reasons: {} };
+      if (!state.completedAt) state.completedAt = {};
+      if (!state.reasons) state.reasons = {};
+    }
+
+    function saveState() {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+      fetch('/api/checklist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(state)
+      }).catch(e => console.error('Error saving state:', e));
+    }
+
+    function allDayKeys() {
+      const keys = [];
+      for (let mi = 1; mi <= 6; mi++) {
+        for (let wi = 1; wi <= 4; wi++) {
+          for (let di = 1; di <= 7; di++) {
+            keys.push(id(mi, wi, di));
+          }
+        }
+      }
+      return keys;
+    }
+
+    function getOutcome(key) {
+      return state.outcomes[key] !== undefined ? state.outcomes[key] : 'achieved';
+    }
+
+    function isDaySatisfied(key) {
+      const outcome = getOutcome(key);
+      const reason = (state.reasons[key] || '').trim();
+      if (outcome === 'not-achieved') {
+        return reason.length > 0;
+      }
+      if (outcome === 'achieved') {
+        return !!state.completed[key];
+      }
+      return false;
+    }
+
+    function isDayUnlocked(targetKey) {
+      const keys = allDayKeys();
+      const targetIdx = keys.indexOf(targetKey);
+      if (targetIdx <= 0) return true; // Day 1 unlocked
+
+      let lastCheckedIdx = -1;
+      for (let i = keys.length - 1; i >= 0; i--) {
+        if (state.completed[keys[i]]) {
+          lastCheckedIdx = i;
+          break;
+        }
+      }
+
+      if (lastCheckedIdx === -1) {
+        return targetIdx === 0;
+      }
+      const prevSatisfied = isDaySatisfied(keys[lastCheckedIdx]);
+      return targetIdx === lastCheckedIdx || (targetIdx === lastCheckedIdx + 1 && prevSatisfied);
+    }
+
+    async function init() {
+      await loadChecklistState();
+      try {
+        const res = await fetch('/api/curriculum');
+        if (res.ok) {
+          curriculumData = await res.json();
+          renderApp();
+          return;
+        }
+      } catch (e) {
+        console.warn('API /api/curriculum failed, attempting fetch curriculum_data.json directly');
+      }
+      
+      try {
+        const res = await fetch('curriculum_data.json');
+        if (res.ok) {
+          curriculumData = await res.json();
+          renderApp();
+          return;
+        }
+      } catch (e) {
+        console.error('Failed to load curriculum data', e);
+      }
+    }
+
+    function renderApp() {
+      if (!curriculumData) return;
+      renderMonthTabs();
+      renderWeekPills();
+      renderWeekBanner();
+      renderDaysList();
+      renderDayDetail();
+      setupSearch();
+    }
+
+    function renderMonthTabs() {
+      const container = document.getElementById('month-tabs');
+      container.innerHTML = '';
+      curriculumData.months.forEach(m => {
+        const div = document.createElement('div');
+        div.className = `month-tab ${m.month_num === selectedMonthIdx ? 'active' : ''}`;
+        div.onclick = () => {
+          selectedMonthIdx = m.month_num;
+          selectedWeekIdx = 1;
+          selectedDayIdx = 1;
+          renderApp();
+        };
+        div.innerHTML = `
+          <div class="m-title">${m.title}</div>
+          <div class="m-desc">${m.description}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderWeekPills() {
+      const container = document.getElementById('week-pills');
+      container.innerHTML = '';
+      const currentMonth = curriculumData.months.find(m => m.month_num === selectedMonthIdx);
+      if (!currentMonth) return;
+
+      currentMonth.weeks.forEach(w => {
+        const btn = document.createElement('button');
+        btn.className = `week-pill ${w.week_num === selectedWeekIdx ? 'active' : ''}`;
+        btn.onclick = () => {
+          selectedWeekIdx = w.week_num;
+          selectedDayIdx = 1;
+          renderApp();
+        };
+        btn.textContent = `Tuần ${w.week_num}`;
+        container.appendChild(btn);
+      });
+    }
+
+    function renderWeekBanner() {
+      const container = document.getElementById('week-banner');
+      const currentMonth = curriculumData.months.find(m => m.month_num === selectedMonthIdx);
+      const currentWeek = currentMonth?.weeks.find(w => w.week_num === selectedWeekIdx);
+      if (!currentWeek) return;
+
+      container.innerHTML = `
+        <h3 style="margin: 0 0 8px; font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: white;">
+          ${currentWeek.title}
+        </h3>
+        <p style="margin: 0 0 10px; color: var(--text-accent); font-weight: 500;">
+          🎯 <strong>Mục tiêu tuần:</strong> ${currentWeek.goal}
+        </p>
+        ${currentWeek.project_feature ? `<p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">🚀 <strong>Tính năng Project:</strong> ${currentWeek.project_feature}</p>` : ''}
+      `;
+    }
+
+    function renderDaysList() {
+      const container = document.getElementById('days-list');
+      container.innerHTML = '';
+      const currentMonth = curriculumData.months.find(m => m.month_num === selectedMonthIdx);
+      const currentWeek = currentMonth?.weeks.find(w => w.week_num === selectedWeekIdx);
+      if (!currentWeek) return;
+
+      document.getElementById('days-count-badge').textContent = `Tuần ${selectedWeekIdx} (${currentWeek.days.length} bài)`;
+
+      currentWeek.days.forEach(d => {
+        const dayKey = id(selectedMonthIdx, selectedWeekIdx, d.week_day);
+        const isChecked = !!state.completed[dayKey];
+        const unlocked = isDayUnlocked(dayKey);
+        const outcome = getOutcome(dayKey);
+        const reason = (state.reasons[dayKey] || '').trim();
+
+        let statusBadge = '';
+        if (!unlocked) {
+          statusBadge = '<span style="color: #94a3b8; font-size: 0.75rem;">🔒 Khóa</span>';
+        } else if (isChecked) {
+          statusBadge = '<span style="color: #34d399; font-size: 0.75rem; font-weight: 700;">✓ Hoàn thành</span>';
+        } else if (outcome === 'not-achieved') {
+          statusBadge = reason ? '<span style="color: #f87171; font-size: 0.75rem; font-weight: 700;">🔴 Chưa đạt</span>' : '<span style="color: #fbbf24; font-size: 0.75rem;">⚠️ Cần lý do</span>';
+        } else {
+          statusBadge = '<span style="color: var(--text-muted); font-size: 0.75rem;">⚪ Chưa hoàn thành</span>';
+        }
+
+        const card = document.createElement('div');
+        card.className = `day-item-card ${d.week_day === selectedDayIdx ? 'active' : ''}`;
+        card.style.opacity = unlocked ? '1' : '0.55';
+        card.onclick = () => {
+          selectedDayIdx = d.week_day;
+          renderDaysList();
+          renderDayDetail();
+        };
+        card.innerHTML = `
+          <div class="day-item-meta">
+            <span>Ngày ${d.global_day} / 168</span>
+            ${statusBadge}
+          </div>
+          <div class="day-item-title">Ngày ${d.week_day}: ${d.title}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderMarkdownLinks(text) {
+      if (!text) return '';
+      let html = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, title, url) => {
+        let href = url;
+        if (url.includes('RESOURCES.md')) {
+          href = `Month-0${selectedMonthIdx}/RESOURCES.md`;
+        }
+        const isExternal = href.startsWith('http');
+        const target = isExternal ? 'target="_blank" rel="noopener noreferrer"' : '';
+        return `<a href="${href}" ${target} style="color: #60a5fa; text-decoration: underline; font-weight: 600;">${title} ${isExternal ? '↗' : ''}</a>`;
+      });
+      html = html.replace(/(?<!href=")(https?:\/\/[^\s<)]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: underline; font-weight: 600;">$1 ↗</a>');
+      return html;
+    }
+
+    function renderDayDetail() {
+      const container = document.getElementById('day-detail');
+      const currentMonth = curriculumData.months.find(m => m.month_num === selectedMonthIdx);
+      const currentWeek = currentMonth?.weeks.find(w => w.week_num === selectedWeekIdx);
+      const day = currentWeek?.days.find(d => d.week_day === selectedDayIdx);
+
+      if (!day) {
+        container.innerHTML = '<p>Vui lòng chọn bài học từ danh sách bên trái.</p>';
+        return;
+      }
+
+      const dayKey = id(selectedMonthIdx, selectedWeekIdx, day.week_day);
+      const isChecked = !!state.completed[dayKey];
+      const unlocked = isDayUnlocked(dayKey);
+      const outcome = getOutcome(dayKey);
+      const reason = state.reasons[dayKey] || '';
+
+      const questionsHtml = day.self_check_questions && day.self_check_questions.length > 0 
+        ? day.self_check_questions.map((q, i) => `
+            <div class="question-item">
+              <div class="question-head">
+                <span>❓ Câu ${i+1}: ${renderMarkdownLinks(q)}</span>
+              </div>
+            </div>
+          `).join('')
+        : '<p style="color: var(--text-muted); font-size: 0.88rem;">Không có câu hỏi kiểm tra cho ngày này.</p>';
+
+      const pitfallsHtml = currentWeek.pitfalls && currentWeek.pitfalls.length > 0
+        ? currentWeek.pitfalls.map(p => `<li>${renderMarkdownLinks(p)}</li>`).join('')
+        : '<li>Không có ghi chú lỗi đặc biệt cho tuần này.</li>';
+
+      const officialResHtml = currentWeek.official_resources && currentWeek.official_resources.length > 0
+        ? currentWeek.official_resources.map(r => `
+            <li style="margin-bottom: 8px;">
+              <a href="${r.url}" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; font-weight: 600; text-decoration: underline; font-size: 0.92rem;">
+                🔗 ${r.title} ↗
+              </a>
+              ${r.description ? `<span style="color: var(--text-muted); font-size: 0.85rem;"> — ${r.description}</span>` : ''}
+            </li>
+          `).join('')
+        : '<li>Xem tài liệu tổng hợp trong folder của tháng.</li>';
+
+      container.innerHTML = `
+        <div class="panel-header">
+          <div class="tag-row">
+            <span class="badge badge-primary">Ngày ${day.global_day} / 168 (Tháng ${selectedMonthIdx} · Tuần ${selectedWeekIdx})</span>
+            <span class="badge badge-time">⏱️ ${day.time_allocation || '90-120 phút'}</span>
+          </div>
+          <h2 class="day-main-title">Ngày ${day.week_day}: ${day.title}</h2>
+
+          <!-- Interactive Completion Box -->
+          <div style="background: rgba(30, 41, 59, 0.95); border: 1px solid ${unlocked ? (isChecked ? '#10b981' : '#3b82f6') : '#475569'}; border-radius: 14px; padding: 18px 22px; margin: 16px 0 20px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+              <label style="display: flex; align-items: center; gap: 12px; cursor: ${unlocked ? 'pointer' : 'not-allowed'}; opacity: ${unlocked ? '1' : '0.6'}; font-weight: 700; font-size: 1.05rem; color: white;">
+                <input type="checkbox" id="check-completed" ${isChecked ? 'checked' : ''} ${unlocked ? '' : 'disabled'} style="width: 22px; height: 22px; accent-color: #10b981; cursor: pointer;">
+                <span>${isChecked ? '✅ Đã hoàn thành Ngày ' + day.week_day : 'Đánh dấu hoàn thành Ngày ' + day.week_day}</span>
+              </label>
+
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 0.88rem; color: var(--text-muted); font-weight: 600;">Đánh giá:</span>
+                <select id="select-outcome" ${unlocked ? '' : 'disabled'} style="padding: 6px 12px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: white; font-size: 0.88rem; cursor: pointer;">
+                  <option value="achieved" ${outcome === 'achieved' ? 'selected' : ''}>Đạt kế hoạch</option>
+                  <option value="not-achieved" ${outcome === 'not-achieved' ? 'selected' : ''}>Chưa đạt</option>
+                  <option value="" ${outcome === '' ? 'selected' : ''}>Chưa đánh giá</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="reason-box" style="margin-top: 14px; display: ${outcome === 'not-achieved' ? 'block' : 'none'};">
+              <label style="display: block; font-size: 0.85rem; color: #fca5a5; font-weight: 600; margin-bottom: 6px;">
+                ⚠️ Nhập lý do chưa đạt kế hoạch (cần nhập lý do để có thể tick mở khóa ngày tiếp theo):
+              </label>
+              <textarea id="input-reason" ${unlocked ? '' : 'disabled'} placeholder="Nhập lý do tại sao chưa đạt kế hoạch..." style="width: 100%; height: 90px; padding: 10px 14px; background: #0f172a; border: 1px solid #f87171; border-radius: 8px; color: white; font-family: inherit; font-size: 0.88rem; resize: vertical;">${reason}</textarea>
+            </div>
+
+            ${!unlocked ? '<div style="margin-top: 10px; color: #94a3b8; font-size: 0.82rem; font-style: italic;">🔒 Bài học này chưa được mở khóa. Hãy hoàn thành hoặc nhập lý do cho bài học trước đó.</div>' : ''}
+          </div>
+
+          <div class="goal-box">
+            <h4>🎯 Mục tiêu cụ thể</h4>
+            <p>${renderMarkdownLinks(day.specific_goal || 'Hoàn thành bài tập và tích hợp vào ai-assistant-platform.')}</p>
+          </div>
+
+          ${day.expected_outcome ? `
+            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 12px 16px; border-radius: 10px;">
+              <strong style="color: #34d399; font-size: 0.88rem;">🏆 KẾT QUẢ CẦN ĐẠT:</strong>
+              <div style="font-size: 0.92rem; margin-top: 4px;">${renderMarkdownLinks(day.expected_outcome)}</div>
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- Section 1: Theory & Reading -->
+        <div class="section-block">
+          <div class="section-title">📖 1. Lý Thuyết & Tài Liệu Cần Đọc</div>
+          <div class="two-col-grid">
+            <div class="info-card">
+              <h4>📘 Nội dung lý thuyết</h4>
+              <p>${renderMarkdownLinks(day.theory_content || 'Xem chi tiết trong bài học tuần.')}</p>
+            </div>
+            <div class="info-card">
+              <h4>📚 Tài liệu cần đọc cho bài học này</h4>
+              <p>${renderMarkdownLinks(day.reading_docs || 'Xem trong tài liệu tham khảo chính thức của tuần.')}</p>
+            </div>
+          </div>
+          
+          <!-- Official Resources Links Box -->
+          <div class="info-card" style="margin-top: 14px; background: rgba(30, 41, 59, 0.7); border-color: rgba(96, 165, 250, 0.3);">
+            <h4 style="color: #93c5fd; margin-bottom: 10px;">🌐 Danh Mục Link Tài Liệu Tham Khảo Chính Thức (Tuần ${selectedWeekIdx})</h4>
+            <ul style="margin: 0; padding-left: 18px; list-style: none;">
+              ${officialResHtml}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Section 2: Practical Task & Code -->
+        <div class="section-block">
+          <div class="section-title">💻 2. Bài Thực Hành & Thay Đổi Project</div>
+          <div class="info-card" style="margin-bottom: 14px;">
+            <h4>🔨 Bài thực hành cụ thể</h4>
+            <p>${renderMarkdownLinks(day.practice_task || 'Thực hành các hàm và cấu hình theo chỉ dẫn.')}</p>
+            ${day.project_changes ? `<p style="margin-top: 10px; color: var(--text-accent);"><strong>Tích hợp project:</strong> ${renderMarkdownLinks(day.project_changes)}</p>` : ''}
+          </div>
+
+          <div class="two-col-grid">
+            <div>
+              <h5 style="margin: 0 0 6px; color: var(--text-muted); font-size: 0.85rem;">📁 FILE CẦN TẠO / SỬA:</h5>
+              <div class="code-block" style="color: #a5f3fc;">${day.expected_files || 'Theo hướng dẫn trong bài học.'}</div>
+            </div>
+            <div>
+              <h5 style="margin: 0 0 6px; color: var(--text-muted); font-size: 0.85rem;">⚡ LỆNH TERMINAL CHẠY:</h5>
+              <div class="code-block" style="color: #fef08a;">${day.commands || 'uv run pytest'}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Expected Result & DoD -->
+        <div class="section-block">
+          <div class="section-title">✅ 3. Kết Quả Mong Đợi & Definition of Done</div>
+          <div class="two-col-grid">
+            <div class="info-card">
+              <h4>🎯 Kết quả mong đợi & Cách kiểm tra</h4>
+              <p><strong>Kỳ vọng:</strong> ${renderMarkdownLinks(day.expected_result || 'Chạy lệnh không báo lỗi.')}</p>
+              ${day.self_check_method ? `<p style="margin-top: 8px;"><strong>Cách kiểm tra:</strong> ${renderMarkdownLinks(day.self_check_method)}</p>` : ''}
+            </div>
+            <div class="info-card">
+              <h4>✔️ Definition of Done (DoD)</h4>
+              <p>${renderMarkdownLinks(day.dod || 'Tất cả các test trôi qua và code tuân thủ lint rule.')}</p>
+              ${day.commit_message ? `<div style="margin-top: 10px; font-family: monospace; font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; color: #86efac;">git commit -m "${day.commit_message}"</div>` : ''}
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Warnings & Pitfalls -->
+        <div class="section-block">
+          <div class="section-title">⚠️ 4. Những Lỗi Thường Gặp & Lưu Ý Trong Tuần</div>
+          <div class="alert-box alert-warning">
+            <strong style="display: block; margin-bottom: 6px;">Các lỗi cần tránh khi làm bài:</strong>
+            <ul style="margin: 0; padding-left: 18px;">
+              ${pitfallsHtml}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Section 5: Self Check Questions -->
+        <div class="section-block">
+          <div class="section-title">❓ 5. Câu Hỏi Tự Kiểm Tra Khái Niệm</div>
+          <div>${questionsHtml}</div>
+        </div>
+      `;
+
+      const checkEl = document.getElementById('check-completed');
+      const selectEl = document.getElementById('select-outcome');
+      const reasonEl = document.getElementById('input-reason');
+      const reasonBox = document.getElementById('reason-box');
+
+      if (checkEl) {
+        checkEl.onchange = (e) => {
+          const checked = e.target.checked;
+          state.completed[dayKey] = checked;
+          if (checked) {
+            state.completedAt[dayKey] = new Date().toISOString();
+          } else {
+            delete state.completedAt[dayKey];
+          }
+          saveState();
+          renderDaysList();
+          renderDayDetail();
+        };
+      }
+
+      if (selectEl) {
+        selectEl.onchange = (e) => {
+          const val = e.target.value;
+          state.outcomes[dayKey] = val;
+          if (reasonBox) {
+            reasonBox.style.display = val === 'not-achieved' ? 'block' : 'none';
+          }
+          saveState();
+          renderDaysList();
+        };
+      }
+
+      if (reasonEl) {
+        reasonEl.oninput = (e) => {
+          const val = e.target.value;
+          state.reasons[dayKey] = val;
+          saveState();
+          renderDaysList();
+        };
+      }
+    }
+
+    function setupSearch() {
+      const input = document.getElementById('search-input');
+      input.oninput = (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (query.length < 2) {
+          closeSearch();
+          return;
+        }
+        performSearch(query);
+      };
+    }
+
+    function performSearch(query) {
+      const resultsContainer = document.getElementById('search-results');
+      const listContainer = document.getElementById('search-list');
+      document.getElementById('search-keyword').textContent = query;
+      listContainer.innerHTML = '';
+      resultsContainer.style.display = 'block';
+
+      let count = 0;
+      curriculumData.months.forEach(m => {
+        m.weeks.forEach(w => {
+          w.days.forEach(d => {
+            const matchTitle = d.title.toLowerCase().includes(query);
+            const matchGoal = (d.specific_goal || '').toLowerCase().includes(query);
+            const matchTheory = (d.theory_content || '').toLowerCase().includes(query);
+            const matchCode = (d.commands || '').toLowerCase().includes(query);
+
+            if (matchTitle || matchGoal || matchTheory || matchCode) {
+              count++;
+              const card = document.createElement('div');
+              card.className = 'search-card';
+              card.onclick = () => {
+                selectedMonthIdx = m.month_num;
+                selectedWeekIdx = w.week_num;
+                selectedDayIdx = d.week_day;
+                closeSearch();
+                renderApp();
+              };
+              card.innerHTML = `
+                <div style="font-size: 0.78rem; color: var(--text-accent); margin-bottom: 2px;">
+                  Ngày ${d.global_day} (Tháng ${m.month_num} · Tuần ${w.week_num})
+                </div>
+                <div style="font-weight: 700; color: white;">Ngày ${d.week_day}: ${d.title}</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">${d.specific_goal || d.theory_content}</div>
+              `;
+              listContainer.appendChild(card);
+            }
+          });
+        });
+      });
+
+      if (count === 0) {
+        listContainer.innerHTML = '<p style="color: var(--text-muted);">Không tìm thấy bài học nào phù hợp với từ khóa.</p>';
+      }
+    }
+
+    function closeSearch() {
+      document.getElementById('search-results').style.display = 'none';
+      document.getElementById('search-input').value = '';
+    }
+
+    init();
+  </script>
+</body>
+</html>

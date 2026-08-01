@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Engineer Roadmap | Checklist</title>
+  <style>
+    :root { --ink:#152238; --muted:#64748b; --line:#dbe3ef; --paper:#fff; --canvas:#f4f7fb; --accent:#2563eb; --accent-soft:#dbeafe; --done:#15803d; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--canvas); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    header { padding:48px max(24px,calc((100vw - 1120px)/2)); color:white; background:linear-gradient(120deg,#172554,#2563eb); }
+    h1 { margin:0; font-size:clamp(1.8rem,4vw,3rem); letter-spacing:-.04em; }
+    header p { max-width:720px; margin:10px 0 0; color:#dbeafe; }
+    main { width:min(1120px,calc(100% - 32px)); margin:32px auto 64px; }
+    .summary { display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center; padding:22px 24px; background:var(--paper); border:1px solid var(--line); border-radius:16px; box-shadow:0 5px 18px #0f172a0d; }
+    .summary h2 { margin:0; font-size:1.05rem; } .summary p { margin:4px 0 0; color:var(--muted); }
+    progress { width:220px; height:12px; accent-color:var(--accent); }
+    .toolbar { display:flex; justify-content:space-between; align-items:center; margin:24px 0 16px; color:var(--muted); }
+    button { padding:9px 13px; color:#b91c1c; font:inherit; background:#fff; border:1px solid #fecaca; border-radius:8px; cursor:pointer; } button:hover { background:#fff1f2; }
+    .months { display:grid; gap:16px; }
+    .month { overflow:hidden; background:var(--paper); border:1px solid var(--line); border-radius:16px; }
+    .month > summary { display:flex; list-style:none; align-items:center; gap:12px; padding:18px 20px; cursor:pointer; }
+    .month > summary::-webkit-details-marker { display:none; }
+    .month > summary::after { content:"›"; margin-left:auto; color:var(--muted); font-size:1.5rem; transition:.2s; }
+    .month[open] > summary::after { transform:rotate(90deg); }
+    .month-title { font-weight:700; } .month-meta { color:var(--muted); font-size:.9rem; }
+    .month-progress { width:120px; margin-left:auto; }
+    .weeks { padding:0 20px 20px; border-top:1px solid var(--line); }
+    .week { padding:16px 0; border-bottom:1px solid var(--line); } .week:last-child { border-bottom:0; padding-bottom:0; }
+    .week-head { display:flex; align-items:center; gap:10px; }
+    .week-head a { color:var(--ink); font-weight:650; text-decoration:none; } .week-head a:hover { color:var(--accent); text-decoration:underline; }
+    .week-progress { margin-left:auto; color:var(--muted); font-size:.88rem; }
+    .days { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:8px; margin:12px 0 0 28px; }
+    label { display:flex; gap:8px; align-items:flex-start; cursor:pointer; } input { width:17px; height:17px; margin:3px 0 0; accent-color:var(--done); flex:0 0 auto; }
+    .day { padding:8px; border-radius:7px; color:#334155; font-size:.92rem; } .day:hover { background:#f8fafc; } .day:has(input:checked) .day-name { color:var(--done); text-decoration:line-through; }
+    .day.locked { pointer-events:none; } .day.locked:not(:has(input:checked)) { opacity:.45; } .day.locked input { cursor:not-allowed; }
+    .day-copy { display:grid; flex:1; gap:2px; } .day-name { font-weight:650; } .day-title { color:#334155; font-size:.83rem; } .day-time { color:var(--muted); font-size:.82rem; } .day-date { color:var(--done); font-size:.78rem; font-style:italic; }
+    .day-actions { display:flex; flex-direction:column; align-items:flex-end; gap:4px; width:100px; max-width:100px; flex:0 0 100px; }
+    .reason { width:100px; max-width:100px; height:100px; padding:6px; color:var(--ink); font:inherit; font-size:.78rem; background:white; border:1px solid #fca5a5; border-radius:6px; box-sizing:border-box; resize:vertical; } .reason:focus { outline:none; border-color:#ef4444; }
+    .outcome { width:100px; max-width:100px; padding:4px 2px; color:var(--ink); font:inherit; font-size:.78rem; background:white; border:1px solid var(--line); border-radius:6px; box-sizing:border-box; }
+    .hint { margin-top:22px; color:var(--muted); font-size:.9rem; }
+    @media (max-width:620px) { header { padding:32px 24px; } .summary { grid-template-columns:1fr; } progress { width:100%; } .month-progress { display:none; } .days { margin-left:0; grid-template-columns:1fr; } .week-head { align-items:flex-start; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>AI Engineer Roadmap</h1>
+    <p>Checklist học tập 6 tháng. Đánh dấu từng ngày; tiến độ tuần, tháng và toàn bộ lộ trình sẽ tự cập nhật.</p>
+  </header>
+  <main>
+    <section class="summary" aria-label="Tiến độ tổng quan">
+      <div><h2>Tiến độ toàn lộ trình</h2><p id="overall-text">0 / 168 ngày hoàn thành</p><p id="outcome-text">0 ngày đạt kế hoạch từng ngày</p></div>
+      <progress id="overall-progress" value="0" max="168">0%</progress>
+    </section>
+    <div class="toolbar"><span>Nhấn tên tuần để mở kế hoạch chi tiết. <span id="server-status" style="margin-left: 8px; font-weight: 600; font-size: .85rem;"></span></span></div>
+    <section class="months" id="months" aria-label="Danh sách checklist"></section>
+    <p class="hint" id="hint">Tiến độ được tự động lưu vào file <code>checklist_state.json</code> trong repository khi chạy qua server Python.</p>
+  </main>
+  <script>
+    const roadmap = [
+      ['Tháng 1', 'Python, FastAPI, Docker và PyTorch', 'Month-01'],
+      ['Tháng 2', 'Data processing, ML foundation và Transformer', 'Month-02'],
+      ['Tháng 3', 'LLM, Structured Output, Tool Calling và MCP', 'Month-03'],
+      ['Tháng 4', 'RAG, hybrid retrieval, reranking và evaluation', 'Month-04'],
+      ['Tháng 5', 'LangGraph agent, reliability và human-in-the-loop', 'Month-05'],
+      ['Tháng 6', 'Production, AWS EC2, CI/CD và observability', 'Month-06']
+    ];
+    const storageKey = 'ai-engineer-roadmap-checklist-v2';
+    const minutes = [90,100,100,100,100,120,100,100,100,100,100,100,120,100,100,100,100,100,95,120,100,100,100,100,100,100,120,100,105,95,100,100,100,100,100,95,100,95,95,100,105,100,100,95,100,100,105,110,115,95,95,105,105,95,110,120,90,100,95,100,90,110,105,90,85,100,105,95,100,100,85,95,90,105,105,115,110,85,105,105,95,100,110,105,110,115,110,110,110,120,100,105,110,110,110,110,115,120,115,110,110,120,110,110,120,105,120,110,110,110,110,105,105,105,105,110,110,120,90,105,105,105,105,110,110,90,105,105,110,110,110,115,90,105,110,110,110,110,110,100,100,100,100,110,100,100,110,105,105,105,105,100,110,100,105,105,105,105,105,100,100,105,105,105,105,100,105,100];
+    const titles = ["Khởi tạo project với uv","Type hint cho chat service","Dataclass cho message nội bộ","Logging và exception có chủ đích","JSON fixture với pathlib","Milestone: unit test đầu tiên","Review và refactor nhẹ","FastAPI app và health endpoint","Pydantic schema cho chat","Chat router dùng service hiện có","Config và environment variables","Dependency injection và metadata","Milestone: API error handling","Review và OpenAPI check","Async status endpoint","HTTPX client với timeout","Request ID middleware","Dockerfile dùng uv","Docker Compose local","Milestone: integration test API","Review, refactor và tài liệu local","Tensor, shape và dtype","Device và inference mode","Inference schema và service","Inference endpoint trong FastAPI","Dataset và DataLoader overview","Milestone: demo Docker end-to-end","Review, refactor và chuẩn bị tháng 2","Tạo dataset intent và đọc bằng pandas","NumPy shape, dtype và vectorization","Missing values, duplicate và cleaning","Encoding categorical và scaling","Train/validation/test split có stratify","Data leakage và pipeline smoke test","Review tuần 1 và baseline","Supervised learning và Linear Regression","Logistic Regression baseline","Confusion matrix và lỗi theo class","Precision, recall, F1","Đóng gói baseline service","Milestone baseline và test set","Review và handoff sang PyTorch","Custom Dataset cho intent features","DataLoader và batch sanity check","Neural network và forward pass","Loss, optimizer và training step","Validation loop và metric baseline","Lưu model và intent API","Review Docker smoke test","Tokenization và vocabulary","Embedding lookup","Scaled dot-product attention","Multi-head attention và positional encoding","Encoder, decoder, next-token","Milestone: Transformer report","Review và handoff LLM","Contract LLM và cấu hình an toàn","Responses API adapter","Error taxonomy và timeout","Chat thật với smoke test","Retry bounded và backoff","Streaming SSE","Milestone telemetry LLM","Prompt contract và instruction hierarchy","Few-shot và rubric","Pydantic Structured Output","Parse structured output và fallback","Structured endpoint","Dataset và prompt regression","Baseline, threshold và review","Tool permission boundary","Tool schema và input validation","Tool status chỉ-đọc","Tool tìm tài liệu cục bộ","Tool timeout và error envelope","Vòng function calling","Tool budget và failure tests","MCP mental model và bảo mật","Skeleton MCP server","MCP tool local docs search","MCP resource catalog","MCP audit logging","Demo end-to-end","Review và handoff Month 04","Corpus và ingestion contract","Parse Markdown/TXT","Chunking và overlap","Metadata, ID và version","Fingerprint và deduplication","Milestone: dry-run ingestion","Review và handoff Qdrant","Qdrant local và cấu hình","Collection và upsert payload","Embedding và dense retrieval","BM25 lexical baseline","Hybrid fusion và filtering","Search API và observability","Milestone retrieval thủ công","Contract retrieval-to-answer","Query rewrite","Reranker và context candidates","Context budget","Answer grounded và citation","Refusal khi thiếu evidence","Milestone prompt injection","Golden set cho RAG","Retrieval baseline dense","Hybrid và reranking","Expected behavior và regression","Evaluator RAGAS hoặc DeepEval","Error analysis và báo cáo","Milestone RAG demo","Agent boundary","AgentState có kiểu","Node classify","Conditional routing","Draft và review citation","Milestone: graph API","Review workflow","Checkpoint contract","InMemorySaver","State history và replay","Short-term memory","PostgreSQL persistence","Milestone resume graph","Review persistence","Sensitive action boundary","Interrupt trước side effect","Approve, edit, reject","Idempotent export","Timeout và retry","Milestone: max steps","Review approval an toàn","Input guardrail","Output guardrail","Permission matrix","LangSmith tracing","Agent evaluation dataset","DeepEval và failure taxonomy","Milestone regression","Production config và secrets","Health và readiness","Structured logging","Multi-stage Docker","Compose production-like","Rate limit và security headers","Milestone hardening","Deployment contract","Host tối thiểu","Compose runtime","Nginx reverse proxy","DNS, HTTPS và renewal","Backup và rollback","Milestone deployment","CI pipeline design","CI lint, type check, unit test","Integration test artifact","Build image và SBOM","Deploy protected environment","Release và rollback","Milestone release","Metrics contract","Token usage và latency","LangSmith privacy review","Scheduled quality regression","Alert và error analysis","Architecture, ADR, runbook","Final portfolio demo"];
+    let isServerAvailable = false;
+    let state = { completed: {}, outcomes: {}, completedAt: {}, reasons: {} };
+    const months = document.querySelector('#months');
+
+    function id(month, week, day) { return `m${month}-w${week}-d${day}`; }
+    function saveLocal() { localStorage.setItem(storageKey, JSON.stringify(state)); }
+    function save() {
+      saveLocal();
+      if (isServerAvailable) {
+        fetch('/api/checklist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(state)
+        }).catch(err => console.error('Lỗi lưu server:', err));
+      }
+    }
+    async function loadState() {
+      const statusEl = document.querySelector('#server-status');
+      try {
+        const res = await fetch('/api/checklist');
+        if (res.ok) {
+          const data = await res.json();
+          state = {
+            completed: data.completed || {},
+            outcomes: data.outcomes || {},
+            completedAt: data.completedAt || {},
+            reasons: data.reasons || {}
+          };
+          isServerAvailable = true;
+          if (statusEl) { statusEl.textContent = '🟢 Đã kết nối Server (lưu checklist_state.json)'; statusEl.style.color = '#15803d'; }
+          saveLocal();
+          document.querySelectorAll('.day input[type="checkbox"]').forEach(input => {
+            const key = input.dataset.id;
+            input.checked = !!state.completed[key];
+          });
+          document.querySelectorAll('.outcome').forEach(select => {
+            const key = select.dataset.id;
+            select.value = getOutcome(key);
+          });
+          document.querySelectorAll('.reason').forEach(textarea => {
+            const key = textarea.dataset.id;
+            textarea.value = state.reasons[key] || '';
+          });
+          sync();
+          return;
+        }
+      } catch (err) {
+        console.warn('Server API chưa chạy, chuyển sang lưu localStorage');
+      }
+      if (statusEl) { statusEl.textContent = '🟡 Lưu cục bộ (localStorage)'; statusEl.style.color = '#b45309'; }
+      const saved = JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem('ai-engineer-roadmap-checklist-v1') || '{}');
+      state = saved.completed ? saved : { completed: {}, outcomes: {}, completedAt: {}, reasons: {} };
+      if (!state.completedAt) state.completedAt = {};
+      if (!state.reasons) state.reasons = {};
+      document.querySelectorAll('.day input[type="checkbox"]').forEach(input => {
+        const key = input.dataset.id;
+        input.checked = !!state.completed[key];
+      });
+      document.querySelectorAll('.outcome').forEach(select => {
+        const key = select.dataset.id;
+        select.value = getOutcome(key);
+      });
+      document.querySelectorAll('.reason').forEach(textarea => {
+        const key = textarea.dataset.id;
+        textarea.value = state.reasons[key] || '';
+      });
+      sync();
+    }
+    function count(ids) { return ids.filter(key => state.completed[key]).length; }
+    function allDayKeys() {
+      const keys = [];
+      roadmap.forEach((_, mi) => { for (let wi = 1; wi <= 4; wi++) for (let di = 1; di <= 7; di++) keys.push(id(mi + 1, wi, di)); });
+      return keys;
+    }
+    function formatDate(iso) { const d = new Date(iso); return d.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' }); }
+    function getOutcome(key) {
+      return state.outcomes[key] !== undefined ? state.outcomes[key] : 'achieved';
+    }
+    function isDaySatisfied(key) {
+      const outcome = getOutcome(key);
+      const reason = (state.reasons[key] || '').trim();
+      if (outcome === 'not-achieved') {
+        return reason.length > 0;
+      }
+      if (outcome === 'achieved') {
+        return !!state.completed[key];
+      }
+      return false;
+    }
+    function syncLocks() {
+      const keys = allDayKeys();
+      keys.forEach(key => {
+        const outcome = getOutcome(key);
+        const reason = (state.reasons[key] || '').trim();
+        if (outcome === 'not-achieved' && reason.length > 0 && !state.completed[key]) {
+          state.completed[key] = true;
+          if (!state.completedAt[key]) state.completedAt[key] = new Date().toISOString();
+          const cb = document.querySelector(`input[type="checkbox"][data-id="${key}"]`);
+          if (cb) cb.checked = true;
+        }
+      });
+      let lastCheckedIdx = -1;
+      for (let i = keys.length - 1; i >= 0; i--) {
+        if (state.completed[keys[i]]) {
+          lastCheckedIdx = i;
+          break;
+        }
+      }
+      keys.forEach((key, idx) => {
+        const label = document.querySelector(`input[type="checkbox"][data-id="${key}"]`)?.closest('.day');
+        if (!label) return;
+        const input = label.querySelector('input[type="checkbox"]');
+        const outcomeSelect = label.querySelector('select.outcome');
+        const reasonInput = label.querySelector('.reason');
+        const outcome = getOutcome(key);
+
+        if (reasonInput) {
+          reasonInput.style.display = (outcome === 'not-achieved') ? 'block' : 'none';
+        }
+
+        let isUnlocked = false;
+        if (lastCheckedIdx === -1) {
+          if (idx === 0) isUnlocked = true;
+        } else {
+          const prevSatisfied = isDaySatisfied(keys[lastCheckedIdx]);
+          if (idx === lastCheckedIdx || (idx === lastCheckedIdx + 1 && prevSatisfied)) {
+            isUnlocked = true;
+          }
+        }
+
+        if (isUnlocked) {
+          label.classList.remove('locked');
+          input.disabled = false;
+          if (outcomeSelect) outcomeSelect.disabled = false;
+          if (reasonInput) reasonInput.disabled = false;
+        } else {
+          label.classList.add('locked');
+          input.disabled = true;
+          if (outcomeSelect) outcomeSelect.disabled = true;
+          if (reasonInput) reasonInput.disabled = true;
+        }
+      });
+    }
+    function syncDates() {
+      document.querySelectorAll('.day input[type="checkbox"]').forEach(input => {
+        const key = input.dataset.id;
+        const label = input.closest('.day');
+        let dateEl = label.querySelector('.day-date');
+        if (state.completedAt[key]) {
+          if (!dateEl) { dateEl = document.createElement('span'); dateEl.className = 'day-date'; label.querySelector('.day-copy').appendChild(dateEl); }
+          dateEl.textContent = '✓ ' + formatDate(state.completedAt[key]);
+        } else if (dateEl) { dateEl.remove(); }
+      });
+    }
+    function sync() {
+      document.querySelectorAll('.week').forEach(week => {
+        const ids = [...week.querySelectorAll('.day input[type="checkbox"]')].map(input => input.dataset.id);
+        const checked = count(ids); week.querySelector('.week-check').checked = checked === ids.length;
+        week.querySelector('.week-check').indeterminate = checked > 0 && checked < ids.length;
+        week.querySelector('.week-progress').textContent = `${checked}/7 ngày`;
+      });
+      document.querySelectorAll('.month').forEach(month => {
+        const ids = [...month.querySelectorAll('.day input[type="checkbox"]')].map(input => input.dataset.id);
+        const checked = count(ids); month.querySelector('.month-check').checked = checked === ids.length;
+        month.querySelector('.month-check').indeterminate = checked > 0 && checked < ids.length;
+        month.querySelector('.month-progress').value = checked; month.querySelector('.month-progress').max = ids.length;
+      });
+      const all = [...document.querySelectorAll('.day input[type="checkbox"]')].map(input => input.dataset.id);
+      const done = count(all); const achieved = all.filter(key => state.completed[key] && getOutcome(key) === 'achieved').length; document.querySelector('#overall-progress').value = done;
+      document.querySelector('#overall-text').textContent = `${done} / ${all.length} ngày hoàn thành`;
+      document.querySelector('#outcome-text').textContent = `${achieved} / ${all.length} ngày đạt kế hoạch từng ngày`;
+      syncLocks();
+      syncDates();
+    }
+    function setMany(inputs, checked) {
+      const now = new Date().toISOString();
+      inputs.forEach(input => {
+        const key = input.dataset.id;
+        state.completed[key] = checked;
+        input.checked = checked;
+        if (checked && !state.completedAt[key]) state.completedAt[key] = now;
+        if (!checked) delete state.completedAt[key];
+      });
+      save(); sync();
+    }
+    roadmap.forEach(([label, topic, folder], mi) => {
+      const detail = document.createElement('details'); detail.className = 'month'; detail.open = mi === 0;
+      detail.innerHTML = `<summary><input class="month-check" type="checkbox" aria-label="Hoàn thành ${label}"><span><span class="month-title">${label}</span><br><span class="month-meta">${topic}</span></span><progress class="month-progress" value="0" max="28"></progress></summary><div class="weeks"></div>`;
+      detail.querySelector('summary').addEventListener('click', event => { if (event.target.matches('input')) event.stopPropagation(); });
+      const weeks = detail.querySelector('.weeks');
+      for (let wi = 1; wi <= 4; wi++) {
+        const week = document.createElement('section'); week.className = 'week'; const file = `${folder}/Week-${String(wi).padStart(2,'0')}.md`;
+        let days = ''; for (let di = 1; di <= 7; di++) { const key = id(mi + 1, wi, di); const dayNumber = (wi - 1) * 7 + di; const index = mi * 28 + (wi - 1) * 7 + di - 1; const minute = minutes[index]; const title = titles[index]; const outcome = getOutcome(key); const reason = state.reasons[key] || ''; days += `<label class="day"><input type="checkbox" data-id="${key}" ${state.completed[key] ? 'checked' : ''}><span class="day-copy"><span class="day-name">Ngày ${dayNumber}</span><span class="day-title">${title}</span><span class="day-time">Kế hoạch: ${minute} phút</span></span><div class="day-actions"><select class="outcome" data-id="${key}" aria-label="Đánh giá kế hoạch ngày ${dayNumber}"><option value="achieved" ${outcome === 'achieved' ? 'selected' : ''}>Đạt kế hoạch</option><option value="not-achieved" ${outcome === 'not-achieved' ? 'selected' : ''}>Chưa đạt</option><option value="" ${outcome === '' ? 'selected' : ''}>Chưa đánh giá</option></select><textarea class="reason" data-id="${key}" placeholder="Nhập lý do..." style="${outcome === 'not-achieved' ? '' : 'display:none;'}">${reason}</textarea></div></label>`; }
+        week.innerHTML = `<div class="week-head"><input class="week-check" type="checkbox" aria-label="Hoàn thành ${label}, tuần ${wi}"><a href="${file}">${label} · Tuần ${wi}</a><span class="week-progress">0/7 ngày</span></div><div class="days">${days}</div>`;
+        weeks.append(week);
+      }
+      months.append(detail);
+    });
+    months.addEventListener('change', event => {
+      const target = event.target;
+      if (target.classList.contains('day')) return;
+      if (target.matches('.day input[type="checkbox"]')) {
+        const key = target.dataset.id;
+        const checked = target.checked;
+        state.completed[key] = checked;
+        if (checked) { state.completedAt[key] = new Date().toISOString(); }
+        else { delete state.completedAt[key]; }
+        save(); sync(); return;
+      }
+      if (target.matches('.outcome')) { state.outcomes[target.dataset.id] = target.value; save(); sync(); return; }
+      if (target.classList.contains('week-check')) {
+        const inputs = [...target.closest('.week').querySelectorAll('.day input[type="checkbox"]')].filter(i => !i.disabled);
+        setMany(inputs, target.checked);
+      }
+      if (target.classList.contains('month-check')) {
+        const inputs = [...target.closest('.month').querySelectorAll('.day input[type="checkbox"]')].filter(i => !i.disabled);
+        setMany(inputs, target.checked);
+      }
+    });
+    months.addEventListener('input', event => {
+      if (event.target.matches('.reason')) {
+        state.reasons[event.target.dataset.id] = event.target.value;
+        save();
+        sync();
+      }
+    });
+    loadState();
+  </script>
+</body>
+</html>
