@@ -12,7 +12,7 @@ Tạo pipeline biến Markdown/TXT trong corpus local thành chunk có thể tru
 
 ## Tính năng project sẽ bổ sung
 
-`app/rag/ingestion.py`, schema chunk và `POST /api/v1/rag/ingest` ở chế độ dry-run, trả số chunk/duplicate trước khi ghi database.
+`src/ai_assistant_platform/rag/ingestion.py`, schema chunk và `POST /api/v1/rag/ingest` ở chế độ dry-run, trả số chunk/duplicate trước khi ghi database.
 
 ## Kế hoạch từng ngày
 
@@ -24,8 +24,8 @@ Tạo pipeline biến Markdown/TXT trong corpus local thành chunk có thể tru
 - **Lý thuyết:** Document gốc khác chunk; corpus demo không chứa PII, secret hoặc license mơ hồ.
 - **Tài liệu:** Python `pathlib` trong [RESOURCES.md](./RESOURCES.md), Tuần 1.
 - **Thực hành:** Viết README corpus nêu nguồn, `source_id`, `title`, `category`.
-- **Tích hợp project:** Thêm `app/rag/schemas.py` và route placeholder chỉ validate path tương đối.
-- **File tạo/sửa:** `data/knowledge_base/*.md`, `data/knowledge_base/README.md`, `app/rag/schemas.py`, `app/api/routes/rag.py`.
+- **Tích hợp project:** Thêm `src/ai_assistant_platform/rag/schemas.py` và route placeholder chỉ validate path tương đối.
+- **File tạo/sửa:** `data/knowledge_base/*.md`, `data/knowledge_base/README.md`, `src/ai_assistant_platform/rag/schemas.py`, `src/ai_assistant_platform/api/routes/rag.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_rag_schemas.py -q`.
 - **Kết quả mong đợi:** Path tuyệt đối hoặc `..` bị schema từ chối.
 - **Cách kiểm tra:** Gửi `{"paths":["../../.env"]}` qua test client và nhận 422.
@@ -42,7 +42,7 @@ Tạo pipeline biến Markdown/TXT trong corpus local thành chunk có thể tru
 - **Tài liệu:** Python `pathlib` và encoding trong [RESOURCES.md](./RESOURCES.md), Tuần 1.
 - **Thực hành:** Viết `parse_document(path)` cho `.md`, `.txt`; từ chối extension khác.
 - **Tích hợp project:** Ingestion route gọi parser ở dry-run và trả danh sách lỗi theo file.
-- **File tạo/sửa:** `app/rag/parser.py`, `tests/unit/test_rag_parser.py`, `app/api/routes/rag.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/parser.py`, `tests/unit/test_rag_parser.py`, `src/ai_assistant_platform/api/routes/rag.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_rag_parser.py -q`.
 - **Kết quả mong đợi:** File UTF-8 được parse; `.pdf` nhận lỗi có chủ đích.
 - **Cách kiểm tra:** Thêm fixture có CRLF và heading; assert heading/text sau normalize.
@@ -59,7 +59,7 @@ Tạo pipeline biến Markdown/TXT trong corpus local thành chunk có thể tru
 - **Tài liệu:** Qdrant Points trong [RESOURCES.md](./RESOURCES.md), Tuần 1 (liên hệ point/chunk).
 - **Thực hành:** Viết `chunk_document(parsed, max_chars=600, overlap=80)`.
 - **Tích hợp project:** `IngestSummary` trả `chunk_count` và cấu hình chunking.
-- **File tạo/sửa:** `app/rag/chunking.py`, `tests/unit/test_chunking.py`, `app/rag/schemas.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/chunking.py`, `tests/unit/test_chunking.py`, `src/ai_assistant_platform/rag/schemas.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_chunking.py -q`.
 - **Kết quả mong đợi:** Không chunk nào rỗng; chunk dài không quá giới hạn trừ một token/đoạn đơn lẻ được ghi nhận.
 - **Cách kiểm tra:** Fixture có heading dài và paragraph dài; assert overlap chỉ xuất hiện ở split bắt buộc.
@@ -76,7 +76,7 @@ Tạo pipeline biến Markdown/TXT trong corpus local thành chunk có thể tru
 - **Tài liệu:** Qdrant Payload trong [RESOURCES.md](./RESOURCES.md), Tuần 1.
 - **Thực hành:** Tạo UUID5 từ source path + version + chunk index.
 - **Tích hợp project:** Dry-run trả sample metadata, không trả toàn bộ text lớn.
-- **File tạo/sửa:** `app/rag/metadata.py`, `app/rag/schemas.py`, `tests/unit/test_rag_metadata.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/metadata.py`, `src/ai_assistant_platform/rag/schemas.py`, `tests/unit/test_rag_metadata.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_rag_metadata.py -q`.
 - **Kết quả mong đợi:** Chạy cùng input hai lần cho cùng ID; đổi version cho ID khác.
 - **Cách kiểm tra:** So sánh ID của ba lần gọi trong unit test.
@@ -93,7 +93,7 @@ Tạo pipeline biến Markdown/TXT trong corpus local thành chunk có thể tru
 - **Tài liệu:** Python `hashlib` trong [RESOURCES.md](./RESOURCES.md), Tuần 1.
 - **Thực hành:** Thêm `content_sha256`, repository in-memory để test quyết định skip.
 - **Tích hợp project:** Dry-run báo chunk trùng trước khi Qdrant được thêm ở tuần 2.
-- **File tạo/sửa:** `app/rag/fingerprints.py`, `app/rag/ingestion.py`, `tests/unit/test_fingerprints.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/fingerprints.py`, `src/ai_assistant_platform/rag/ingestion.py`, `tests/unit/test_fingerprints.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_fingerprints.py -q`.
 - **Kết quả mong đợi:** “A  B” và “A B” có cùng hash sau normalize; text khác có hash khác.
 - **Cách kiểm tra:** Assert count duplicate khi ingest fixture lặp.
@@ -109,8 +109,8 @@ Tạo pipeline biến Markdown/TXT trong corpus local thành chunk có thể tru
 - **Lý thuyết:** Integration test kiểm tra wiring; unit test vẫn là nơi cover split edge case.
 - **Tài liệu:** FastAPI request body (đã học Month-01) và Qdrant Points trong [RESOURCES.md](./RESOURCES.md).
 - **Thực hành:** Inject corpus root test, không dùng corpus thật trong test.
-- **Tích hợp project:** Đăng ký rag router trong `app/main.py`, log count/latency thay vì raw document.
-- **File tạo/sửa:** `app/api/routes/rag.py`, `app/main.py`, `tests/integration/test_rag_ingest.py`.
+- **Tích hợp project:** Đăng ký rag router trong `src/ai_assistant_platform/main.py`, log count/latency thay vì raw document.
+- **File tạo/sửa:** `src/ai_assistant_platform/api/routes/rag.py`, `src/ai_assistant_platform/main.py`, `tests/integration/test_rag_ingest.py`.
 - **Lệnh chạy:** `uv run pytest tests/integration/test_rag_ingest.py -q`.
 - **Kết quả mong đợi:** 200 có count; request extension không cho phép trả 422/400 rõ ràng.
 - **Cách kiểm tra:** Chạy test hai lần, response summary giữ nguyên.
@@ -127,7 +127,7 @@ Tạo pipeline biến Markdown/TXT trong corpus local thành chunk có thể tru
 - **Tài liệu:** Xem lại Tuần 1 trong [RESOURCES.md](./RESOURCES.md).
 - **Thực hành:** Viết `docs/adr/0001-rag-ingestion-baseline.md`; xóa code chết, không thêm feature.
 - **Tích hợp project:** Chuẩn bị interface `ChunkStore.upsert()` để tuần 2 thay in-memory bằng Qdrant.
-- **File tạo/sửa:** `docs/adr/0001-rag-ingestion-baseline.md`, `app/rag/ingestion.py`, tests liên quan.
+- **File tạo/sửa:** `docs/adr/0001-rag-ingestion-baseline.md`, `src/ai_assistant_platform/rag/ingestion.py`, tests liên quan.
 - **Lệnh chạy:** `uv run ruff check .`; `uv run pytest tests/unit tests/integration -q`.
 - **Kết quả mong đợi:** Hai lệnh pass, ADR nêu rõ version và dedupe scope.
 - **Cách kiểm tra:** Review diff; xác nhận chưa import Qdrant client hay embedding SDK.

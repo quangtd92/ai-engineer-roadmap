@@ -12,7 +12,7 @@ Làm cho graph xác định của Tuần 1 có thể dừng và tiếp tục the
 
 ## Tính năng project sẽ bổ sung
 
-`app/services/checkpoints.py`, checkpointer factory, `GET /api/v1/agent/threads/{thread_id}`, memory policy và các integration test resume. In-memory saver là baseline test; adapter PostgreSQL được cấu hình bằng environment, không hard-code DSN.
+`src/ai_assistant_platform/services/checkpoints.py`, checkpointer factory, `GET /api/v1/agent/threads/{thread_id}`, memory policy và các integration test resume. In-memory saver là baseline test; adapter PostgreSQL được cấu hình bằng environment, không hard-code DSN.
 
 ## Kế hoạch từng ngày
 
@@ -25,10 +25,10 @@ Làm cho graph xác định của Tuần 1 có thể dừng và tiếp tục the
 - **Tài liệu cần đọc:** Phần “Threads” và “Checkpoints” trong [Persistence](./RESOURCES.md).
 - **Bài thực hành:** Liệt kê từng key `AgentState` là persist/ephemeral/redacted; thêm validator UUID/slug cho `thread_id`.
 - **Tích hợp project:** Mở rộng `AgentRunRequest` để bắt buộc `thread_id` do client tạo hoặc server sinh rồi trả về.
-- **File tạo/sửa:** `docs/adr/006-agent-checkpoint-contract.md`, `app/api/schemas/agent.py`, `tests/unit/test_thread_id.py`.
+- **File tạo/sửa:** `docs/adr/006-agent-checkpoint-contract.md`, `src/ai_assistant_platform/api/schemas/agent.py`, `tests/unit/test_thread_id.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_thread_id.py -q`.
 - **Kết quả mong đợi:** ID rỗng/quá dài bị 422; schema không có API key, raw authorization header hoặc client object.
-- **Cách tự kiểm tra:** Serialize request/state fixture và tìm bằng `rg "api_key|authorization" app/agents tests/unit/test_thread_id.py`.
+- **Cách tự kiểm tra:** Serialize request/state fixture và tìm bằng `rg "api_key|authorization" src/ai_assistant_platform/agents tests/unit/test_thread_id.py`.
 - **Definition of Done:** ADR nêu retention, ownership và cách xử lý `thread_id` không hợp lệ.
 - **Commit message gợi ý:** `docs(agent): define checkpoint and thread contract`.
 - **Câu hỏi tự kiểm tra:** Vì sao `thread_id` không được là email? Checkpoint khác audit log ra sao?
@@ -42,7 +42,7 @@ Làm cho graph xác định của Tuần 1 có thể dừng và tiếp tục the
 - **Tài liệu cần đọc:** Ví dụ checkpointer tối thiểu trong [Persistence](./RESOURCES.md).
 - **Bài thực hành:** Tạo `build_agent_graph(checkpointer)`; truyền `{"configurable": {"thread_id": ...}}` khi invoke thay vì nhét ID vào global.
 - **Tích hợp project:** `AgentService.run()` nhận checkpointer qua dependency injection để test dùng `InMemorySaver`.
-- **File tạo/sửa:** `app/agents/graph.py`, `app/services/checkpoints.py`, `tests/unit/test_agent_checkpoints.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/agents/graph.py`, `src/ai_assistant_platform/services/checkpoints.py`, `tests/unit/test_agent_checkpoints.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_agent_checkpoints.py -q`.
 - **Kết quả mong đợi:** Test đọc được snapshot cuối của đúng thread và không thấy query của thread khác.
 - **Cách tự kiểm tra:** Chạy hai fixture xen kẽ; assert số checkpoint tăng nhưng state không dùng mutable global.
@@ -59,7 +59,7 @@ Làm cho graph xác định của Tuần 1 có thể dừng và tiếp tục the
 - **Tài liệu cần đọc:** Phần “Get state” và “Get state history” trong [Persistence](./RESOURCES.md).
 - **Bài thực hành:** Viết mapper từ snapshot sang `ThreadCheckpointSummary`; giới hạn 20 record và sort xác định.
 - **Tích hợp project:** Thêm endpoint nội bộ `GET /api/v1/agent/threads/{thread_id}/checkpoints` có response model.
-- **File tạo/sửa:** `app/services/agent_threads.py`, `app/api/routes/agent.py`, `tests/integration/test_agent_thread_history.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/services/agent_threads.py`, `src/ai_assistant_platform/api/routes/agent.py`, `tests/integration/test_agent_thread_history.py`.
 - **Lệnh chạy:** `uv run pytest tests/integration/test_agent_thread_history.py -q`.
 - **Kết quả mong đợi:** Endpoint trả 404 cho thread lạ, 200 cho thread fixture và không lộ `documents`/message nội bộ.
 - **Cách tự kiểm tra:** Assert JSON keys whitelist và snapshot order trong integration test.
@@ -76,7 +76,7 @@ Làm cho graph xác định của Tuần 1 có thể dừng và tiếp tục the
 - **Tài liệu cần đọc:** Phần short-term memory và trimming trong [Memory](./RESOURCES.md).
 - **Bài thực hành:** Viết pure function `trim_messages(messages, max_messages)`; bảo toàn role/system và không tóm tắt bằng LLM trong scope hôm nay.
 - **Tích hợp project:** Node trước `draft` dùng policy này và thêm `memory_summary` rỗng thay vì suy diễn nội dung đã bỏ.
-- **File tạo/sửa:** `app/agents/memory.py`, `app/agents/nodes.py`, `tests/unit/test_agent_memory.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/agents/memory.py`, `src/ai_assistant_platform/agents/nodes.py`, `tests/unit/test_agent_memory.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_agent_memory.py -q`.
 - **Kết quả mong đợi:** Fixture 9 message còn đúng 6 message được phép; prompt injection cũ không quay lại từ buffer.
 - **Cách tự kiểm tra:** Test role ordering, empty history, over-limit và đảm bảo token/raw message không bị log.
@@ -93,8 +93,8 @@ Làm cho graph xác định của Tuần 1 có thể dừng và tiếp tục the
 - **Tài liệu cần đọc:** Phần database setup trong [Persistence](./RESOURCES.md) và memory persistence trong [Memory](./RESOURCES.md).
 - **Bài thực hành:** Khai báo protocol `CheckpointStore`; thêm `CHECKPOINTER_BACKEND` và `DATABASE_URL` vào `.env.example` chỉ với tên biến; viết `docs/checkpoints.md` hướng dẫn migration.
 - **Tích hợp project:** `create_app()` build checkpointer từ factory, test mặc định vẫn dùng in-memory không cần database thật.
-- **File tạo/sửa:** `app/services/checkpoints.py`, `app/core/settings.py`, `.env.example`, `docs/checkpoints.md`, `tests/unit/test_checkpoint_factory.py`.
-- **Lệnh chạy:** `uv run pytest tests/unit/test_checkpoint_factory.py -q`; `uv run ruff check app/services/checkpoints.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/services/checkpoints.py`, `src/ai_assistant_platform/core/settings.py`, `.env.example`, `docs/checkpoints.md`, `tests/unit/test_checkpoint_factory.py`.
+- **Lệnh chạy:** `uv run pytest tests/unit/test_checkpoint_factory.py -q`; `uv run ruff check src/ai_assistant_platform/services/checkpoints.py`.
 - **Kết quả mong đợi:** Backend không hợp lệ fail fast; thiếu DSN khi chọn Postgres cho lỗi cấu hình không lộ secret.
 - **Cách tự kiểm tra:** `rg -n "postgres(ql)?://.+:.+@|sk-" .env.example docs app` không có credential thật.
 - **Definition of Done:** Tài liệu ghi Postgres là persistence bắt buộc cho production sau này; Redis chỉ là lựa chọn transient đã giới thiệu, không phải framework mới.
@@ -104,7 +104,7 @@ Làm cho graph xác định của Tuần 1 có thể dừng và tiếp tục the
 ### Ngày 13 — Milestone: resume sau process restart mô phỏng
 
 - **Mục tiêu cụ thể:** Chứng minh contract persistence bằng integration test trước khi sang HITL.
-- **Kết quả cần đạt:** Run đầu dừng sau checkpoint; app/service instance mới dùng cùng durable store đọc được state và tiếp tục đúng thread.
+- **Kết quả cần đạt:** Run đầu dừng sau checkpoint; src/ai_assistant_platform/service instance mới dùng cùng durable store đọc được state và tiếp tục đúng thread.
 - **Phân bổ thời gian:** 15 phút chuẩn bị fixture, 55 phút integration test, 25 phút run manual, 15 phút handoff (110 phút).
 - **Lý thuyết cần học:** Persistence chỉ có giá trị khi một instance mới resume được; in-memory test không thay thế test adapter durable.
 - **Tài liệu cần đọc:** Phần fault tolerance trong [Persistence](./RESOURCES.md).

@@ -12,7 +12,7 @@ Chuyển kết quả hybrid search của Tuần 02 thành ngữ cảnh đáng ti
 
 ## Tính năng project sẽ bổ sung
 
-`app/rag/query_rewrite.py`, `reranker.py`, `context.py`, `citations.py`, `safety.py` và `answer_service.py`; endpoint `POST /api/v1/rag/answer` trả answer có citation hoặc trạng thái `insufficient_evidence`.
+`src/ai_assistant_platform/rag/query_rewrite.py`, `reranker.py`, `context.py`, `citations.py`, `safety.py` và `answer_service.py`; endpoint `POST /api/v1/rag/answer` trả answer có citation hoặc trạng thái `insufficient_evidence`.
 
 ## Kế hoạch từng ngày
 
@@ -24,8 +24,8 @@ Chuyển kết quả hybrid search của Tuần 02 thành ngữ cảnh đáng ti
 - **Lý thuyết cần học:** Contract tách score nội bộ khỏi response công khai; provenance phải đi theo chunk trong mọi bước.
 - **Tài liệu cần đọc:** Qdrant [Payload](https://qdrant.tech/documentation/concepts/payload/) — payload và filter metadata.
 - **Bài thực hành:** Viết mapper từ search hit sang `RetrievedChunk`; cấm tạo citation từ URL/chuỗi do model trả về.
-- **Tích hợp project:** Đặt schema ở `app/rag/schemas.py` để API và service dùng cùng contract.
-- **File tạo/sửa:** `app/rag/schemas.py`, `app/rag/retrieval.py`, `tests/unit/test_rag_answer_schemas.py`.
+- **Tích hợp project:** Đặt schema ở `src/ai_assistant_platform/rag/schemas.py` để API và service dùng cùng contract.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/schemas.py`, `src/ai_assistant_platform/rag/retrieval.py`, `tests/unit/test_rag_answer_schemas.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_rag_answer_schemas.py -q`.
 - **Kết quả mong đợi:** Schema từ chối citation thiếu `chunk_id` hoặc `document_id`.
 - **Cách kiểm tra:** Deserialize fixture dense/BM25/hybrid và assert metadata cần citation vẫn còn.
@@ -42,7 +42,7 @@ Chuyển kết quả hybrid search của Tuần 02 thành ngữ cảnh đáng ti
 - **Tài liệu cần đọc:** OpenAI [Safety best practices](https://platform.openai.com/docs/guides/safety-best-practices) — untrusted input và prompt injection.
 - **Bài thực hành:** Dùng interface LLM Month-03/fake client; prompt yêu cầu chỉ trả một search query, Pydantic validate rồi fallback nếu lỗi.
 - **Tích hợp project:** Ghi `rewrite_applied` và hash query vào telemetry, không log nguyên query nếu chính sách project coi đó là nhạy cảm.
-- **File tạo/sửa:** `app/rag/query_rewrite.py`, `app/rag/schemas.py`, `tests/unit/test_query_rewrite.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/query_rewrite.py`, `src/ai_assistant_platform/rag/schemas.py`, `tests/unit/test_query_rewrite.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_query_rewrite.py -q`.
 - **Kết quả mong đợi:** Fixture malformed output và timeout không làm endpoint lỗi; retrieval dùng original query.
 - **Cách kiểm tra:** Assert fake client không được gọi khi `rewrite_enabled=False` và filter metadata không đổi sau rewrite.
@@ -59,7 +59,7 @@ Chuyển kết quả hybrid search của Tuần 02 thành ngữ cảnh đáng ti
 - **Tài liệu cần đọc:** Qdrant [Search](https://qdrant.tech/documentation/concepts/search/) — score/top-k; ghi chú reranker là bước ứng dụng sau retrieval.
 - **Bài thực hành:** Bắt đầu deterministic lexical scorer cho test; tách adapter để model reranker thật là tùy chọn sau này.
 - **Tích hợp project:** `HybridRetriever` trả top-10, `AnswerService` gọi reranker trước context assembly.
-- **File tạo/sửa:** `app/rag/reranker.py`, `app/rag/answer_service.py`, `tests/unit/test_reranker.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/reranker.py`, `src/ai_assistant_platform/rag/answer_service.py`, `tests/unit/test_reranker.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_reranker.py -q`.
 - **Kết quả mong đợi:** Candidate relevance cao đi lên; duplicate `chunk_id` chỉ xuất hiện một lần.
 - **Cách kiểm tra:** Test tie-break theo `chunk_id` để output reproducible, đồng thời assert reranker không nhận hơn 10 candidate.
@@ -76,7 +76,7 @@ Chuyển kết quả hybrid search của Tuần 02 thành ngữ cảnh đáng ti
 - **Tài liệu cần đọc:** OpenAI [Embeddings guide](https://platform.openai.com/docs/guides/embeddings) — giới hạn input và batching (chỉ phần khái niệm).
 - **Bài thực hành:** Chọn chunk theo rank, cắt tại ranh giới câu khi có thể, kèm map label → chunk metadata.
 - **Tích hợp project:** `AnswerService` gửi context builder output vào prompt Month-03 và ghi `context_chars`, `context_chunks`.
-- **File tạo/sửa:** `app/rag/context.py`, `app/rag/answer_service.py`, `tests/unit/test_context.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/context.py`, `src/ai_assistant_platform/rag/answer_service.py`, `tests/unit/test_context.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_context.py -q`.
 - **Kết quả mong đợi:** Không vượt budget; citation map vẫn tham chiếu toàn bộ chunk nguồn khi text bị cắt.
 - **Cách kiểm tra:** Fixture 5 chunk dài xác minh chunk thứ năm và duplicate section bị bỏ theo policy rõ ràng.
@@ -93,7 +93,7 @@ Chuyển kết quả hybrid search của Tuần 02 thành ngữ cảnh đáng ti
 - **Tài liệu cần đọc:** Pydantic [Models](https://docs.pydantic.dev/latest/concepts/models/) — validation và errors.
 - **Bài thực hành:** Prompt yêu cầu trả JSON/schema Month-03, citation bằng `[S#]`; reject label lạ và fallback sang `insufficient_evidence` nếu không có citation hợp lệ.
 - **Tích hợp project:** Tái sử dụng LLM adapter và usage/latency logging của Month-03, không tạo client mới trong route.
-- **File tạo/sửa:** `app/rag/answer_service.py`, `app/rag/citations.py`, `tests/unit/test_citations.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/answer_service.py`, `src/ai_assistant_platform/rag/citations.py`, `tests/unit/test_citations.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_citations.py -q`.
 - **Kết quả mong đợi:** `[S9]` hoặc URL model tự bịa không xuất hiện trong response public.
 - **Cách kiểm tra:** Dùng fake LLM trả label hợp lệ, label lạ và JSON sai; assert status mỗi case.
@@ -110,7 +110,7 @@ Chuyển kết quả hybrid search của Tuần 02 thành ngữ cảnh đáng ti
 - **Tài liệu cần đọc:** OpenAI [Safety best practices](https://platform.openai.com/docs/guides/safety-best-practices) — safe completion và uncertainty.
 - **Bài thực hành:** Tạo `EvidencePolicy`; test zero/low/valid evidence, không dùng LLM judge để quyết định safety cơ bản.
 - **Tích hợp project:** `POST /rag/answer` sẽ dùng status phân biệt technical error với thiếu knowledge base.
-- **File tạo/sửa:** `app/rag/safety.py`, `app/rag/answer_service.py`, `tests/unit/test_evidence_policy.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/safety.py`, `src/ai_assistant_platform/rag/answer_service.py`, `tests/unit/test_evidence_policy.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_evidence_policy.py -q`.
 - **Kết quả mong đợi:** Query ngoài corpus không nhận câu trả lời tự tin hay citation rỗng.
 - **Cách kiểm tra:** Assert response 200 với `status="insufficient_evidence"`, còn Qdrant timeout thành lỗi service được phân loại.
@@ -127,7 +127,7 @@ Chuyển kết quả hybrid search của Tuần 02 thành ngữ cảnh đáng ti
 - **Tài liệu cần đọc:** OpenAI [Safety best practices](https://platform.openai.com/docs/guides/safety-best-practices) — prompt injection; FastAPI response model (Month-01 recap).
 - **Bài thực hành:** Gắn untrusted-content delimiters vào prompt, keyword policy tối thiểu để flag text nguy hiểm, và không cho document thay query/filter/tool policy.
 - **Tích hợp project:** Route inject `AnswerService`; log outcome/retrieval config, không log context đầy đủ.
-- **File tạo/sửa:** `app/api/routes/rag.py`, `app/rag/safety.py`, `app/rag/answer_service.py`, `tests/integration/test_rag_answer.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/api/routes/rag.py`, `src/ai_assistant_platform/rag/safety.py`, `src/ai_assistant_platform/rag/answer_service.py`, `tests/integration/test_rag_answer.py`.
 - **Lệnh chạy:** `uv run pytest tests/integration/test_rag_answer.py -q`.
 - **Kết quả mong đợi:** Valid fixture trả citation; injection fixture không dẫn tới disclosure, tool call hoặc thay system instruction.
 - **Cách kiểm tra:** Assert prompt passed to fake LLM có delimiters, response không chứa secret fixture và `safety_flags` được internal-only.

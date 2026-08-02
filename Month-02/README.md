@@ -25,7 +25,7 @@ Không yêu cầu biết xác suất thống kê sâu, calculus, SVM, XGBoost, N
 Sau tháng 2, `ai-assistant-platform` cần có:
 
 - `data/raw/`, `data/processed/`, `data/splits/` và fixture nhỏ dùng được trong test.
-- Module `app/services/preprocessing/` hoặc `app/ml/preprocessing.py` có thể tái sử dụng cho training và API.
+- Module `src/ai_assistant_platform/services/preprocessing/` hoặc `src/ai_assistant_platform/ml/preprocessing.py` có thể tái sử dụng cho training và API.
 - Script tạo dataset sạch, tách train/validation/test có stratify và seed cố định.
 - Baseline classification bằng Logistic Regression, report có confusion matrix, precision, recall, F1.
 - PyTorch training script cho intent classifier nhỏ, có validation loop và lưu `models/intent_classifier.pt`.
@@ -39,7 +39,7 @@ Cuối Month-01, project đã có FastAPI service, schema, route, service layer,
 
 ```text
 ai-assistant-platform/
-├── app/
+├── src/ai_assistant_platform/
 │   ├── api/
 │   ├── core/
 │   ├── domain/
@@ -62,7 +62,7 @@ Cuối Month-02, project nên mở rộng tối thiểu như sau:
 
 ```text
 ai-assistant-platform/
-├── app/
+├── src/ai_assistant_platform/
 │   ├── api/
 │   │   ├── routes/ml.py
 │   │   └── schemas/ml.py

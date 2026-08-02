@@ -6,7 +6,7 @@ Biến `ai-assistant-platform` từ API có câu trả lời giả lập thành 
 
 ## Prerequisite và điểm xuất phát
 
-Người học đã hoàn thành nền Python/FastAPI, Pydantic, async cơ bản, test, Docker và khái niệm token/Transformer ở Tháng 01–02. Giả định project đã có `app/main.py`, route `POST /api/v1/chat` mock, config từ `.env.example`, logging, `tests/unit` và `tests/integration`. Nếu các đầu ra này chưa có, hoàn thiện chúng trước khi gọi API thật.
+Người học đã hoàn thành nền Python/FastAPI, Pydantic, async cơ bản, test, Docker và khái niệm token/Transformer ở Tháng 01–02. Giả định project đã có `src/ai_assistant_platform/main.py`, route `POST /api/v1/chat` mock, config từ `.env.example`, logging, `tests/unit` và `tests/integration`. Nếu các đầu ra này chưa có, hoàn thiện chúng trước khi gọi API thật.
 
 ## Kiến trúc trước và sau tháng
 
@@ -38,7 +38,7 @@ Mỗi tuần có bảy ngày theo đúng thứ tự; mỗi ngày chỉ có một
 
 ## Thiết lập an toàn
 
-Lưu `OPENAI_API_KEY` trong `.env` cục bộ, chỉ commit `.env.example` chứa tên biến. Khởi động server bằng `uv run uvicorn app.main:app --reload`; test không gọi mạng dùng fake adapter/fixture. Lệnh gọi API thật là tùy chọn nếu có key và quota; không đưa key vào curl, log hoặc commit.
+Lưu `OPENAI_API_KEY` trong `.env` cục bộ, chỉ commit `.env.example` chứa tên biến. Khởi động server bằng `uv run uvicorn ai_assistant_platform.main:app --reload`; test không gọi mạng dùng fake adapter/fixture. Lệnh gọi API thật là tùy chọn nếu có key và quota; không đưa key vào curl, log hoặc commit.
 
 ## Milestone tháng
 
@@ -69,7 +69,7 @@ Chạy được một demo có chat thường, chat streaming, intent/answer str
 
 ## Bàn giao Tháng 04
 
-Giữ `LLMClient`/`ChatService` tách khỏi route. Tháng 04 sẽ thêm `app/rag/` để trả context/citation vào prompt hiện có; không thay tool registry bằng agent. File `docs/month-04-handoff.md` mô tả contract `RetrievedContext` được đề xuất và cách giữ citation trong response schema.
+Giữ `LLMClient`/`ChatService` tách khỏi route. Tháng 04 sẽ thêm `src/ai_assistant_platform/rag/` để trả context/citation vào prompt hiện có; không thay tool registry bằng agent. File `docs/month-04-handoff.md` mô tả contract `RetrievedContext` được đề xuất và cách giữ citation trong response schema.
 
 ## Review
 

@@ -197,7 +197,7 @@ Các công cụ này không được làm thay đổi trọng tâm roadmap chín
 
 ```text
 ai-assistant-platform/
-├── app/
+├── src/ai_assistant_platform/
 │   ├── api/
 │   ├── core/
 │   ├── domain/

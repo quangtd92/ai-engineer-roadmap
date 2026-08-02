@@ -1,16 +1,14 @@
 {
   "completed": {
-    "m1-w1-d1": true,
-    "m1-w1-d2": true
+    "m1-w1-d1": false,
+    "m1-w1-d2": false,
+    "m1-w1-d3": false
   },
   "outcomes": {
     "m1-w1-d1": "achieved",
     "m1-w1-d2": "achieved"
   },
-  "completedAt": {
-    "m1-w1-d1": "2026-08-01T05:47:30.193Z",
-    "m1-w1-d2": "2026-08-01T05:47:45.038Z"
-  },
+  "completedAt": {},
   "reasons": {
     "m1-w1-d1": "s"
   }

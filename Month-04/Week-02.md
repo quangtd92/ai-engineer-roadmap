@@ -25,7 +25,7 @@ Qdrant service trong Compose, `ChunkStore`, embedding adapter, BM25 index và `P
 - **Tài liệu:** Qdrant Python Quickstart trong [RESOURCES.md](./RESOURCES.md), Tuần 2.
 - **Thực hành:** Thêm health dependency gọi client với timeout ngắn.
 - **Tích hợp project:** `docker-compose.yml` có API + Qdrant; config không log URL có credential.
-- **File tạo/sửa:** `docker-compose.yml`, `.env.example`, `app/core/config.py`, `app/rag/qdrant_store.py`.
+- **File tạo/sửa:** `docker-compose.yml`, `.env.example`, `src/ai_assistant_platform/core/config.py`, `src/ai_assistant_platform/rag/qdrant_store.py`.
 - **Lệnh chạy:** `docker compose up -d qdrant`; `uv run pytest tests/integration/test_qdrant_health.py -q`.
 - **Kết quả mong đợi:** Test kết nối local pass hoặc skip có lý do khi Qdrant chưa chạy.
 - **Cách kiểm tra:** Mở `http://localhost:6333/healthz`; không đưa endpoint này ra public.
@@ -42,7 +42,7 @@ Qdrant service trong Compose, `ChunkStore`, embedding adapter, BM25 index và `P
 - **Tài liệu:** Qdrant Points/Payload trong [RESOURCES.md](./RESOURCES.md).
 - **Thực hành:** Tạo `QdrantChunkStore` theo protocol `ChunkStore`.
 - **Tích hợp project:** Ingestion write path vẫn chỉ nhận corpus allowlist và dùng batch nhỏ.
-- **File tạo/sửa:** `app/rag/qdrant_store.py`, `app/rag/store.py`, `tests/unit/test_qdrant_store.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/qdrant_store.py`, `src/ai_assistant_platform/rag/store.py`, `tests/unit/test_qdrant_store.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_qdrant_store.py -q`.
 - **Kết quả mong đợi:** Gọi lại ensure/upsert không tạo collection trùng.
 - **Cách kiểm tra:** Assert fake client nhận đúng ID, payload và vector dimension.
@@ -59,7 +59,7 @@ Qdrant service trong Compose, `ChunkStore`, embedding adapter, BM25 index và `P
 - **Tài liệu:** OpenAI Embeddings trong [RESOURCES.md](./RESOURCES.md), Tìm hiểu thêm.
 - **Thực hành:** Mock embedder trong test, lưu model name/version ở metadata config.
 - **Tích hợp project:** `POST /rag/ingest` chuyển `dry_run=false` chỉ sau explicit config; không cần real key trong test.
-- **File tạo/sửa:** `app/rag/embeddings.py`, `app/rag/retrieval.py`, `tests/unit/test_dense_retrieval.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/embeddings.py`, `src/ai_assistant_platform/rag/retrieval.py`, `tests/unit/test_dense_retrieval.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_dense_retrieval.py -q`.
 - **Kết quả mong đợi:** Query gọi đúng một embedding và trả kết quả giảm dần theo score.
 - **Cách kiểm tra:** Fake store trả ba point; assert mapping payload sang schema.
@@ -76,7 +76,7 @@ Qdrant service trong Compose, `ChunkStore`, embedding adapter, BM25 index và `P
 - **Tài liệu:** `rank-bm25` trong [RESOURCES.md](./RESOURCES.md), Tuần 2.
 - **Thực hành:** Build index từ chunks sau ingestion, không đọc Qdrant để tạo BM25.
 - **Tích hợp project:** Thêm `mode="bm25"` vào request search, giữ metadata/citation contract chung.
-- **File tạo/sửa:** `app/rag/bm25_index.py`, `app/rag/schemas.py`, `tests/unit/test_bm25_index.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/bm25_index.py`, `src/ai_assistant_platform/rag/schemas.py`, `tests/unit/test_bm25_index.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_bm25_index.py -q`.
 - **Kết quả mong đợi:** Exact identifier được rank cao hơn paragraph cùng chủ đề nhưng không có identifier.
 - **Cách kiểm tra:** Test corpus nhỏ với token hiếm và assert rank 1.
@@ -93,7 +93,7 @@ Qdrant service trong Compose, `ChunkStore`, embedding adapter, BM25 index và `P
 - **Tài liệu:** Qdrant Hybrid Queries và Filtering trong [RESOURCES.md](./RESOURCES.md).
 - **Thực hành:** Fuse result list theo chunk_id, rồi load metadata đầy đủ.
 - **Tích hợp project:** Search chỉ cho filter `category`, `document_id`, `version`; từ chối arbitrary payload key.
-- **File tạo/sửa:** `app/rag/hybrid.py`, `app/rag/retrieval.py`, `tests/unit/test_hybrid.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/rag/hybrid.py`, `src/ai_assistant_platform/rag/retrieval.py`, `tests/unit/test_hybrid.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_hybrid.py -q`.
 - **Kết quả mong đợi:** Chunk xuất hiện trong cả hai list có rank fusion tốt hơn; filter sai trả validation error.
 - **Cách kiểm tra:** Fixture 2 list cố định, assert thứ tự RRF.
@@ -110,7 +110,7 @@ Qdrant service trong Compose, `ChunkStore`, embedding adapter, BM25 index và `P
 - **Tài liệu:** Qdrant Search trong [RESOURCES.md](./RESOURCES.md), Tuần 2.
 - **Thực hành:** Dependency inject retriever fake trong test client.
 - **Tích hợp project:** Reuse error contract, request ID và timeout policy đã có từ Month-01/03.
-- **File tạo/sửa:** `app/api/routes/rag.py`, `tests/integration/test_rag_search.py`, `app/core/logging.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/api/routes/rag.py`, `tests/integration/test_rag_search.py`, `src/ai_assistant_platform/core/logging.py`.
 - **Lệnh chạy:** `uv run pytest tests/integration/test_rag_search.py -q`.
 - **Kết quả mong đợi:** Dense/BM25/hybrid cho contract cùng shape; `k=50` nhận 422.
 - **Cách kiểm tra:** Assert source_path/section/score có mặt và text được truncate theo schema.

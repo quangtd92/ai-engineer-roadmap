@@ -12,7 +12,7 @@ Tạo một image FastAPI production-like cho agent/RAG hiện có: cấu hình 
 
 ## Feature hoặc module sẽ bổ sung
 
-`app/api/routes/health.py`, `app/core/settings.py`, `app/observability/logging.py`, middleware production, `Dockerfile`, `.dockerignore`, `docker-compose.prod.yml`, `tests/integration/test_probes.py` và `scripts/check_dependencies.py`.
+`src/ai_assistant_platform/api/routes/health.py`, `src/ai_assistant_platform/core/settings.py`, `src/ai_assistant_platform/observability/logging.py`, middleware production, `Dockerfile`, `.dockerignore`, `docker-compose.prod.yml`, `tests/integration/test_probes.py` và `scripts/check_dependencies.py`.
 
 ## Kế hoạch từng ngày
 
@@ -32,7 +32,7 @@ Tạo một image FastAPI production-like cho agent/RAG hiện có: cấu hình 
 
 **Tích hợp project:** `create_app()` chỉ bật debug/docs theo `APP_ENV`; startup trả lỗi rõ khi production thiếu key.
 
-**File tạo hoặc sửa:** `app/core/settings.py`, `.env.example`, `.gitignore`, `tests/unit/test_settings.py`.
+**File tạo hoặc sửa:** `src/ai_assistant_platform/core/settings.py`, `.env.example`, `.gitignore`, `tests/unit/test_settings.py`.
 
 **Lệnh cần chạy:** `uv run pytest tests/unit/test_settings.py -q`
 
@@ -62,7 +62,7 @@ Tạo một image FastAPI production-like cho agent/RAG hiện có: cấu hình 
 
 **Tích hợp project:** Đăng ký router probes trước router chat/agent để Docker/Nginx có đường kiểm tra ổn định.
 
-**File tạo hoặc sửa:** `app/api/routes/health.py`, `app/services/readiness.py`, `tests/integration/test_probes.py`.
+**File tạo hoặc sửa:** `src/ai_assistant_platform/api/routes/health.py`, `src/ai_assistant_platform/services/readiness.py`, `tests/integration/test_probes.py`.
 
 **Lệnh cần chạy:** `uv run pytest tests/integration/test_probes.py -q`
 
@@ -92,7 +92,7 @@ Tạo một image FastAPI production-like cho agent/RAG hiện có: cấu hình 
 
 **Tích hợp project:** Truyền request ID vào service agent và LangSmith metadata để nối HTTP log với trace.
 
-**File tạo hoặc sửa:** `app/observability/logging.py`, `app/api/middleware/request_context.py`, `tests/unit/test_request_logging.py`.
+**File tạo hoặc sửa:** `src/ai_assistant_platform/observability/logging.py`, `src/ai_assistant_platform/api/middleware/request_context.py`, `tests/unit/test_request_logging.py`.
 
 **Lệnh cần chạy:** `uv run pytest tests/unit/test_request_logging.py -q`
 
@@ -120,7 +120,7 @@ Tạo một image FastAPI production-like cho agent/RAG hiện có: cấu hình 
 
 **Bài thực hành:** Đặt `USER app`, thêm `.dockerignore`, tag `ai-assistant-platform:local`, pin base image digest nếu team có policy.
 
-**Tích hợp project:** Image chạy `uvicorn app.main:app`; expose 8000 và dùng `/health` làm container healthcheck ở Compose ngày 5.
+**Tích hợp project:** Image chạy `uvicorn ai_assistant_platform.main:app`; expose 8000 và dùng `/health` làm container healthcheck ở Compose ngày 5.
 
 **File tạo hoặc sửa:** `Dockerfile`, `.dockerignore`, `docs/container.md`.
 
@@ -182,7 +182,7 @@ Tạo một image FastAPI production-like cho agent/RAG hiện có: cấu hình 
 
 **Tích hợp project:** Bỏ qua rate limit cho `/health`; không bypass approval, tool budget hay guardrail Month-05.
 
-**File tạo hoặc sửa:** `app/api/middleware/security.py`, `app/core/rate_limit.py`, `tests/integration/test_security_boundary.py`.
+**File tạo hoặc sửa:** `src/ai_assistant_platform/api/middleware/security.py`, `src/ai_assistant_platform/core/rate_limit.py`, `tests/integration/test_security_boundary.py`.
 
 **Lệnh cần chạy:** `uv run pytest tests/integration/test_security_boundary.py -q`
 

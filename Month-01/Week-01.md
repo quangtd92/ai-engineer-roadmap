@@ -19,14 +19,14 @@ Khởi tạo `ai-assistant-platform` bằng `uv` và tạo mock chat service có
 ### Ngày 1 - Khởi tạo project với `uv`
 
 - **Mục tiêu cụ thể:** Tạo Python app có entry point tối thiểu.
-- **Kết quả cần đạt:** Có `pyproject.toml`, `.python-version`, `app/main.py` và README project.
+- **Kết quả cần đạt:** Có `pyproject.toml`, `.python-version`, `src/ai_assistant_platform/main.py` và README project.
 - **Phân bổ thời gian:** 15 phút đọc, 45 phút khởi tạo, 20 phút chạy thử, 10 phút ghi chú.
 - **Nội dung lý thuyết:** `uv init`, lockfile và khác biệt giữa `uv run` với gọi Python hệ thống.
 - **Tài liệu cần đọc:** uv: “Working on projects” trong [RESOURCES.md](./RESOURCES.md).
 - **Bài thực hành:** Tạo hàm `main()` in tên service.
 - **Thay đổi cần áp dụng vào ai-assistant-platform:** Khởi tạo project bằng `uv`.
-- **File dự kiến tạo hoặc sửa:** `pyproject.toml`, `.python-version`, `README.md`, `app/main.py`.
-- **Lệnh chạy:** `uv init ai-assistant-platform --app`; `uv run python app/main.py`.
+- **File dự kiến tạo hoặc sửa:** `pyproject.toml`, `.python-version`, `README.md`, `src/ai_assistant_platform/main.py`.
+- **Lệnh chạy:** `uv init ai-assistant-platform --app`; `uv run python -m ai_assistant_platform.main`.
 - **Kết quả mong đợi:** Terminal in `ai-assistant-platform ready`.
 - **Cách kiểm tra kết quả:** Mở `pyproject.toml`, xác nhận project name và Python version.
 - **Definition of Done:** Lệnh chạy lại được từ thư mục project mà không kích hoạt virtualenv thủ công.
@@ -40,10 +40,10 @@ Khởi tạo `ai-assistant-platform` bằng `uv` và tạo mock chat service có
 - **Phân bổ thời gian:** 20 phút đọc, 50 phút code, 20 phút chạy thử, 10 phút ghi chú.
 - **Nội dung lý thuyết:** Parameter type, return type, docstring và ranh giới giữa type hint với validation runtime.
 - **Tài liệu cần đọc:** Python: “Defining Functions” trong [RESOURCES.md](./RESOURCES.md).
-- **Bài thực hành:** Thêm `app/services/chat_service.py`, cắt khoảng trắng đầu/cuối trước khi tạo reply.
+- **Bài thực hành:** Thêm `src/ai_assistant_platform/services/chat_service.py`, cắt khoảng trắng đầu/cuối trước khi tạo reply.
 - **Thay đổi cần áp dụng vào ai-assistant-platform:** Có service thuần Python chưa phụ thuộc FastAPI.
-- **File dự kiến tạo hoặc sửa:** `app/services/__init__.py`, `app/services/chat_service.py`, `app/main.py`.
-- **Lệnh chạy:** `uv run python -c "from app.services.chat_service import build_mock_reply; print(build_mock_reply('Xin chào'))"`.
+- **File dự kiến tạo hoặc sửa:** `src/ai_assistant_platform/services/__init__.py`, `src/ai_assistant_platform/services/chat_service.py`, `src/ai_assistant_platform/main.py`.
+- **Lệnh chạy:** `uv run python -c "from ai_assistant_platform.services.chat_service import build_mock_reply; print(build_mock_reply('Xin chào'))"`.
 - **Kết quả mong đợi:** In một mock reply chứa `Xin chào`.
 - **Cách kiểm tra kết quả:** Thử input có khoảng trắng và xác nhận reply không giữ khoảng trắng thừa.
 - **Definition of Done:** Hàm có type hint, docstring và không đọc input từ `input()`.
@@ -57,10 +57,10 @@ Khởi tạo `ai-assistant-platform` bằng `uv` và tạo mock chat service có
 - **Phân bổ thời gian:** 20 phút đọc, 50 phút code, 20 phút thử nghiệm, 10 phút ghi chú.
 - **Nội dung lý thuyết:** Khi dùng dataclass cho domain object và khi để Pydantic xử lý biên API.
 - **Tài liệu cần đọc:** Python: `dataclasses` trong [RESOURCES.md](./RESOURCES.md).
-- **Bài thực hành:** Thêm `app/domain/chat.py`; đổi service nhận `ChatMessage`.
+- **Bài thực hành:** Thêm `src/ai_assistant_platform/domain/chat.py`; đổi service nhận `ChatMessage`.
 - **Thay đổi cần áp dụng vào ai-assistant-platform:** Tách domain object khỏi service logic.
-- **File dự kiến tạo hoặc sửa:** `app/domain/__init__.py`, `app/domain/chat.py`, `app/services/chat_service.py`.
-- **Lệnh chạy:** `uv run python -c "from app.domain.chat import ChatMessage; print(ChatMessage('user', 'Xin chào'))"`.
+- **File dự kiến tạo hoặc sửa:** `src/ai_assistant_platform/domain/__init__.py`, `src/ai_assistant_platform/domain/chat.py`, `src/ai_assistant_platform/services/chat_service.py`.
+- **Lệnh chạy:** `uv run python -c "from ai_assistant_platform.domain.chat import ChatMessage; print(ChatMessage('user', 'Xin chào'))"`.
 - **Kết quả mong đợi:** In biểu diễn `ChatMessage` với role và content.
 - **Cách kiểm tra kết quả:** Thử gán lại `message.content`; Python phải báo lỗi do `frozen=True`.
 - **Definition of Done:** Service vẫn trả reply với instance `ChatMessage`.
@@ -74,10 +74,10 @@ Khởi tạo `ai-assistant-platform` bằng `uv` và tạo mock chat service có
 - **Phân bổ thời gian:** 20 phút đọc, 50 phút code, 20 phút thử lỗi, 10 phút ghi chú.
 - **Nội dung lý thuyết:** Log level, exception domain và thông tin nào không nên log.
 - **Tài liệu cần đọc:** Python Logging HOWTO trong [RESOURCES.md](./RESOURCES.md).
-- **Bài thực hành:** Thêm `app/core/errors.py`, `app/core/logging.py`; log độ dài message thay vì nội dung.
+- **Bài thực hành:** Thêm `src/ai_assistant_platform/core/errors.py`, `src/ai_assistant_platform/core/logging.py`; log độ dài message thay vì nội dung.
 - **Thay đổi cần áp dụng vào ai-assistant-platform:** Chat service có validation nhỏ trước khi xử lý.
-- **File dự kiến tạo hoặc sửa:** `app/core/errors.py`, `app/core/logging.py`, `app/services/chat_service.py`.
-- **Lệnh chạy:** `uv run python -c "from app.services.chat_service import build_mock_reply; build_mock_reply('   ')"`.
+- **File dự kiến tạo hoặc sửa:** `src/ai_assistant_platform/core/errors.py`, `src/ai_assistant_platform/core/logging.py`, `src/ai_assistant_platform/services/chat_service.py`.
+- **Lệnh chạy:** `uv run python -c "from ai_assistant_platform.services.chat_service import build_mock_reply; build_mock_reply('   ')"`.
 - **Kết quả mong đợi:** Process báo `InvalidMessageError`, không in stack trace secret.
 - **Cách kiểm tra kết quả:** Chạy input hợp lệ và rỗng; kiểm tra log có level phù hợp.
 - **Definition of Done:** Không dùng `ValueError` chung chung cho message rỗng.
@@ -93,8 +93,8 @@ Khởi tạo `ai-assistant-platform` bằng `uv` và tạo mock chat service có
 - **Tài liệu cần đọc:** Python `pathlib` và `json` trong [RESOURCES.md](./RESOURCES.md).
 - **Bài thực hành:** Tạo `tests/fixtures/chat_messages.json` và hàm `load_messages()`.
 - **Thay đổi cần áp dụng vào ai-assistant-platform:** Có dữ liệu mẫu tái sử dụng cho test ngày 6.
-- **File dự kiến tạo hoặc sửa:** `app/services/fixture_loader.py`, `tests/fixtures/chat_messages.json`.
-- **Lệnh chạy:** `uv run python -c "from app.services.fixture_loader import load_messages; print(len(load_messages()))"`.
+- **File dự kiến tạo hoặc sửa:** `src/ai_assistant_platform/services/fixture_loader.py`, `tests/fixtures/chat_messages.json`.
+- **Lệnh chạy:** `uv run python -c "from ai_assistant_platform.services.fixture_loader import load_messages; print(len(load_messages()))"`.
 - **Kết quả mong đợi:** In số message đúng bằng nội dung fixture.
 - **Cách kiểm tra kết quả:** Chạy lệnh từ thư mục project và từ `tests/`; kết quả giống nhau.
 - **Definition of Done:** File mở rõ `encoding='utf-8'` và lỗi JSON được nêu tên file.
@@ -127,7 +127,7 @@ Khởi tạo `ai-assistant-platform` bằng `uv` và tạo mock chat service có
 - **Tài liệu cần đọc:** Ruff Tutorial trong [RESOURCES.md](./RESOURCES.md).
 - **Bài thực hành:** `uv add --dev ruff`; thêm cấu hình Ruff tối thiểu trong `pyproject.toml`.
 - **Thay đổi cần áp dụng vào ai-assistant-platform:** Có quality gate local cho code Python hiện tại.
-- **File dự kiến tạo hoặc sửa:** `pyproject.toml`, `app/services/chat_service.py`, `tests/unit/test_chat_service.py`, `README.md`.
+- **File dự kiến tạo hoặc sửa:** `pyproject.toml`, `src/ai_assistant_platform/services/chat_service.py`, `tests/unit/test_chat_service.py`, `README.md`.
 - **Lệnh chạy:** `uv run ruff check .`; `uv run pytest`.
 - **Kết quả mong đợi:** Ruff không báo lỗi; tất cả test pass.
 - **Cách kiểm tra kết quả:** Xem diff, xác nhận không thêm FastAPI hay feature ngoài phạm vi tuần 1.

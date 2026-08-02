@@ -29,7 +29,7 @@ Trước tháng này, `ai-assistant-platform` có FastAPI, schema/config/logging
 
 ```text
 ai-assistant-platform/
-├── app/
+├── src/ai_assistant_platform/
 │   ├── api/routes/rag.py
 │   ├── rag/
 │   │   ├── ingestion.py       # parse → normalize → chunk → fingerprint

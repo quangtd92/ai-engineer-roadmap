@@ -12,7 +12,7 @@ Thêm một hành động nhạy cảm, `export_report`, vào research agent nh�
 
 ## Tính năng project sẽ bổ sung
 
-`app/agents/approval.py`, `app/agents/tools.py`, policy reliability, route approve/resume và audit event append-only. Tool duy nhất có side effect trong tuần là export report giả lập vào storage adapter; không có delete/send email/ghi dữ liệu bên ngoài.
+`src/ai_assistant_platform/agents/approval.py`, `src/ai_assistant_platform/agents/tools.py`, policy reliability, route approve/resume và audit event append-only. Tool duy nhất có side effect trong tuần là export report giả lập vào storage adapter; không có delete/send email/ghi dữ liệu bên ngoài.
 
 ## Kế hoạch từng ngày
 
@@ -25,7 +25,7 @@ Thêm một hành động nhạy cảm, `export_report`, vào research agent nh�
 - **Tài liệu cần đọc:** Phần approve/edit/reject trong [Human-in-the-loop](./RESOURCES.md).
 - **Bài thực hành:** Viết `can_request_export(state)`; từ chối path traversal, URL đích, format lạ và query chưa có citation.
 - **Tích hợp project:** Thêm `export_report` như capability có schema, chưa đăng ký thực thi trực tiếp từ node draft.
-- **File tạo/sửa:** `app/agents/policies.py`, `app/api/schemas/approval.py`, `tests/unit/test_export_policy.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/agents/policies.py`, `src/ai_assistant_platform/api/schemas/approval.py`, `tests/unit/test_export_policy.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_export_policy.py -q`.
 - **Kết quả mong đợi:** Fixture `../../secrets.txt` và export thiếu citation bị blocked trước khi đến tool.
 - **Cách tự kiểm tra:** Assert lỗi client-safe, không phản chiếu absolute path hay internal policy detail.
@@ -42,7 +42,7 @@ Thêm một hành động nhạy cảm, `export_report`, vào research agent nh�
 - **Tài liệu cần đọc:** Phần interrupts và side effects trong [Interrupts](./RESOURCES.md).
 - **Bài thực hành:** Tạo node `request_export_approval`; dùng approval summary gồm citation IDs, format và reason, không đưa raw context.
 - **Tích hợp project:** Nhánh `request_export` từ classify/draft đi tới interrupt thay vì gọi `ExportTool`.
-- **File tạo/sửa:** `app/agents/approval.py`, `app/agents/graph.py`, `tests/integration/test_agent_interrupt.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/agents/approval.py`, `src/ai_assistant_platform/agents/graph.py`, `tests/integration/test_agent_interrupt.py`.
 - **Lệnh chạy:** `uv run pytest tests/integration/test_agent_interrupt.py -q`.
 - **Kết quả mong đợi:** `ExportTool.execute` mock có call count 0 khi graph interrupt.
 - **Cách tự kiểm tra:** Chạy cùng thread một lần và inspect checkpoint: status pending, không có `export_receipt`.
@@ -59,7 +59,7 @@ Thêm một hành động nhạy cảm, `export_report`, vào research agent nh�
 - **Tài liệu cần đọc:** Ví dụ `Command(resume=...)` trong [Interrupts](./RESOURCES.md).
 - **Bài thực hành:** Map action sang `Command(resume=decision)`; reject dẫn `finalize_cancelled`, edit revalidate intent rồi quay lại approval summary.
 - **Tích hợp project:** Lưu audit event `approval_requested/decided` với actor pseudonymous và timestamp, không log content report.
-- **File tạo/sửa:** `app/api/routes/agent.py`, `app/services/agent_approvals.py`, `tests/integration/test_agent_approval_api.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/api/routes/agent.py`, `src/ai_assistant_platform/services/agent_approvals.py`, `tests/integration/test_agent_approval_api.py`.
 - **Lệnh chạy:** `uv run pytest tests/integration/test_agent_approval_api.py -q`.
 - **Kết quả mong đợi:** Ba fixture approve/edit/reject đều có status rõ; reject không gọi tool.
 - **Cách tự kiểm tra:** Gửi action lạ/edit destination path và assert 422/blocked; xem audit không chứa secret.
@@ -76,7 +76,7 @@ Thêm một hành động nhạy cảm, `export_report`, vào research agent nh�
 - **Tài liệu cần đọc:** Lưu ý idempotency quanh side effect trong [Interrupts](./RESOURCES.md).
 - **Bài thực hành:** Tạo `ExportStore.put_if_absent`; receipt gồm export ID/status/hash, không trả local path nội bộ.
 - **Tích hợp project:** Node thực thi chỉ chạy khi approval approved và gọi tool qua adapter interface.
-- **File tạo/sửa:** `app/agents/tools.py`, `app/services/export_store.py`, `tests/unit/test_export_idempotency.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/agents/tools.py`, `src/ai_assistant_platform/services/export_store.py`, `tests/unit/test_export_idempotency.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_export_idempotency.py -q`.
 - **Kết quả mong đợi:** Same key có one write; key khác cùng content là event khác theo policy.
 - **Cách tự kiểm tra:** Assert receipt equality/call count, sau đó simulate exception sau write để kiểm tra recover path.
@@ -93,7 +93,7 @@ Thêm một hành động nhạy cảm, `export_report`, vào research agent nh�
 - **Tài liệu cần đọc:** Phần durable execution/retry awareness trong [Persistence](./RESOURCES.md).
 - **Bài thực hành:** Tạo `ToolExecutionPolicy(timeout_seconds=5, max_attempts=2)`; inject clock/sleep fake trong test.
 - **Tích hợp project:** `rag_search` vẫn read-only; `export_report` chỉ được retry sau khi Ngày 18 đã có idempotency key.
-- **File tạo/sửa:** `app/agents/reliability.py`, `app/agents/tools.py`, `tests/unit/test_tool_retry_timeout.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/agents/reliability.py`, `src/ai_assistant_platform/agents/tools.py`, `tests/unit/test_tool_retry_timeout.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_tool_retry_timeout.py -q`.
 - **Kết quả mong đợi:** Transient fixture gọi 2 lần rồi success/failure; invalid input gọi đúng một lần.
 - **Cách tự kiểm tra:** Assert elapsed deadline, attempts metadata và error sanitized; không dùng `sleep` thật trong unit test.
@@ -110,7 +110,7 @@ Thêm một hành động nhạy cảm, `export_report`, vào research agent nh�
 - **Tài liệu cần đọc:** Xem lại graph routing trong [Graph API overview](./RESOURCES.md) và interrupt lifecycle trong [Interrupts](./RESOURCES.md).
 - **Bài thực hành:** Thêm `enforce_limits` node/conditional edge; fixture loop route, budget exhausted, stale approval và tool timeout.
 - **Tích hợp project:** API response có `status`, `stop_reason`, `step_count`, `tool_calls_used`; không trả stack trace.
-- **File tạo/sửa:** `app/agents/policies.py`, `app/agents/graph.py`, `tests/integration/test_agent_reliability.py`, `docs/agent-reliability.md`.
+- **File tạo/sửa:** `src/ai_assistant_platform/agents/policies.py`, `src/ai_assistant_platform/agents/graph.py`, `tests/integration/test_agent_reliability.py`, `docs/agent-reliability.md`.
 - **Lệnh chạy:** `uv run pytest tests/integration/test_agent_reliability.py -q`; `uv run pytest tests/unit/test_tool_retry_timeout.py -q`.
 - **Kết quả mong đợi:** Mỗi failure fixture kết thúc trong giới hạn và export chỉ có receipt khi approved.
 - **Cách tự kiểm tra:** Assert graph `step_count <= 6`, mock tool calls `<= 2`, và state terminal cho từng case.

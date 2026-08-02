@@ -46,7 +46,7 @@ POST /api/v1/agent/runs
 Các module đích (tên có thể điều chỉnh theo codebase hiện có):
 
 ```text
-app/
+src/ai_assistant_platform/
 ├── agents/
 │   ├── graph.py
 │   ├── state.py

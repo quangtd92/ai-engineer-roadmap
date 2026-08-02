@@ -12,7 +12,7 @@ Hoàn thiện vòng vận hành cho `ai-assistant-platform`: metrics, JSON log, 
 
 ## Tính năng project sẽ bổ sung
 
-`app/observability/metrics.py`, `app/observability/usage.py`, `scripts/run_quality_regression.py`, `.github/workflows/quality-regression.yml`, `docs/observability.md`, `docs/runbook.md`, `docs/architecture.md`, `docs/demo-script.md`, `README.md` của project và ADR cuối tháng.
+`src/ai_assistant_platform/observability/metrics.py`, `src/ai_assistant_platform/observability/usage.py`, `scripts/run_quality_regression.py`, `.github/workflows/quality-regression.yml`, `docs/observability.md`, `docs/runbook.md`, `docs/architecture.md`, `docs/demo-script.md`, `README.md` của project và ADR cuối tháng.
 
 ## Kế hoạch từng ngày
 
@@ -25,10 +25,10 @@ Hoàn thiện vòng vận hành cho `ai-assistant-platform`: metrics, JSON log, 
 - **Tài liệu:** [OpenTelemetry metrics concepts](https://opentelemetry.io/docs/concepts/signals/metrics/) — metric types và attributes.
 - **Bài thực hành:** Ghi metric contract trước, thêm adapter có interface fake/no-op; đo route/status/latency không lưu prompt.
 - **Tích hợp project:** Instrument FastAPI boundary và graph outcome, giữ request ID ở log/trace thay vì metric label.
-- **File tạo/sửa:** `app/observability/metrics.py`, `docs/observability.md`, `tests/unit/test_metrics_contract.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/observability/metrics.py`, `docs/observability.md`, `tests/unit/test_metrics_contract.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_metrics_contract.py -q`.
 - **Kết quả mong đợi:** Test từ chối label không allowlist; snapshot metric không có query, email, token hay secret.
-- **Cách kiểm tra:** `rg -n "request_id|query|thread_id" app/observability/metrics.py` chỉ cho phép ở comment/guard, không ở labels.
+- **Cách kiểm tra:** `rg -n "request_id|query|thread_id" src/ai_assistant_platform/observability/metrics.py` chỉ cho phép ở comment/guard, không ở labels.
 - **Definition of Done:** Mỗi metric có mục đích và owner/action, không thu thập "mọi thứ".
 - **Commit message gợi ý:** `feat(observability): add bounded service metric contract`
 - **Câu hỏi tự kiểm tra:** Vì sao request ID không là metric label? Histogram dùng để trả lời gì? Metric nào chỉ ra readiness outage?
@@ -42,7 +42,7 @@ Hoàn thiện vòng vận hành cho `ai-assistant-platform`: metrics, JSON log, 
 - **Tài liệu:** [OpenAI Responses API reference](https://platform.openai.com/docs/api-reference/responses) — trường usage và theo dõi usage (đọc khái niệm; không đưa API key vào test).
 - **Bài thực hành:** Map response usage đã mock thành event, phân đoạn `retrieval_ms`, `llm_ms`, `total_ms`; đặt soft budget cảnh báo và hard policy ở service nếu project đã có quyền áp dụng.
 - **Tích hợp project:** Correlate event bằng request ID đã hash/trace ID metadata, không log raw conversation hay authorization header.
-- **File tạo/sửa:** `app/observability/usage.py`, `app/core/cost_policy.py`, `tests/unit/test_usage_accounting.py`, `docs/observability.md`.
+- **File tạo/sửa:** `src/ai_assistant_platform/observability/usage.py`, `src/ai_assistant_platform/core/cost_policy.py`, `tests/unit/test_usage_accounting.py`, `docs/observability.md`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_usage_accounting.py -q`.
 - **Kết quả mong đợi:** Fixture có usage tạo cost estimate xác định; fixture thiếu usage tạo `unknown` có reason, không bịa số.
 - **Cách kiểm tra:** Review event JSON; chi phí có currency/version và không có API key/prompt.
@@ -59,7 +59,7 @@ Hoàn thiện vòng vận hành cho `ai-assistant-platform`: metrics, JSON log, 
 - **Tài liệu:** [LangSmith tracing with OpenTelemetry](https://docs.langchain.com/langsmith/trace-with-opentelemetry) — tracing setup và export.
 - **Bài thực hành:** Thêm `TRACE_ENABLED`/`TRACE_SAMPLE_RATE` validation, fake exporter test và redaction recursive cho headers/config.
 - **Tích hợp project:** Retain `request_id`, route, safe graph outcome và approval id; vẫn không gửi raw RAG documents/user prompt nếu policy chưa consent.
-- **File tạo/sửa:** `app/observability/tracing.py`, `tests/unit/test_trace_redaction.py`, `docs/observability.md`.
+- **File tạo/sửa:** `src/ai_assistant_platform/observability/tracing.py`, `tests/unit/test_trace_redaction.py`, `docs/observability.md`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_trace_redaction.py -q`.
 - **Kết quả mong đợi:** Trace disabled không gọi network; enabled fixture không chứa `sk-`, `Bearer` hoặc raw prompt.
 - **Cách kiểm tra:** `rg -n "Authorization|Bearer|sk-" artifacts tests` sau fixture không có output nhạy cảm.

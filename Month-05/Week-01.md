@@ -12,7 +12,7 @@ Chuyển RAG pipeline tháng 4 thành LangGraph workflow nhỏ có state có ki�
 
 ## Tính năng project sẽ bổ sung
 
-Tạo `app/agents/` và endpoint draft `POST /api/v1/agent/runs`. Graph route query an toàn sang direct answer hoặc retrieval rồi draft có citations.
+Tạo `src/ai_assistant_platform/agents/` và endpoint draft `POST /api/v1/agent/runs`. Graph route query an toàn sang direct answer hoặc retrieval rồi draft có citations.
 
 ## Kế hoạch từng ngày
 
@@ -41,8 +41,8 @@ Tạo `app/agents/` và endpoint draft `POST /api/v1/agent/runs`. Graph route qu
 - **Nội dung lý thuyết:** State là snapshot chia sẻ; node trả phần update thay vì mutate object toàn cục. Chỉ lưu dữ liệu JSON-serializable để checkpoint được.
 - **Tài liệu cần đọc:** “State” và “Nodes” trong Graph API overview ở [RESOURCES.md](./RESOURCES.md).
 - **Bài thực hành:** Dùng `TypedDict`/Pydantic boundary phù hợp codebase; tạo factory state từ `AgentRunRequest` đã validate.
-- **Thay đổi cần áp dụng vào ai-assistant-platform:** Thêm `app/agents/state.py` và schema request/response cho run id/thread id.
-- **File dự kiến tạo hoặc sửa:** `app/agents/state.py`, `app/api/schemas/agent.py`, `tests/unit/test_agent_state.py`.
+- **Thay đổi cần áp dụng vào ai-assistant-platform:** Thêm `src/ai_assistant_platform/agents/state.py` và schema request/response cho run id/thread id.
+- **File dự kiến tạo hoặc sửa:** `src/ai_assistant_platform/agents/state.py`, `src/ai_assistant_platform/api/schemas/agent.py`, `tests/unit/test_agent_state.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_agent_state.py`.
 - **Kết quả mong đợi:** Test từ chối query rỗng và state khởi tạo có `step_count=0`.
 - **Cách kiểm tra kết quả:** Serialize state ra JSON; không có client, API key hoặc object database trong state.
@@ -58,8 +58,8 @@ Tạo `app/agents/` và endpoint draft `POST /api/v1/agent/runs`. Graph route qu
 - **Nội dung lý thuyết:** Node là function dễ test; logic route ban đầu dùng rule để kiểm soát baseline trước khi để LLM quyết định.
 - **Tài liệu cần đọc:** Ví dụ `StateGraph`, `START` và normal edge trong Graph API overview.
 - **Bài thực hành:** Viết `classify_request(state)` và compile graph `START -> classify -> END`.
-- **Thay đổi cần áp dụng vào ai-assistant-platform:** Thêm `app/agents/nodes.py`, `app/agents/graph.py` và fake direct reply node.
-- **File dự kiến tạo hoặc sửa:** `app/agents/nodes.py`, `app/agents/graph.py`, `tests/unit/test_agent_routing.py`.
+- **Thay đổi cần áp dụng vào ai-assistant-platform:** Thêm `src/ai_assistant_platform/agents/nodes.py`, `src/ai_assistant_platform/agents/graph.py` và fake direct reply node.
+- **File dự kiến tạo hoặc sửa:** `src/ai_assistant_platform/agents/nodes.py`, `src/ai_assistant_platform/agents/graph.py`, `tests/unit/test_agent_routing.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_agent_routing.py -k classify`.
 - **Kết quả mong đợi:** Ba fixture query luôn ra route dự kiến, không gọi LLM hay Qdrant.
 - **Cách kiểm tra kết quả:** Đếm mock retrieval client: bằng 0 với cả ba case.
@@ -76,7 +76,7 @@ Tạo `app/agents/` và endpoint draft `POST /api/v1/agent/runs`. Graph route qu
 - **Tài liệu cần đọc:** Phần “Conditional edges” của Graph API overview trong [RESOURCES.md](./RESOURCES.md).
 - **Bài thực hành:** Gắn adapter gọi retrieval service Month-04, giữ citation payload và tạo `direct_answer` stub.
 - **Thay đổi cần áp dụng vào ai-assistant-platform:** Agent tái sử dụng service hybrid retrieval/reranker, không sao chép thuật toán RAG.
-- **File dự kiến tạo hoặc sửa:** `app/agents/graph.py`, `app/agents/nodes.py`, `tests/unit/test_agent_routing.py`.
+- **File dự kiến tạo hoặc sửa:** `src/ai_assistant_platform/agents/graph.py`, `src/ai_assistant_platform/agents/nodes.py`, `tests/unit/test_agent_routing.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_agent_routing.py`.
 - **Kết quả mong đợi:** Test chứng minh query research gọi retrieval đúng một lần; direct/refuse không gọi retrieval.
 - **Cách kiểm tra kết quả:** Assert `route` cuối, docs/citations ở nhánh retrieve và error message không lộ internals ở nhánh refuse.
@@ -93,7 +93,7 @@ Tạo `app/agents/` và endpoint draft `POST /api/v1/agent/runs`. Graph route qu
 - **Tài liệu cần đọc:** “Nodes” và workflow routing examples trong [RESOURCES.md](./RESOURCES.md).
 - **Bài thực hành:** Tạo `CitationMissingError`/result an toàn thay vì bịa nguồn; direct answer không được tự thêm citation giả.
 - **Thay đổi cần áp dụng vào ai-assistant-platform:** Graph trả `AgentRunResponse` cùng `answer`, `citations`, `status`.
-- **File dự kiến tạo hoặc sửa:** `app/agents/nodes.py`, `app/api/schemas/agent.py`, `tests/unit/test_agent_review.py`.
+- **File dự kiến tạo hoặc sửa:** `src/ai_assistant_platform/agents/nodes.py`, `src/ai_assistant_platform/api/schemas/agent.py`, `tests/unit/test_agent_review.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_agent_review.py`.
 - **Kết quả mong đợi:** Draft có context pass; draft retrieval thiếu citation bị `blocked` thay vì trả lời tự tin.
 - **Cách kiểm tra kết quả:** Dùng fixture citation ID không tồn tại và assert trạng thái `needs_retrieval`/`blocked`.
@@ -110,8 +110,8 @@ Tạo `app/agents/` và endpoint draft `POST /api/v1/agent/runs`. Graph route qu
 - **Tài liệu cần đọc:** LangGraph overview example trong [RESOURCES.md](./RESOURCES.md).
 - **Bài thực hành:** Tiêm compiled graph qua dependency; mapping exception sang response contract hiện có.
 - **Thay đổi cần áp dụng vào ai-assistant-platform:** Thêm agent route vào app main/router registration.
-- **File dự kiến tạo hoặc sửa:** `app/api/routes/agent.py`, `app/api/dependencies.py`, `app/main.py`, `tests/integration/test_agent_api.py`.
-- **Lệnh chạy:** `uv run pytest tests/integration/test_agent_api.py`; `uv run uvicorn app.main:app --reload`.
+- **File dự kiến tạo hoặc sửa:** `src/ai_assistant_platform/api/routes/agent.py`, `src/ai_assistant_platform/api/dependencies.py`, `src/ai_assistant_platform/main.py`, `tests/integration/test_agent_api.py`.
+- **Lệnh chạy:** `uv run pytest tests/integration/test_agent_api.py`; `uv run uvicorn ai_assistant_platform.main:app --reload`.
 - **Kết quả mong đợi:** Swagger hiển thị endpoint; research fixture trả citations, greeting không gọi retrieval.
 - **Cách kiểm tra kết quả:** Gọi endpoint bằng test client; assert response không chứa internal state hoặc stack trace.
 - **Definition of Done:** Integration test pass và endpoint có response model.
@@ -127,7 +127,7 @@ Tạo `app/agents/` và endpoint draft `POST /api/v1/agent/runs`. Graph route qu
 - **Tài liệu cần đọc:** Xem lại “Workflows and agents” trong [RESOURCES.md](./RESOURCES.md), chỉ phần phân biệt khái niệm.
 - **Bài thực hành:** Xoá import chết, đặt hằng số route, thêm test unknown route và cập nhật architecture doc.
 - **Thay đổi cần áp dụng vào ai-assistant-platform:** Tạo `docs/month-05-week-01-handoff.md` ghi state cần checkpoint và contract API hiện tại.
-- **File dự kiến tạo hoặc sửa:** `app/agents/graph.py`, `tests/unit/test_agent_routing.py`, `docs/month-05-week-01-handoff.md`.
+- **File dự kiến tạo hoặc sửa:** `src/ai_assistant_platform/agents/graph.py`, `tests/unit/test_agent_routing.py`, `docs/month-05-week-01-handoff.md`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_agent_routing.py tests/unit/test_agent_review.py tests/integration/test_agent_api.py`; `uv run ruff check .`.
 - **Kết quả mong đợi:** Toàn bộ lệnh pass; không có `TODO` như route placeholder.
 - **Cách kiểm tra kết quả:** So diagram với `add_node`/`add_edge`; kiểm tra mỗi nhánh tới `END` hoặc lỗi an toàn.

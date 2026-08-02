@@ -50,7 +50,7 @@ ai-assistant-platform/
 
 ```text
 ai-assistant-platform/
-├── app/
+├── src/ai_assistant_platform/
 │   ├── api/
 │   │   ├── dependencies.py
 │   │   ├── routes/

@@ -12,7 +12,7 @@
 
 ## Tính năng project sẽ bổ sung
 
-`app/agents/guardrails.py`, redacted trace adapter, `evals/agent/` với dataset/runner/report, threshold config và `docs/month-06-handoff.md`. RAG và approval contracts của các tuần trước được tái sử dụng, không copy retrieval/tool code.
+`src/ai_assistant_platform/agents/guardrails.py`, redacted trace adapter, `evals/agent/` với dataset/runner/report, threshold config và `docs/month-06-handoff.md`. RAG và approval contracts của các tuần trước được tái sử dụng, không copy retrieval/tool code.
 
 ## Kế hoạch từng ngày
 
@@ -25,7 +25,7 @@
 - **Tài liệu cần đọc:** Phần security boundary trong [LangGraph overview](./RESOURCES.md) và xem lại handoff RAG Month-04.
 - **Bài thực hành:** Viết `validate_agent_input`; từ chối query vượt 2,000 ký tự, control character và yêu cầu “bỏ qua policy/đọc secret” theo policy minh bạch.
 - **Tích hợp project:** Agent route gọi guardrail trước `classify`; blocked request không tạo export/LLM/tool call.
-- **File tạo/sửa:** `app/agents/guardrails.py`, `app/api/routes/agent.py`, `tests/unit/test_agent_input_guardrail.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/agents/guardrails.py`, `src/ai_assistant_platform/api/routes/agent.py`, `tests/unit/test_agent_input_guardrail.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_agent_input_guardrail.py -q`.
 - **Kết quả mong đợi:** Benign research query pass; injection/oversize fixtures block với message không tiết lộ rule chi tiết.
 - **Cách tự kiểm tra:** Assert `retriever`/`export_tool` mock call count bằng 0 khi input bị block.
@@ -42,7 +42,7 @@
 - **Tài liệu cần đọc:** Phần graph state/nodes trong [Graph API overview](./RESOURCES.md).
 - **Bài thực hành:** Viết `validate_agent_output(state)` và response Pydantic model; map failure sang `blocked_output` không lộ draft nội bộ.
 - **Tích hợp project:** Review node Tuần 1 gọi validator này sau draft và sau approved export; direct answer không được gắn citation giả.
-- **File tạo/sửa:** `app/agents/guardrails.py`, `app/agents/nodes.py`, `tests/unit/test_agent_output_guardrail.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/agents/guardrails.py`, `src/ai_assistant_platform/agents/nodes.py`, `tests/unit/test_agent_output_guardrail.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_agent_output_guardrail.py -q`.
 - **Kết quả mong đợi:** Missing/foreign citation, unapproved receipt và answer oversize đi vào failure path xác định.
 - **Cách tự kiểm tra:** Fixture citation ID lạ phải fail dù URL trông hợp lệ; assert API không trả `draft`.
@@ -59,8 +59,8 @@
 - **Tài liệu cần đọc:** Phần tools/security concepts trong [Workflows and agents](./RESOURCES.md).
 - **Bài thực hành:** Tạo `AgentPermission` enum/matrix; test tool unknown, export without citation, write outside allowlist và re-run rejected approval.
 - **Tích hợp project:** `classify`/`request_approval` hỏi cùng policy module; graph không import storage implementation trực tiếp.
-- **File tạo/sửa:** `app/agents/policies.py`, `docs/adr/007-agent-permission-matrix.md`, `tests/unit/test_agent_permissions.py`.
-- **Lệnh chạy:** `uv run pytest tests/unit/test_agent_permissions.py -q`; `uv run ruff check app/agents`.
+- **File tạo/sửa:** `src/ai_assistant_platform/agents/policies.py`, `docs/adr/007-agent-permission-matrix.md`, `tests/unit/test_agent_permissions.py`.
+- **Lệnh chạy:** `uv run pytest tests/unit/test_agent_permissions.py -q`; `uv run ruff check src/ai_assistant_platform/agents`.
 - **Kết quả mong đợi:** Tất cả capability không khai báo bị deny, error return có code ổn định cho client.
 - **Cách tự kiểm tra:** Thêm fake tool trong fixture và xác nhận test đỏ trước khi policy explicit cho phép.
 - **Definition of Done:** Matrix phân biệt read-only retrieval với export side effect và liên kết approval policy Tuần 3.
@@ -76,7 +76,7 @@
 - **Tài liệu cần đọc:** Phần LangSmith integration trong [LangGraph overview](./RESOURCES.md).
 - **Bài thực hành:** Viết `TraceContext`/wrapper không phụ thuộc global env trong test; thêm `LANGSMITH_TRACING` và tên project rỗng vào `.env.example`, không thêm key.
 - **Tích hợp project:** `AgentService` tạo run metadata từ state terminal, gắn `request_id` của API nhưng không gửi message/document raw mặc định.
-- **File tạo/sửa:** `app/observability/langsmith.py`, `app/core/settings.py`, `.env.example`, `tests/unit/test_agent_tracing.py`.
+- **File tạo/sửa:** `src/ai_assistant_platform/observability/langsmith.py`, `src/ai_assistant_platform/core/settings.py`, `.env.example`, `tests/unit/test_agent_tracing.py`.
 - **Lệnh chạy:** `uv run pytest tests/unit/test_agent_tracing.py -q`.
 - **Kết quả mong đợi:** Disabled config là no-op; enabled fixture nhận redacted metadata; log/test không chứa `LANGSMITH_API_KEY`.
 - **Cách tự kiểm tra:** `rg -n "LANGSMITH_API_KEY=.*[^\s]" .env.example` không có giá trị; assert `thread_id` plaintext vắng trong emitted metadata.

@@ -44,7 +44,7 @@ PASS — Tuần 1 dùng RAG read-only/citation từ Month-04 để tạo determi
 
 ### Project progression
 
-PASS — Mọi bài tập mở rộng cùng `ai-assistant-platform`: `app/agents`, API agent, checkpoint service, export adapter, guardrails, observability và `evals/agent`. Không có mini-project độc lập.
+PASS — Mọi bài tập mở rộng cùng `ai-assistant-platform`: `src/ai_assistant_platform/agents`, API agent, checkpoint service, export adapter, guardrails, observability và `evals/agent`. Không có mini-project độc lập.
 
 ### References and internal links
 
