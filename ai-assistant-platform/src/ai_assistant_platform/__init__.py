@@ -1,2 +1,5 @@
-def main() -> None:
-    print("Hello from ai-assistant-platform!")
+from .main import main
+
+
+if __name__ == "__main__":
+    main()
