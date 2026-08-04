@@ -7,7 +7,6 @@ sys.stdout.reconfigure(encoding='utf-8')
 BASE_DIR = Path(__file__).parent.resolve()
 
 def parse_day_section(day_title, section_text, day_global_idx, day_week_idx):
-    lines = section_text.strip().split('\n')
     title_clean = re.sub(r'^Ngày \d+\s*[—\-–]\s*', '', day_title).strip()
     data = {
         "global_day": day_global_idx,
@@ -30,28 +29,10 @@ def parse_day_section(day_title, section_text, day_global_idx, day_week_idx):
         "self_check_questions": []
     }
     
-    current_key = None
-    buffer = []
-    
-    for line in lines:
-        match = re.match(r'^- \*\*(.*?):\*\*\s*(.*)$', line)
-        if match:
-            if current_key and buffer:
-                val = "\n".join(buffer).strip()
-                _assign_key(data, current_key, val)
-                buffer = []
-            key_name = match.group(1).strip()
-            first_val = match.group(2).strip()
-            current_key = key_name
-            if first_val:
-                buffer.append(first_val)
-        else:
-            if current_key:
-                buffer.append(line)
-                
-    if current_key and buffer:
-        val = "\n".join(buffer).strip()
-        _assign_key(data, current_key, val)
+    pattern = r'\*\*([^*:\n]+):\*\*\s*(.*?)(?=\s*\*\*[^*:\n]+:\*\*|\Z)'
+    matches = re.findall(pattern, section_text.strip(), re.DOTALL)
+    for key_name, val in matches:
+        _assign_key(data, key_name.strip(), val.strip())
         
     return data
 
