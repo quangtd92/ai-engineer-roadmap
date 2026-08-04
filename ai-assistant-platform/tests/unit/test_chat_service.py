@@ -1,7 +1,9 @@
+import pytest
+
 from ai_assistant_platform.core.errors import InvalidMessageError
 from ai_assistant_platform.domain.chat import ChatMessage
 from ai_assistant_platform.services.chat_service import build_mock_reply
-import pytest
+
 
 class TestChatService:
     """
@@ -12,17 +14,17 @@ class TestChatService:
     @pytest.fixture
     def valid_chatbox(self):
         """Fixture for a valid chatbox"""
-        return ChatMessage('Admin', 'Hello world!')
+        return ChatMessage("Admin", "Hello world!")
 
     @pytest.fixture
     def empty_chatbox(self):
         """Fixture for an empty chatbox"""
-        return ChatMessage('Admin', '      ')
+        return ChatMessage("Admin", "      ")
 
     @pytest.fixture
     def trimmed_chatbox(self):
         """Fixture for a trimmed chatbox"""
-        return ChatMessage('Admin', '      Hello world!     ')
+        return ChatMessage("Admin", "      Hello world!     ")
 
     def test_valid_check_string(self, valid_chatbox):
         """

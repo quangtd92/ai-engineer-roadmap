@@ -1,11 +1,14 @@
+import json
 import logging
 from pathlib import Path
-import json
 
 logger = logging.getLogger(__name__)
 current_file = Path(__file__)
 
-file_message_path = current_file.parents[3] / "tests" / "fixtures" / "chat_messages.json"
+file_message_path = (
+    current_file.parents[3] / "tests" / "fixtures" / "chat_messages.json"
+)
+
 
 def load_messages():
     """
