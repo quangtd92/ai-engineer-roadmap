@@ -7,4 +7,3 @@ def setup_logging(level: int = logging.INFO) -> None:
         handlers=[logging.FileHandler('logs.log')],
         force=True
     )
-    logging.info('here 2')

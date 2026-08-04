@@ -1,0 +1,602 @@
+[
+  {
+    "id": "msg_001",
+    "role": "system",
+    "content": "You are a helpful AI assistant specializing in Python development and AI platform engineering.",
+    "created_at": "2026-08-01T09:00:00Z"
+  },
+  {
+    "id": "msg_002",
+    "role": "user",
+    "content": "How do I setup structured logging in Python using structlog?",
+    "created_at": "2026-08-01T09:05:00Z"
+  },
+  {
+    "id": "msg_003",
+    "role": "assistant",
+    "content": "To setup structured logging in Python, you can use structlog or stdlib logging with JSONFormatter to output machine-readable log lines.",
+    "created_at": "2026-08-01T09:10:00Z"
+  },
+  {
+    "id": "msg_004",
+    "role": "user",
+    "content": "Can you explain the difference between dataclasses and Pydantic models?",
+    "created_at": "2026-08-01T09:15:00Z"
+  },
+  {
+    "id": "msg_005",
+    "role": "assistant",
+    "content": "Dataclasses are standard library lightweight containers, while Pydantic handles type validation, coercing, and serialization.",
+    "created_at": "2026-08-01T09:20:00Z"
+  },
+  {
+    "id": "msg_006",
+    "role": "user",
+    "content": "What is the best way to handle custom exceptions in FastAPI?",
+    "created_at": "2026-08-01T09:25:00Z"
+  },
+  {
+    "id": "msg_007",
+    "role": "assistant",
+    "content": "You can define a custom ExceptionHandler in FastAPI using `@app.exception_handler(CustomException)` and return JSONResponse.",
+    "created_at": "2026-08-01T09:30:00Z"
+  },
+  {
+    "id": "msg_008",
+    "role": "user",
+    "content": "How to mock a fixture in pytest for async services?",
+    "created_at": "2026-08-01T09:35:00Z"
+  },
+  {
+    "id": "msg_009",
+    "role": "assistant",
+    "content": "Use `@pytest.fixture` with `unittest.mock.AsyncMock` or `pytest-asyncio` plugin to mock async functions.",
+    "created_at": "2026-08-01T09:40:00Z"
+  },
+  {
+    "id": "msg_010",
+    "role": "user",
+    "content": "Explain RAG (Retrieval-Augmented Generation) architecture.",
+    "created_at": "2026-08-01T09:45:00Z"
+  },
+  {
+    "id": "msg_011",
+    "role": "assistant",
+    "content": "RAG combines document retrieval from a vector DB with LLM context window generation to answer ground-truth queries.",
+    "created_at": "2026-08-01T09:50:00Z"
+  },
+  {
+    "id": "msg_012",
+    "role": "user",
+    "content": "How to implement exponential backoff retry mechanism in Python?",
+    "created_at": "2026-08-01T09:55:00Z"
+  },
+  {
+    "id": "msg_013",
+    "role": "assistant",
+    "content": "Use `tenacity` library or write a custom loop with `time.sleep(base * 2 ** attempt)` and jitter.",
+    "created_at": "2026-08-01T10:00:00Z"
+  },
+  {
+    "id": "msg_014",
+    "role": "user",
+    "content": "What are the best practices for prompt engineering with Gemini 1.5 Flash?",
+    "created_at": "2026-08-01T10:05:00Z"
+  },
+  {
+    "id": "msg_015",
+    "role": "assistant",
+    "content": "Provide clear system instructions, few-shot examples, dynamic context delimiters, and explicit output formatting rules.",
+    "created_at": "2026-08-01T10:10:00Z"
+  },
+  {
+    "id": "msg_016",
+    "role": "user",
+    "content": "How do I load JSON fixture data into Python objects?",
+    "created_at": "2026-08-01T10:15:00Z"
+  },
+  {
+    "id": "msg_017",
+    "role": "assistant",
+    "content": "Read file with `json.load(f)` and unpack into dataclass using `ChatMessage(**item)` or `[ChatMessage(**m) for m in data]`.",
+    "created_at": "2026-08-01T10:20:00Z"
+  },
+  {
+    "id": "msg_018",
+    "role": "user",
+    "content": "Can you write a unit test for ChatService in ai-assistant-platform?",
+    "created_at": "2026-08-01T10:25:00Z"
+  },
+  {
+    "id": "msg_019",
+    "role": "assistant",
+    "content": "Here is a test sample using `pytest`: use `pytest.raises(InvalidMessageError)` when content is empty string.",
+    "created_at": "2026-08-01T10:30:00Z"
+  },
+  {
+    "id": "msg_020",
+    "role": "user",
+    "content": "How to manage dependencies with uv in a monorepo structure?",
+    "created_at": "2026-08-01T10:35:00Z"
+  },
+  {
+    "id": "msg_021",
+    "role": "assistant",
+    "content": "Use `uv pip sync` or `uv run pytest` to manage virtualenvs and execute tests ultra fast.",
+    "created_at": "2026-08-01T10:40:00Z"
+  },
+  {
+    "id": "msg_022",
+    "role": "user",
+    "content": "What is vector embedding and how is cosine similarity calculated?",
+    "created_at": "2026-08-01T10:45:00Z"
+  },
+  {
+    "id": "msg_023",
+    "role": "assistant",
+    "content": "Vector embeddings map text into dense floating-point vectors. Cosine similarity measures dot product normalized by magnitude.",
+    "created_at": "2026-08-01T10:50:00Z"
+  },
+  {
+    "id": "msg_024",
+    "role": "user",
+    "content": "How to handle streaming responses with SSE in FastAPI?",
+    "created_at": "2026-08-01T10:55:00Z"
+  },
+  {
+    "id": "msg_025",
+    "role": "assistant",
+    "content": "Use FastAPI's `StreamingResponse` yielding `data: {...}\\n\\n` formatted Server-Sent Events strings.",
+    "created_at": "2026-08-01T11:00:00Z"
+  },
+  {
+    "id": "msg_026",
+    "role": "user",
+    "content": "Explain semantic search vs keyword search in search engines.",
+    "created_at": "2026-08-01T11:05:00Z"
+  },
+  {
+    "id": "msg_027",
+    "role": "assistant",
+    "content": "Semantic search uses dense vector distance, while keyword search uses sparse lexical indexing like BM25.",
+    "created_at": "2026-08-01T11:10:00Z"
+  },
+  {
+    "id": "msg_028",
+    "role": "user",
+    "content": "How do I configure logging formatters to output JSON logs?",
+    "created_at": "2026-08-01T11:15:00Z"
+  },
+  {
+    "id": "msg_029",
+    "role": "assistant",
+    "content": "Configure standard `logging.basicConfig` with a custom `logging.Formatter` emitting `json.dumps(record.__dict__)`.",
+    "created_at": "2026-08-01T11:20:00Z"
+  },
+  {
+    "id": "msg_030",
+    "role": "user",
+    "content": "What is the difference between `@classmethod` and `@staticmethod`?",
+    "created_at": "2026-08-01T11:25:00Z"
+  },
+  {
+    "id": "msg_031",
+    "role": "assistant",
+    "content": "`@classmethod` receives `cls` as first argument, while `@staticmethod` takes no implicit first argument.",
+    "created_at": "2026-08-01T11:30:00Z"
+  },
+  {
+    "id": "msg_032",
+    "role": "user",
+    "content": "How to write async context managers in Python?",
+    "created_at": "2026-08-01T11:35:00Z"
+  },
+  {
+    "id": "msg_033",
+    "role": "assistant",
+    "content": "Implement `__aenter__` and `__aexit__` async methods or use `@contextlib.asynccontextmanager` decorator.",
+    "created_at": "2026-08-01T11:40:00Z"
+  },
+  {
+    "id": "msg_034",
+    "role": "user",
+    "content": "Explain clean architecture patterns in Python microservices.",
+    "created_at": "2026-08-01T11:45:00Z"
+  },
+  {
+    "id": "msg_035",
+    "role": "assistant",
+    "content": "Separate code into domain models, application services, infrastructure adapters, and presentation API interfaces.",
+    "created_at": "2026-08-01T11:50:00Z"
+  },
+  {
+    "id": "msg_036",
+    "role": "user",
+    "content": "How to validate JSON schemas using Pydantic v2?",
+    "created_at": "2026-08-01T11:55:00Z"
+  },
+  {
+    "id": "msg_037",
+    "role": "assistant",
+    "content": "Define a `BaseModel` subclass with annotated type hints, Field constraints, and custom validators.",
+    "created_at": "2026-08-01T12:00:00Z"
+  },
+  {
+    "id": "msg_038",
+    "role": "user",
+    "content": "What is chunking strategy in long-context LLM processing?",
+    "created_at": "2026-08-01T12:05:00Z"
+  },
+  {
+    "id": "msg_039",
+    "role": "assistant",
+    "content": "Fixed chunk sizes with overlap (e.g. 512 tokens with 50 overlap) or semantic paragraph/markdown splitting.",
+    "created_at": "2026-08-01T12:10:00Z"
+  },
+  {
+    "id": "msg_040",
+    "role": "user",
+    "content": "How to implement rate limiting for AI API endpoints?",
+    "created_at": "2026-08-01T12:15:00Z"
+  },
+  {
+    "id": "msg_041",
+    "role": "assistant",
+    "content": "Use sliding window algorithm in Redis or `slowapi` middleware in FastAPI endpoints.",
+    "created_at": "2026-08-01T12:20:00Z"
+  },
+  {
+    "id": "msg_042",
+    "role": "user",
+    "content": "How to handle rate limit 429 errors from OpenAI/Gemini API?",
+    "created_at": "2026-08-01T12:25:00Z"
+  },
+  {
+    "id": "msg_043",
+    "role": "assistant",
+    "content": "Catch HTTP 429 status code and retry after header timestamp using exponential backoff with jitter.",
+    "created_at": "2026-08-01T12:30:00Z"
+  },
+  {
+    "id": "msg_044",
+    "role": "user",
+    "content": "What is LangChain and how does it compare to custom agentic frameworks?",
+    "created_at": "2026-08-01T12:35:00Z"
+  },
+  {
+    "id": "msg_045",
+    "role": "assistant",
+    "content": "LangChain provides pre-built abstractions, whereas custom frameworks offer complete control over agent execution loops.",
+    "created_at": "2026-08-01T12:40:00Z"
+  },
+  {
+    "id": "msg_046",
+    "role": "user",
+    "content": "How to store conversation memory in Redis for multi-turn chats?",
+    "created_at": "2026-08-01T12:45:00Z"
+  },
+  {
+    "id": "msg_047",
+    "role": "assistant",
+    "content": "Store chat messages as JSON array in Redis key `chat:{session_id}` with TTL expiration.",
+    "created_at": "2026-08-01T12:50:00Z"
+  },
+  {
+    "id": "msg_048",
+    "role": "user",
+    "content": "What are function calling and tool execution in LLM agents?",
+    "created_at": "2026-08-01T12:55:00Z"
+  },
+  {
+    "id": "msg_049",
+    "role": "assistant",
+    "content": "Tool execution provides schema definitions in function prompt specs; LLM returns JSON tool arguments to execute.",
+    "created_at": "2026-08-01T13:00:00Z"
+  },
+  {
+    "id": "msg_050",
+    "role": "user",
+    "content": "How to monitor token usage and cost per request in AI apps?",
+    "created_at": "2026-08-01T13:05:00Z"
+  },
+  {
+    "id": "msg_051",
+    "role": "assistant",
+    "content": "Log `usage.prompt_tokens` and `usage.completion_tokens` from API response payloads into metrics DB.",
+    "created_at": "2026-08-01T13:10:00Z"
+  },
+  {
+    "id": "msg_052",
+    "role": "user",
+    "content": "Explain temperature and top_p parameters in LLM generation.",
+    "created_at": "2026-08-01T13:15:00Z"
+  },
+  {
+    "id": "msg_053",
+    "role": "assistant",
+    "content": "Temperature controls sampling randomness; top_p truncates cumulative probability distribution tail.",
+    "created_at": "2026-08-01T13:20:00Z"
+  },
+  {
+    "id": "msg_054",
+    "role": "user",
+    "content": "How to build a semantic router for intent classification?",
+    "created_at": "2026-08-01T13:25:00Z"
+  },
+  {
+    "id": "msg_055",
+    "role": "assistant",
+    "content": "A semantic router compares query embeddings against predefined intent prototype embeddings using distance thresholds.",
+    "created_at": "2026-08-01T13:30:00Z"
+  },
+  {
+    "id": "msg_056",
+    "role": "user",
+    "content": "What is fine-tuning vs dynamic context injection?",
+    "created_at": "2026-08-01T13:35:00Z"
+  },
+  {
+    "id": "msg_057",
+    "role": "assistant",
+    "content": "Fine-tuning alters underlying neural network weights, while dynamic context injection supplies relevant data at runtime.",
+    "created_at": "2026-08-01T13:40:00Z"
+  },
+  {
+    "id": "msg_058",
+    "role": "user",
+    "content": "How to structure pytest fixtures across root and app subdirectories?",
+    "created_at": "2026-08-01T13:45:00Z"
+  },
+  {
+    "id": "msg_059",
+    "role": "assistant",
+    "content": "Place shared fixtures in `conftest.py` at root or feature package levels for reusable hierarchy scoping.",
+    "created_at": "2026-08-01T13:50:00Z"
+  },
+  {
+    "id": "msg_060",
+    "role": "user",
+    "content": "What is the role of middleware in API error handling?",
+    "created_at": "2026-08-01T13:55:00Z"
+  },
+  {
+    "id": "msg_061",
+    "role": "assistant",
+    "content": "Middleware intercepts requests/responses globally to capture unhandled exceptions into structured JSON error models.",
+    "created_at": "2026-08-01T14:00:00Z"
+  },
+  {
+    "id": "msg_062",
+    "role": "user",
+    "content": "How to calculate token counts using tiktoken or model specific tokenizers?",
+    "created_at": "2026-08-01T14:05:00Z"
+  },
+  {
+    "id": "msg_063",
+    "role": "assistant",
+    "content": "Use model-specific tokenizers to calculate accurate token counts before dispatching API requests.",
+    "created_at": "2026-08-01T14:10:00Z"
+  },
+  {
+    "id": "msg_064",
+    "role": "user",
+    "content": "Explain the concept of Agentic Loops and tool calling loops.",
+    "created_at": "2026-08-01T14:15:00Z"
+  },
+  {
+    "id": "msg_065",
+    "role": "assistant",
+    "content": "Agentic loops run execution steps: prompt -> parse tool call -> execute tool -> append result -> repeat until termination.",
+    "created_at": "2026-08-01T14:20:00Z"
+  },
+  {
+    "id": "msg_066",
+    "role": "user",
+    "content": "How to handle fallback models when primary LLM API is down?",
+    "created_at": "2026-08-01T14:25:00Z"
+  },
+  {
+    "id": "msg_067",
+    "role": "assistant",
+    "content": "Configure a fallback chain array `[Gemini, Claude, GPT-4o]` in the LLM service client handler.",
+    "created_at": "2026-08-01T14:30:00Z"
+  },
+  {
+    "id": "msg_068",
+    "role": "user",
+    "content": "What is re-ranking in hybrid search systems?",
+    "created_at": "2026-08-01T14:35:00Z"
+  },
+  {
+    "id": "msg_069",
+    "role": "assistant",
+    "content": "Re-ranking uses a cross-encoder model to re-score top-K vector search results for higher precision.",
+    "created_at": "2026-08-01T14:40:00Z"
+  },
+  {
+    "id": "msg_070",
+    "role": "user",
+    "content": "How to format markdown code blocks in chat UI responses?",
+    "created_at": "2026-08-01T14:45:00Z"
+  },
+  {
+    "id": "msg_071",
+    "role": "assistant",
+    "content": "Use triple backticks with language identifier tags like ```python or ```json for proper syntax highlighting.",
+    "created_at": "2026-08-01T14:50:00Z"
+  },
+  {
+    "id": "msg_072",
+    "role": "user",
+    "content": "What is temperature 0 vs temperature 0.7 for code generation?",
+    "created_at": "2026-08-01T14:55:00Z"
+  },
+  {
+    "id": "msg_073",
+    "role": "assistant",
+    "content": "Temperature 0 produces deterministic outputs suitable for code and math; 0.7 increases response creativity.",
+    "created_at": "2026-08-01T15:00:00Z"
+  },
+  {
+    "id": "msg_074",
+    "role": "user",
+    "content": "How to isolate test databases using pytest fixtures?",
+    "created_at": "2026-08-01T15:05:00Z"
+  },
+  {
+    "id": "msg_075",
+    "role": "assistant",
+    "content": "Use pytest `tmp_path` fixture or dynamic SQLite in-memory databases per test session scope.",
+    "created_at": "2026-08-01T15:10:00Z"
+  },
+  {
+    "id": "msg_076",
+    "role": "user",
+    "content": "Explain Docker containerization for Python AI services.",
+    "created_at": "2026-08-01T15:15:00Z"
+  },
+  {
+    "id": "msg_077",
+    "role": "assistant",
+    "content": "Write multi-stage `Dockerfile` using `uv` to install dependencies into slim base Python images.",
+    "created_at": "2026-08-01T15:20:00Z"
+  },
+  {
+    "id": "msg_078",
+    "role": "user",
+    "content": "How to pass authorization headers in FastAPI request dependencies?",
+    "created_at": "2026-08-01T15:25:00Z"
+  },
+  {
+    "id": "msg_079",
+    "role": "assistant",
+    "content": "Use `pytest.Header(None)` dependency in FastAPI router handlers to extract `Bearer token` authorization.",
+    "created_at": "2026-08-01T15:30:00Z"
+  },
+  {
+    "id": "msg_080",
+    "role": "user",
+    "content": "What is guardrails AI and how to prevent prompt injection?",
+    "created_at": "2026-08-01T15:35:00Z"
+  },
+  {
+    "id": "msg_081",
+    "role": "assistant",
+    "content": "Sanitize prompt inputs, use system prompt boundary markers, and validate model response schema strictly.",
+    "created_at": "2026-08-01T15:40:00Z"
+  },
+  {
+    "id": "msg_082",
+    "role": "user",
+    "content": "Hỗ trợ viết fixture loader cho file chat_messages.json như thế nào?",
+    "created_at": "2026-08-01T15:45:00Z"
+  },
+  {
+    "id": "msg_083",
+    "role": "assistant",
+    "content": "Bạn có thể dùng `json.load()` để đọc file JSON và map vào `ChatMessage(role=..., content=...)`.",
+    "created_at": "2026-08-01T15:50:00Z"
+  },
+  {
+    "id": "msg_084",
+    "role": "user",
+    "content": "Làm thế nào để tạo custom exception InvalidMessageError trong Python?",
+    "created_at": "2026-08-01T15:55:00Z"
+  },
+  {
+    "id": "msg_085",
+    "role": "assistant",
+    "content": "Khai báo `class InvalidMessageError(Exception): pass` trong `core/errors.py`.",
+    "created_at": "2026-08-01T16:00:00Z"
+  },
+  {
+    "id": "msg_086",
+    "role": "user",
+    "content": "Giải thích cách hoạt động của python logging module trong project này.",
+    "created_at": "2026-08-01T16:05:00Z"
+  },
+  {
+    "id": "msg_087",
+    "role": "assistant",
+    "content": "Module logging dùng `logger = logging.getLogger(__name__)` để ghi log theo các lever INFO, WARNING, ERROR.",
+    "created_at": "2026-08-01T16:10:00Z"
+  },
+  {
+    "id": "msg_088",
+    "role": "user",
+    "content": "Cần những test cases nào cho ChatService.build_mock_reply?",
+    "created_at": "2026-08-01T16:15:00Z"
+  },
+  {
+    "id": "msg_089",
+    "role": "assistant",
+    "content": "Cần test trường hợp tin nhắn hợp lệ, tin nhắn rỗng (ném InvalidMessageError), và tin nhắn chỉ có khoảng trắng.",
+    "created_at": "2026-08-01T16:20:00Z"
+  },
+  {
+    "id": "msg_090",
+    "role": "user",
+    "content": "Làm sao để test exception throwing với pytest.raises?",
+    "created_at": "2026-08-01T16:25:00Z"
+  },
+  {
+    "id": "msg_091",
+    "role": "assistant",
+    "content": "Dùng `with pytest.raises(InvalidMessageError): build_mock_reply(ChatMessage(role='user', content=''))`.",
+    "created_at": "2026-08-01T16:30:00Z"
+  },
+  {
+    "id": "msg_092",
+    "role": "user",
+    "content": "How do I setup structured logging in Python using structlog?",
+    "created_at": "2026-08-01T16:35:00Z"
+  },
+  {
+    "id": "msg_093",
+    "role": "assistant",
+    "content": "To setup structured logging in Python, you can use structlog or stdlib logging with JSONFormatter to output machine-readable log lines.",
+    "created_at": "2026-08-01T16:40:00Z"
+  },
+  {
+    "id": "msg_094",
+    "role": "user",
+    "content": "Can you explain the difference between dataclasses and Pydantic models?",
+    "created_at": "2026-08-01T16:45:00Z"
+  },
+  {
+    "id": "msg_095",
+    "role": "assistant",
+    "content": "Dataclasses are standard library lightweight containers, while Pydantic handles type validation, coercing, and serialization.",
+    "created_at": "2026-08-01T16:50:00Z"
+  },
+  {
+    "id": "msg_096",
+    "role": "user",
+    "content": "What is the best way to handle custom exceptions in FastAPI?",
+    "created_at": "2026-08-01T16:55:00Z"
+  },
+  {
+    "id": "msg_097",
+    "role": "assistant",
+    "content": "You can define a custom ExceptionHandler in FastAPI using `@app.exception_handler(CustomException)` and return JSONResponse.",
+    "created_at": "2026-08-01T17:00:00Z"
+  },
+  {
+    "id": "msg_098",
+    "role": "user",
+    "content": "How to mock a fixture in pytest for async services?",
+    "created_at": "2026-08-01T17:05:00Z"
+  },
+  {
+    "id": "msg_099",
+    "role": "assistant",
+    "content": "Use `@pytest.fixture` with `unittest.mock.AsyncMock` or `pytest-asyncio` plugin to mock async functions.",
+    "created_at": "2026-08-01T17:10:00Z"
+  },
+  {
+    "id": "msg_100",
+    "role": "user",
+    "content": "Explain RAG (Retrieval-Augmented Generation) architecture.",
+    "created_at": "2026-08-01T17:15:00Z"
+  }
+]
