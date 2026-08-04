@@ -516,19 +516,12 @@
       const targetIdx = keys.indexOf(targetKey);
       if (targetIdx <= 0) return true; // Day 1 unlocked
 
-      let lastCheckedIdx = -1;
-      for (let i = keys.length - 1; i >= 0; i--) {
-        if (state.completed[keys[i]]) {
-          lastCheckedIdx = i;
-          break;
-        }
+      if (state.completed[targetKey] || isDaySatisfied(targetKey)) {
+        return true;
       }
 
-      if (lastCheckedIdx === -1) {
-        return targetIdx === 0;
-      }
-      const prevSatisfied = isDaySatisfied(keys[lastCheckedIdx]);
-      return targetIdx === lastCheckedIdx || (targetIdx === lastCheckedIdx + 1 && prevSatisfied);
+      const prevKey = keys[targetIdx - 1];
+      return isDaySatisfied(prevKey);
     }
 
     async function init() {

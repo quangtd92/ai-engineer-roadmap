@@ -169,13 +169,6 @@
           if (cb) cb.checked = true;
         }
       });
-      let lastCheckedIdx = -1;
-      for (let i = keys.length - 1; i >= 0; i--) {
-        if (state.completed[keys[i]]) {
-          lastCheckedIdx = i;
-          break;
-        }
-      }
       keys.forEach((key, idx) => {
         const label = document.querySelector(`input[type="checkbox"][data-id="${key}"]`)?.closest('.day');
         if (!label) return;
@@ -189,11 +182,11 @@
         }
 
         let isUnlocked = false;
-        if (lastCheckedIdx === -1) {
-          if (idx === 0) isUnlocked = true;
+        if (idx === 0 || state.completed[key] || isDaySatisfied(key)) {
+          isUnlocked = true;
         } else {
-          const prevSatisfied = isDaySatisfied(keys[lastCheckedIdx]);
-          if (idx === lastCheckedIdx || (idx === lastCheckedIdx + 1 && prevSatisfied)) {
+          const prevKey = keys[idx - 1];
+          if (isDaySatisfied(prevKey)) {
             isUnlocked = true;
           }
         }

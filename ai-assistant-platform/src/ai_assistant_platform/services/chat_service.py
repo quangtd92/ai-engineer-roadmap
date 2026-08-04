@@ -1,7 +1,10 @@
 from ai_assistant_platform.domain.chat import ChatMessage
+from ai_assistant_platform.core.errors import InvalidMessageError
+import logging
+
+logger = logging.getLogger(__name__)
 
 def build_mock_reply(message: ChatMessage) -> str:
-    print("build_mock_reply", message)
     """
     Build a mock reply to a message.
 
@@ -11,4 +14,12 @@ def build_mock_reply(message: ChatMessage) -> str:
     Returns:
         str: The mock reply.
     """
-    return f"Mock reply to: {message.content.strip()}"
+
+    logger.info("start 111")
+    content = message.content.strip()
+    if not content:
+        logger.warning("Attempted to process empty message content")
+        raise InvalidMessageError("Content has to have value, not empty string")
+    logger.info(f"Length Content: {len(content)}")
+    return f"Mock reply to: {content}"
+

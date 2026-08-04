@@ -1,8 +1,11 @@
 """Application entry point for the AI assistant platform."""
 
+from ai_assistant_platform.core.logging import setup_logging
+
 
 def main() -> None:
-    """Print a readiness message for the initial project scaffold."""
+    """Initialize logging and start the AI assistant platform."""
+    setup_logging()
     print("ai-assistant-platform ready")
 
 
