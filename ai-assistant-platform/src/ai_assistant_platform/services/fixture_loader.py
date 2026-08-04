@@ -8,6 +8,12 @@ current_file = Path(__file__)
 file_message_path = current_file.parents[3] / "tests" / "fixtures" / "chat_messages.json"
 
 def load_messages():
+    """
+    Load chat messages from JSON file
+
+    Returns:
+        list: List of chat messages
+    """
     try:
         with open(file_message_path, "r", encoding="utf-8") as file:
             return json.load(file)

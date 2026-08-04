@@ -15,7 +15,6 @@ def build_mock_reply(message: ChatMessage) -> str:
         str: The mock reply.
     """
 
-    logger.info("start 111")
     content = message.content.strip()
     if not content:
         logger.warning("Attempted to process empty message content")
