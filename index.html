@@ -449,7 +449,7 @@
     let selectedDayIdx = 1; // 1 to 7 within selected week
 
     const storageKey = 'ai-engineer-roadmap-checklist-v2';
-    let state = { completed: {}, outcomes: {}, completedAt: {}, reasons: {} };
+    let state = { completed: {}, outcomes: {}, completedAt: {}, reasons: {}, lastVisited: null };
 
     function id(month, week, day) { return `m${month}-w${week}-d${day}`; }
 
@@ -462,16 +462,36 @@
             completed: data.completed || {},
             outcomes: data.outcomes || {},
             completedAt: data.completedAt || {},
-            reasons: data.reasons || {}
+            reasons: data.reasons || {},
+            lastVisited: data.lastVisited || null
           };
           localStorage.setItem(storageKey, JSON.stringify(state));
+          applyLastVisited();
           return;
         }
       } catch (e) {}
       const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
-      state = saved.completed ? saved : { completed: {}, outcomes: {}, completedAt: {}, reasons: {} };
+      state = saved.completed ? saved : { completed: {}, outcomes: {}, completedAt: {}, reasons: {}, lastVisited: null };
       if (!state.completedAt) state.completedAt = {};
       if (!state.reasons) state.reasons = {};
+      applyLastVisited();
+    }
+
+    function applyLastVisited() {
+      if (state.lastVisited && state.lastVisited.month && state.lastVisited.week && state.lastVisited.day) {
+        selectedMonthIdx = state.lastVisited.month;
+        selectedWeekIdx = state.lastVisited.week;
+        selectedDayIdx = state.lastVisited.day;
+      }
+    }
+
+    function saveLastVisited() {
+      state.lastVisited = {
+        month: selectedMonthIdx,
+        week: selectedWeekIdx,
+        day: selectedDayIdx
+      };
+      saveState();
     }
 
     function saveState() {
@@ -569,6 +589,7 @@
           selectedMonthIdx = m.month_num;
           selectedWeekIdx = 1;
           selectedDayIdx = 1;
+          saveLastVisited();
           renderApp();
         };
         div.innerHTML = `
@@ -591,6 +612,7 @@
         btn.onclick = () => {
           selectedWeekIdx = w.week_num;
           selectedDayIdx = 1;
+          saveLastVisited();
           renderApp();
         };
         btn.textContent = `Tuần ${w.week_num}`;
@@ -647,6 +669,7 @@
         card.style.opacity = unlocked ? '1' : '0.55';
         card.onclick = () => {
           selectedDayIdx = d.week_day;
+          saveLastVisited();
           renderDaysList();
           renderDayDetail();
         };
@@ -924,6 +947,7 @@
                 selectedMonthIdx = m.month_num;
                 selectedWeekIdx = w.week_num;
                 selectedDayIdx = d.week_day;
+                saveLastVisited();
                 closeSearch();
                 renderApp();
               };
