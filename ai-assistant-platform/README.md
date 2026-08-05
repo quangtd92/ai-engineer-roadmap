@@ -14,5 +14,5 @@ uv run pytest
 
 ```powershell
 uv run ruff check --fix
-uv run ruff format --check
+uv run ruff format
 ```

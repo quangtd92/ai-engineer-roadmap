@@ -7,7 +7,10 @@ authors = [
     { name = "tdquang", email = "taquang22@gmail.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "fastapi[standard]>=0.141.1",
+    "uvicorn[standard]>=0.52.1",
+]
 
 [project.scripts]
 ai-assistant-platform = "ai_assistant_platform.main:main"
