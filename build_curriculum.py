@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).parent.resolve()
 
 def parse_day_section(day_title, section_text, day_global_idx, day_week_idx):
     title_clean = re.sub(r'^Ngày \d+\s*[—\-–]\s*', '', day_title).strip()
+    title_clean = re.sub(r'(\s*-\s*)+$', '', title_clean).strip()
     data = {
         "global_day": day_global_idx,
         "week_day": day_week_idx,
@@ -32,41 +33,51 @@ def parse_day_section(day_title, section_text, day_global_idx, day_week_idx):
     pattern = r'\*\*([^*:\n]+):\*\*\s*(.*?)(?=\s*\*\*[^*:\n]+:\*\*|\Z)'
     matches = re.findall(pattern, section_text.strip(), re.DOTALL)
     for key_name, val in matches:
-        _assign_key(data, key_name.strip(), val.strip())
+        val_clean = re.sub(r'(\s*-\s*)+$', '', val).strip()
+        _assign_key(data, key_name.strip(), val_clean)
         
     return data
 
 def _assign_key(data, key_name, val):
     k = key_name.lower()
-    if "mục tiêu cụ thể" in k:
+    if "mục tiêu" in k:
         data["specific_goal"] = val
     elif "kết quả cần đạt" in k:
         data["expected_outcome"] = val
-    elif "phân bổ thời gian" in k:
+    elif "thời gian" in k or "thời lượng" in k:
         data["time_allocation"] = val
     elif "lý thuyết" in k:
         data["theory_content"] = val
     elif "tài liệu" in k:
         data["reading_docs"] = val
-    elif "bài thực hành" in k:
+    elif "thực hành" in k:
         data["practice_task"] = val
-    elif "thay đổi" in k:
+    elif "thay đổi" in k or "tích hợp" in k:
         data["project_changes"] = val
-    elif "file dự kiến" in k:
-        data["expected_files"] = val
-    elif "lệnh chạy" in k:
-        data["commands"] = val
+    elif "file" in k:
+        files_clean = val.strip().replace('`', '').strip()
+        files_clean = re.sub(r'(\s*-\s*)+$', '', files_clean).strip()
+        files_clean = re.sub(r'\.$', '', files_clean).strip()
+        data["expected_files"] = files_clean
+    elif "lệnh" in k:
+        cmd_clean = val.strip().replace('`', '').strip()
+        cmd_clean = re.sub(r'(\s*-\s*)+$', '', cmd_clean).strip()
+        cmd_clean = re.sub(r'\.$', '', cmd_clean).strip()
+        data["commands"] = cmd_clean
     elif "kết quả mong đợi" in k:
         data["expected_result"] = val
+    elif "câu hỏi" in k:
+        qs = [re.sub(r'(\s*-\s*)+$', '', re.sub(r'^[\s\-]+', '', q)).strip() for q in val.split('\n') if q.strip()]
+        data["self_check_questions"] = qs
     elif "kiểm tra" in k:
         data["self_check_method"] = val
-    elif "definition of done" in k:
+    elif "definition of done" in k or k == "dod":
         data["dod"] = val
     elif "commit" in k:
-        data["commit_message"] = val
-    elif "câu hỏi" in k:
-        qs = [q.strip('- ').strip() for q in val.split('\n') if q.strip()]
-        data["self_check_questions"] = qs
+        cmt_clean = val.strip().replace('`', '').strip()
+        cmt_clean = re.sub(r'(\s*-\s*)+$', '', cmt_clean).strip()
+        cmt_clean = re.sub(r'\.$', '', cmt_clean).strip()
+        data["commit_message"] = cmt_clean
 
 def parse_resources(res_md):
     weeks_resources = {}
@@ -198,7 +209,7 @@ def build_all():
 
             pit_m = re.search(r'## Những lỗi thường gặp\s*\n\n(.*?)(?=\n##|\Z)', w_content, re.DOTALL)
             if pit_m:
-                w_data["pitfalls"] = [p.strip('- ').strip() for p in pit_m.group(1).strip().split('\n') if p.strip()]
+                w_data["pitfalls"] = [re.sub(r'(\s*-\s*)+$', '', p.strip('- ')).strip() for p in pit_m.group(1).strip().split('\n') if p.strip()]
 
             # Parse days
             day_parts = re.split(r'### (Ngày \d+.*)', w_content)

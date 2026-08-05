@@ -306,6 +306,15 @@
     .info-card li { margin-bottom: 6px; }
 
     /* Code block & Terminal */
+    code, .inline-code {
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85em;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
     .code-block {
       background: var(--code-bg);
       border: 1px solid var(--border);
@@ -686,7 +695,12 @@
 
     function renderMarkdownLinks(text) {
       if (!text) return '';
-      let html = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, title, url) => {
+      let str = text.replace(/(\s*-\s*)+$/, '').trim();
+
+      // Convert inline code `code` to <code class="inline-code">code</code>
+      str = str.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+
+      let html = str.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, title, url) => {
         let href = url;
         if (url.includes('RESOURCES.md')) {
           href = `Month-0${selectedMonthIdx}/RESOURCES.md`;
@@ -825,11 +839,11 @@
           <div class="two-col-grid">
             <div>
               <h5 style="margin: 0 0 6px; color: var(--text-muted); font-size: 0.85rem;">📁 FILE CẦN TẠO / SỬA:</h5>
-              <div class="code-block" style="color: #a5f3fc;">${day.expected_files || 'Theo hướng dẫn trong bài học.'}</div>
+              <div class="code-block" style="color: #a5f3fc;">${(day.expected_files || 'Theo hướng dẫn trong bài học.').replace(/`/g, '').replace(/(\s*-\s*)+$/, '').replace(/\.$/, '').trim()}</div>
             </div>
             <div>
               <h5 style="margin: 0 0 6px; color: var(--text-muted); font-size: 0.85rem;">⚡ LỆNH TERMINAL CHẠY:</h5>
-              <div class="code-block" style="color: #fef08a;">${day.commands || 'uv run pytest'}</div>
+              <div class="code-block" style="color: #fef08a;">${(day.commands || 'uv run pytest').replace(/`/g, '').replace(/(\s*-\s*)+$/, '').replace(/\.$/, '').trim()}</div>
             </div>
           </div>
         </div>
@@ -846,7 +860,7 @@
             <div class="info-card">
               <h4>✔️ Definition of Done (DoD)</h4>
               <p>${renderMarkdownLinks(day.dod || 'Tất cả các test trôi qua và code tuân thủ lint rule.')}</p>
-              ${day.commit_message ? `<div style="margin-top: 10px; font-family: monospace; font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; color: #86efac;">git commit -m "${day.commit_message}"</div>` : ''}
+              ${day.commit_message ? `<div style="margin-top: 10px; font-family: monospace; font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; color: #86efac;">git commit -m "${day.commit_message.replace(/^[`\s\-]+|[`.\s\-]+$/g, '').trim()}"</div>` : ''}
             </div>
           </div>
         </div>
