@@ -3,11 +3,13 @@
 import uvicorn
 from fastapi import FastAPI
 
+from ai_assistant_platform.api.routes.chat import router as chat_router
 from ai_assistant_platform.api.routes.health import router as health_router
 from ai_assistant_platform.core.logging import setup_logging
 
 app = FastAPI()
 app.include_router(health_router)
+app.include_router(chat_router)
 
 
 def main() -> None:

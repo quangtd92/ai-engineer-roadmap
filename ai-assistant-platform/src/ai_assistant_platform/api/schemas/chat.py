@@ -3,10 +3,7 @@ from pydantic import BaseModel, Field, field_validator
 
 class ChatRequest(BaseModel):
     content: str = Field(
-        ..., 
-        min_length=1,
-        max_length=1000,
-        description="Message content"
+        ..., min_length=1, max_length=1000, description="Message content"
     )
 
     @field_validator("content")
@@ -16,6 +13,7 @@ class ChatRequest(BaseModel):
         if not v:
             raise ValueError("Content cannot be empty")
         return v
+
 
 class ChatResponse(BaseModel):
     reply: str
