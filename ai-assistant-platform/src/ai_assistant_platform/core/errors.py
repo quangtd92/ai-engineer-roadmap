@@ -4,3 +4,7 @@ class PlatformError(Exception):
 
 class InvalidMessageError(PlatformError):
     pass
+
+
+class ValidationError(PlatformError):
+    pass
