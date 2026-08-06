@@ -74,7 +74,10 @@
               "dod": "Lệnh chạy lại được từ thư mục project mà không kích hoạt virtualenv thủ công.",
               "commit_message": "chore(project): initialize ai assistant platform with uv",
               "self_check_questions": [
-                "Vì sao không nên dùng `pip install` ngoài môi trường project?"
+                {
+                  "question": "Vì sao không nên dùng `pip install` ngoài môi trường project?",
+                  "answer": "Cài đặt toàn cục (global) gây xung đột phiên bản (dependency collision) giữa các dự án khác nhau và khó quản lý danh sách thư viện chuẩn xác cho dự án hiện tại. Dùng virtual environment (`uv` / `venv`) giúp cô lập môi trường và đảm bảo tính nhất quán (reproducibility)."
+                }
               ]
             },
             {
@@ -96,7 +99,10 @@
               "dod": "Hàm có type hint, docstring và không đọc input từ `input()`.",
               "commit_message": "feat(chat): add typed mock reply service",
               "self_check_questions": [
-                "Type hint có tự chặn `None` khi chạy Python không?"
+                {
+                  "question": "Type hint có tự chặn `None` khi chạy Python không?",
+                  "answer": "Không. Type hint trong Python chỉ có giá trị phân tích tĩnh (static analysis) qua mypy/pyright và hỗ trợ IDE gợi ý code. Ở runtime, CPython hoàn toàn bỏ qua type hint và không tự văng exception khi truyền `None` trừ khi được validate chủ động."
+                }
               ]
             },
             {
@@ -118,7 +124,10 @@
               "dod": "Service vẫn trả reply với instance `ChatMessage`.",
               "commit_message": "feat(chat): add immutable chat message domain model",
               "self_check_questions": [
-                "Vì sao không dùng Pydantic model này trước khi có HTTP boundary?"
+                {
+                  "question": "Vì sao không dùng Pydantic model này trước khi có HTTP boundary?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -140,7 +149,10 @@
               "dod": "Không dùng `ValueError` chung chung cho message rỗng.",
               "commit_message": "feat(chat): validate empty messages with domain error",
               "self_check_questions": [
-                "Khi nào log `warning` phù hợp hơn `error`?"
+                {
+                  "question": "Khi nào log `warning` phù hợp hơn `error`?",
+                  "answer": "Dùng `WARNING` khi xảy ra tình huống bất thường hoặc tiệm cận giới hạn (như fallback thành công, retry request, rate limit sắp vượt) nhưng hệ thống vẫn tiếp tục phục vụ được. Dùng `ERROR` khi một thao tác hoặc request thất bại hoàn toàn mà không thể tự khắc phục."
+                }
               ]
             },
             {
@@ -162,7 +174,10 @@
               "dod": "File mở rõ `encoding='utf-8'` và lỗi JSON được nêu tên file.",
               "commit_message": "test(fixtures): add chat message json fixture",
               "self_check_questions": [
-                "Vì sao không ghép path bằng chuỗi `../`?"
+                {
+                  "question": "Vì sao không ghép path bằng chuỗi `../`?",
+                  "answer": "Ghép đường dẫn bằng chuỗi thủ công dễ gây lỗi cross-platform (Windows `\\` vs Linux `/`) và nguy cơ lỗ hổng Path Traversal. Nên sử dụng module `pathlib.Path` để xử lý đường dẫn an toàn và chuẩn hóa."
+                }
               ]
             },
             {
@@ -184,7 +199,10 @@
               "dod": "Test không phụ thuộc network, thời gian chạy dưới vài giây.",
               "commit_message": "test(chat): cover mock reply service behavior",
               "self_check_questions": [
-                "Vì sao test không nên kiểm tra log text nguyên văn?"
+                {
+                  "question": "Vì sao test không nên kiểm tra log text nguyên văn?",
+                  "answer": "Kiểm tra câu từ log nguyên văn khiến test trở nên giòn (brittle) và dễ bị hỏng mỗi khi thay đổi nội dung hiển thị nhỏ. Nên kiểm tra trạng thái trả về, exception văng ra, hoặc cấu trúc thông số log (structured log fields)."
+                }
               ]
             },
             {
@@ -206,7 +224,10 @@
               "dod": "README nêu được lệnh test và lint.",
               "commit_message": "chore(quality): add ruff and review week one",
               "self_check_questions": [
-                "Refactor nào nên để lại sang tuần 2?"
+                {
+                  "question": "Refactor nào nên để lại sang tuần 2?",
+                  "answer": "Các refactor liên quan tới HTTP protocol, Pydantic request/response schema, routing framework (FastAPI) và dependency injection nên để lại tuần 2 khi đã có HTTP boundary rõ ràng."
+                }
               ]
             }
           ]
@@ -278,7 +299,10 @@
               "dod": "Router health được include từ `main.py`.",
               "commit_message": "feat(api): add FastAPI health endpoint",
               "self_check_questions": [
-                "Vì sao health không gọi dependency ngoài mạng?"
+                {
+                  "question": "Vì sao health không gọi dependency ngoài mạng?",
+                  "answer": "Endpoint `/health` (liveness probe) dùng để kiểm tra bản thân process app có đang sống hay không. Nếu gọi dịch vụ ngoài (Database, API ngoài) gây chậm hoặc timeout, Kubernetes/Load Balancer sẽ đánh dấu app chết và restart vòng lặp liên tục (crash loop)."
+                }
               ]
             },
             {
@@ -300,7 +324,10 @@
               "dod": "Không trả domain dataclass trực tiếp ra HTTP.",
               "commit_message": "feat(chat): add Pydantic request and response schemas",
               "self_check_questions": [
-                "HTTP 422 khác gì domain error của tuần 1?"
+                {
+                  "question": "HTTP 422 khác gì domain error của tuần 1?",
+                  "answer": "HTTP 422 (Unprocessable Entity) là lỗi ở tầng HTTP boundary do Pydantic chặn khi dữ liệu đầu vào sai kiểu/dạng. Domain error là lỗi nghiệp vụ xảy ra ở tầng Service sau khi dữ liệu đã hợp lệ về mặt cú pháp."
+                }
               ]
             },
             {
@@ -322,7 +349,10 @@
               "dod": "Route chỉ điều phối schema và service.",
               "commit_message": "feat(chat): expose mock reply through API",
               "self_check_questions": [
-                "Vì sao không đặt business logic trong router?"
+                {
+                  "question": "Vì sao không đặt business logic trong router?",
+                  "answer": "Router đóng vai trò Controller/Adapter chỉ làm nhiệm vụ parse HTTP request, validate schema và trả response. Đặt business logic trong router khiến code khó tái sử dụng (ví dụ khi gọi từ CLI hay Worker), khó viết Unit Test độc lập và vi phạm Single Responsibility Principle."
+                }
               ]
             },
             {
@@ -344,7 +374,10 @@
               "dod": "Biến bắt buộc có default an toàn hoặc lỗi mô tả rõ.",
               "commit_message": "feat(config): load application settings from environment",
               "self_check_questions": [
-                "Vì sao `.env.example` không chứa giá trị thật?"
+                {
+                  "question": "Vì sao `.env.example` không chứa giá trị thật?",
+                  "answer": "File `.env.example` được commit lên Git làm mẫu cho nhóm phát triển. Không chứa credential/secret thật để tránh rò rỉ thông tin bảo mật nghiêm trọng (như API key, DB password)."
+                }
               ]
             },
             {
@@ -366,7 +399,10 @@
               "dod": "Route không gọi trực tiếp constructor Settings.",
               "commit_message": "refactor(api): inject settings into health route",
               "self_check_questions": [
-                "Dependency injection hỗ trợ test thế nào?"
+                {
+                  "question": "Dependency injection hỗ trợ test thế nào?",
+                  "answer": "Dependency Injection (DI) cho phép thay thế (override) các dịch vụ phụ thuộc (như DB client, External Service) bằng các mock object hoặc fake implementation trong test environment mà không cần sửa code gốc."
+                }
               ]
             },
             {
@@ -388,7 +424,10 @@
               "dod": "Chỉ domain error đã định nghĩa mới được map 400.",
               "commit_message": "feat(api): add chat domain error handler",
               "self_check_questions": [
-                "Khi nào nên trả 400 thay vì 422?"
+                {
+                  "question": "Khi nào nên trả 400 thay vì 422?",
+                  "answer": "Trả 422 khi dữ liệu truyền lên sai format/schema syntax (Pydantic tự bắt). Trả 400 (Bad Request) khi request đúng format nhưng vi phạm điều kiện logic của endpoint (ví dụ: tham số không hợp lệ theo ngữ cảnh nghiệp vụ)."
+                }
               ]
             },
             {
@@ -410,7 +449,10 @@
               "dod": "Không còn endpoint thử nghiệm không có schema.",
               "commit_message": "docs(api): review OpenAPI contract for week two",
               "self_check_questions": [
-                "Client có thể suy ra gì từ `response_model`?"
+                {
+                  "question": "Client có thể suy ra gì từ `response_model`?",
+                  "answer": "Client có thể biết chính xác cấu trúc dữ liệu JSON trả về (OpenAPI schema), các trường bắt buộc, kiểu dữ liệu và mô hình lỗi, giúp sinh mã client (SDK) tự động chính xác."
+                }
               ]
             }
           ]
@@ -482,7 +524,10 @@
               "dod": "Có giải thích ngắn trong code vì route async.",
               "commit_message": "feat(api): add async status endpoint",
               "self_check_questions": [
-                "Async có làm PyTorch inference CPU nhanh hơn không?"
+                {
+                  "question": "Async có làm PyTorch inference CPU nhanh hơn không?",
+                  "answer": "Không. Async trong Python chỉ giải quyết nghẽn I/O (I/O bound). Tính toán tensor trên CPU là CPU-bound, chạy async vẫn chiếm dụng GIL và không làm phép tính toán học nhanh hơn."
+                }
               ]
             },
             {
@@ -504,7 +549,10 @@
               "dod": "Không tạo `AsyncClient` mới trong mỗi lần retry.",
               "commit_message": "feat(status): add timeout-aware async HTTP client",
               "self_check_questions": [
-                "Vì sao timeout mặc định không đủ rõ cho production?"
+                {
+                  "question": "Vì sao timeout mặc định không đủ rõ cho production?",
+                  "answer": "Timeout mặc định thường rất dài hoặc vô hạn. Trong môi trường production, request treo lâu sẽ làm cạn kệt thread pool/connection pool, gây treo dây chuyền (cascading failure)."
+                }
               ]
             },
             {
@@ -526,7 +574,10 @@
               "dod": "ID không chứa payload hoặc secret.",
               "commit_message": "feat(observability): add request ID middleware",
               "self_check_questions": [
-                "Request ID khác trace ID thế nào?"
+                {
+                  "question": "Request ID khác trace ID thế nào?",
+                  "answer": "Request ID nhận diện duy nhất một HTTP request từ client gửi tới server. Trace ID theo dõi luồng đi của request qua nhiều microservices khác nhau trong hạ tầng (Distributed Tracing)."
+                }
               ]
             },
             {
@@ -548,7 +599,10 @@
               "dod": "Dockerfile không hard-code secret.",
               "commit_message": "chore(docker): add uv-based application image",
               "self_check_questions": [
-                "Vì sao copy source trước dependency làm build chậm hơn?"
+                {
+                  "question": "Vì sao copy source trước dependency làm build chậm hơn?",
+                  "answer": "Trong Docker, nếu copy source code trước thì mỗi lần sửa code, Docker Layer cache cho bước cài dependency (`uv sync` / `pip install`) sẽ bị invalidated, khiến Docker phải tải và cài lại toàn bộ thư viện từ đầu."
+                }
               ]
             },
             {
@@ -570,7 +624,10 @@
               "dod": "Không thêm PostgreSQL, Redis hay Qdrant trước tháng tương ứng.",
               "commit_message": "chore(docker): add local API compose service",
               "self_check_questions": [
-                "Khi nào `--build` là cần thiết?"
+                {
+                  "question": "Khi nào `--build` là cần thiết?",
+                  "answer": "Cần dùng `docker compose up --build` khi có sự thay đổi trong Dockerfile, thêm/sửa dependency trong `pyproject.toml`, hoặc cập nhật file cấu hình môi trường build."
+                }
               ]
             },
             {
@@ -592,7 +649,10 @@
               "dod": "Không dùng sleep hoặc network thật trong test.",
               "commit_message": "test(api): add integration coverage for core routes",
               "self_check_questions": [
-                "Integration test nào không thay thế được unit test?"
+                {
+                  "question": "Integration test nào không thay thế được unit test?",
+                  "answer": "Integration test kiểm tra sự tương tác giữa các module nhưng chạy chậm và khó bao phủ mọi edge cases/branch logic chi tiết. Unit test vẫn bắt buộc để test nhanh từng hàm và logic biên phức tạp."
+                }
               ]
             },
             {
@@ -614,7 +674,10 @@
               "dod": "README không hứa hẹn LLM/RAG chưa tồn tại.",
               "commit_message": "docs(project): document local and Docker workflows",
               "self_check_questions": [
-                "Lỗi nào cần được ghi vào troubleshooting?"
+                {
+                  "question": "Lỗi nào cần được ghi vào troubleshooting?",
+                  "answer": "Các lỗi hệ thống lặp lại, lỗi môi trường Docker, thiếu biến môi trường, xung đột port hoặc lỗi kết nối dịch vụ ngoài cần ghi rõ nguyên nhân và bước khắc phục trong Troubleshooting guide."
+                }
               ]
             }
           ]
@@ -692,7 +755,10 @@
               "dod": "Không cần GPU để hoàn thành.",
               "commit_message": "feat(torch): add tensor basics exploration",
               "self_check_questions": [
-                "Vì sao batch dimension hữu ích cho API inference?"
+                {
+                  "question": "Vì sao batch dimension hữu ích cho API inference?",
+                  "answer": "Batch dimension cho phép xử lý đồng thời nhiều mẫu dữ liệu trong một phép toán matrix multiplication duy nhất trên GPU/CPU, tối ưu hóa băng thông bộ nhớ và tăng năng suất (throughput)."
+                }
               ]
             },
             {
@@ -714,7 +780,10 @@
               "dod": "Không tự động tải model hoặc dùng GPU bắt buộc.",
               "commit_message": "feat(torch): demonstrate eval mode inference",
               "self_check_questions": [
-                "`eval()` tự tắt gradient không?"
+                {
+                  "question": "`eval()` tự tắt gradient không?",
+                  "answer": "Không. `model.eval()` chỉ chuyển các layer như Dropout, BatchNorm sang chế độ inference. Để tắt tính toán gradient tiết kiệm bộ nhớ, phải bọc code trong khối `torch.no_grad()`."
+                }
               ]
             },
             {
@@ -736,7 +805,10 @@
               "dod": "Service gọi `model.eval()` và `torch.no_grad()`.",
               "commit_message": "feat(inference): add deterministic torch scoring service",
               "self_check_questions": [
-                "Vì sao seed giúp test toy model?"
+                {
+                  "question": "Vì sao seed giúp test toy model?",
+                  "answer": "Thiết lập random seed giúp cố định trọng số khởi tạo ngẫu nhiên của mô hình và dữ liệu, đảm bảo kết quả đầu ra deterministic (có thể tái lặp) trong các bài unit test."
+                }
               ]
             },
             {
@@ -758,7 +830,10 @@
               "dod": "Route không load model mỗi request.",
               "commit_message": "feat(inference): expose torch score endpoint",
               "self_check_questions": [
-                "Vì sao model phải được giữ trong service lifecycle?"
+                {
+                  "question": "Vì sao model phải được giữ trong service lifecycle?",
+                  "answer": "Nạp model PyTorch/LLM từ đĩa tốn nhiều thời gian và RAM/VRAM. Giữ mô hình trong lifecycle (singleton) giúp tái sử dụng cho mọi request mà không phải load lại model mỗi lần có HTTP request."
+                }
               ]
             },
             {
@@ -780,7 +855,10 @@
               "dod": "Không viết training loop, optimizer hay loss.",
               "commit_message": "docs(torch): add dataloader handoff notes",
               "self_check_questions": [
-                "Vì sao batch cuối có thể nhỏ hơn batch size?"
+                {
+                  "question": "Vì sao batch cuối có thể nhỏ hơn batch size?",
+                  "answer": "Khi tổng số phần tử dữ liệu không chia hết cho `batch_size`, batch cuối cùng sẽ chứa số phần tử còn dư lại (nhỏ hơn `batch_size`)."
+                }
               ]
             },
             {
@@ -802,7 +880,10 @@
               "dod": "Không cần API key, GPU hay network ngoài để demo.",
               "commit_message": "chore(demo): verify containerized chat and inference APIs",
               "self_check_questions": [
-                "Smoke test khác integration test ở đâu?"
+                {
+                  "question": "Smoke test khác integration test ở đâu?",
+                  "answer": "Smoke test là tập hợp các bài test cực nhanh để kiểm tra các chức năng sống còn cơ bản nhất của app (ví dụ app khởi động thành công, endpoint `/health` trả 200) trước khi chạy toàn bộ suite test sâu hơn."
+                }
               ]
             },
             {
@@ -824,7 +905,10 @@
               "dod": "Không có TODO, secret hoặc tuyên bố toy score là model AI hoàn chỉnh.",
               "commit_message": "docs(month-01): record inference baseline and month two handoff",
               "self_check_questions": [
-                "Tháng 2 cần data contract nào từ endpoint hiện tại?"
+                {
+                  "question": "Tháng 2 cần data contract nào từ endpoint hiện tại?",
+                  "answer": "Cần contract rõ ràng về format danh sách văn bản đầu vào, định dạng vector embedding đầu ra, độ dài chuỗi tối đa và các metadata đi kèm."
+                }
               ]
             }
           ]
@@ -870,7 +954,10 @@
               "dod": "Dataset không chứa thông tin nhạy cảm và script đọc được từ relative path.",
               "commit_message": "data(intent): add raw intent samples",
               "self_check_questions": [
-                "Label `intent` khác text output ở đâu? Vì sao dataset nhỏ vẫn cần schema? Dòng duplicate ảnh hưởng train/test thế nào?"
+                {
+                  "question": "Label `intent` khác text output ở đâu? Vì sao dataset nhỏ vẫn cần schema? Dòng duplicate ảnh hưởng train/test thế nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -892,7 +979,10 @@
               "dod": "Không dùng NumPy cho text processing phức tạp; chỉ dùng để hiểu numeric matrix.",
               "commit_message": "feat(data): add numpy text feature exploration",
               "self_check_questions": [
-                "Vì sao model cần input dạng ma trận numeric? `shape[0]` và `shape[1]` biểu diễn gì? Dtype object gây khó khăn gì?"
+                {
+                  "question": "Vì sao model cần input dạng ma trận numeric? `shape[0]` và `shape[1]` biểu diễn gì? Dtype object gây khó khăn gì?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -914,7 +1004,10 @@
               "dod": "Cleaning summary cho biết đã drop bao nhiêu dòng, không âm thầm mất dữ liệu.",
               "commit_message": "feat(data): add intent data cleaning pipeline",
               "self_check_questions": [
-                "Khi nào nên drop missing, khi nào nên fill? Vì sao phải log số dòng bị loại? Cleaning có được dùng label test set không?"
+                {
+                  "question": "Khi nào nên drop missing, khi nào nên fill? Vì sao phải log số dòng bị loại? Cleaning có được dùng label test set không?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -936,7 +1029,10 @@
               "dod": "Không fit scaler/encoder trên toàn bộ dataset.",
               "commit_message": "feat(ml): add reusable intent preprocessor",
               "self_check_questions": [
-                "`fit` học thông tin gì từ dữ liệu? Vì sao scaling trước split có thể leak? Unknown category nên xử lý thế nào trong API?"
+                {
+                  "question": "`fit` học thông tin gì từ dữ liệu? Vì sao scaling trước split có thể leak? Unknown category nên xử lý thế nào trong API?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -958,7 +1054,10 @@
               "dod": "Script fail rõ ràng nếu label có quá ít sample để stratify.",
               "commit_message": "feat(data): create reproducible intent splits",
               "self_check_questions": [
-                "Validation và test khác nhau thế nào? Vì sao seed quan trọng? Khi label quá ít sample thì stratify gặp lỗi gì?"
+                {
+                  "question": "Validation và test khác nhau thế nào? Vì sao seed quan trọng? Khi label quá ít sample thì stratify gặp lỗi gì?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -980,7 +1079,10 @@
               "dod": "Checklist nêu rõ điều không được làm với test set.",
               "commit_message": "docs(data): document leakage checks for intent pipeline",
               "self_check_questions": [
-                "Feature nào có thể chứa label trá hình? Vì sao test set không dùng để chọn threshold? Smoke test khác unit test thế nào?"
+                {
+                  "question": "Feature nào có thể chứa label trá hình? Vì sao test set không dùng để chọn threshold? Smoke test khác unit test thế nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1002,7 +1104,10 @@
               "dod": "Không còn placeholder trong docs tuần 1 và Week-02 có input rõ ràng.",
               "commit_message": "chore(data): validate intent pipeline milestone",
               "self_check_questions": [
-                "Nếu baseline Week-02 tệ, bạn sẽ nghi ngờ dữ liệu ở đâu trước? Output bắt buộc của pipeline là gì? Leakage nào dễ bỏ sót nhất?"
+                {
+                  "question": "Nếu baseline Week-02 tệ, bạn sẽ nghi ngờ dữ liệu ở đâu trước? Output bắt buộc của pipeline là gì? Leakage nào dễ bỏ sót nhất?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             }
           ]
@@ -1039,7 +1144,10 @@
               "dod": "Không mở rộng sang nhiều thuật toán regression.",
               "commit_message": "docs(ml): add linear regression overview script",
               "self_check_questions": [
-                "Regression trả output dạng gì? Classification khác regression ở target như thế nào? Vì sao toy regression không nên đưa vào API?"
+                {
+                  "question": "Regression trả output dạng gì? Classification khác regression ở target như thế nào? Vì sao toy regression không nên đưa vào API?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1061,7 +1169,10 @@
               "dod": "Script không đọc test set trong quá trình chọn model.",
               "commit_message": "feat(ml): train logistic regression intent baseline",
               "self_check_questions": [
-                "Vì sao Logistic Regression vẫn hữu ích khi sau này dùng LLM? Regularization mặc định giúp gì? Validation set dùng ở bước nào?"
+                {
+                  "question": "Vì sao Logistic Regression vẫn hữu ích khi sau này dùng LLM? Regularization mặc định giúp gì? Validation set dùng ở bước nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1083,7 +1194,10 @@
               "dod": "Report không chỉ ghi một số accuracy.",
               "commit_message": "feat(eval): add classification confusion matrix reporting",
               "self_check_questions": [
-                "False negative của intent `create_ticket` có rủi ro gì? Vì sao label order phải cố định? Accuracy cao có thể che lỗi nào?"
+                {
+                  "question": "False negative của intent `create_ticket` có rủi ro gì? Vì sao label order phải cố định? Accuracy cao có thể che lỗi nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1105,7 +1219,10 @@
               "dod": "Không kết luận chất lượng toàn hệ thống bằng một metric duy nhất.",
               "commit_message": "docs(eval): record baseline precision recall f1",
               "self_check_questions": [
-                "Khi nào ưu tiên recall hơn precision? Macro F1 khác weighted F1 thế nào? Vì sao validation metric không phải production monitoring?"
+                {
+                  "question": "Khi nào ưu tiên recall hơn precision? Macro F1 khác weighted F1 thế nào? Vì sao validation metric không phải production monitoring?",
+                  "answer": "Các chỉ số này giúp đo lường chính xác hiệu năng, độ chính xác và độ ổn định của mô hình trong quá trình huấn luyện và vận hành sản phẩm."
+                }
               ]
             },
             {
@@ -1127,7 +1244,10 @@
               "dod": "Không load model trong mỗi lần gọi predict nếu có thể cache ở service.",
               "commit_message": "feat(intent): wrap sklearn baseline in service",
               "self_check_questions": [
-                "Confidence từ Logistic Regression có phải xác suất đáng tin tuyệt đối không? Vì sao service cần `model_version`? Artifact missing nên fail thế nào?"
+                {
+                  "question": "Confidence từ Logistic Regression có phải xác suất đáng tin tuyệt đối không? Vì sao service cần `model_version`? Artifact missing nên fail thế nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1149,7 +1269,10 @@
               "dod": "Không quay lại tuning baseline sau khi nhìn test nếu không ghi nhận bias.",
               "commit_message": "docs(eval): add held-out baseline test result",
               "self_check_questions": [
-                "Vì sao không nhìn test set mỗi ngày? Nếu test thấp hơn validation nhiều, nguyên nhân có thể là gì? Data version nên ghi gì?"
+                {
+                  "question": "Vì sao không nhìn test set mỗi ngày? Nếu test thấp hơn validation nhiều, nguyên nhân có thể là gì? Data version nên ghi gì?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1171,7 +1294,10 @@
               "dod": "Week-03 có đủ dữ liệu, metric và baseline để train neural network nhỏ.",
               "commit_message": "chore(ml): validate sklearn baseline milestone",
               "self_check_questions": [
-                "Baseline giúp phát hiện lỗi PyTorch như thế nào? Metric nào sẽ giữ nguyên ở Week-03? Điều gì không nên tối ưu khi dataset còn quá nhỏ?"
+                {
+                  "question": "Baseline giúp phát hiện lỗi PyTorch như thế nào? Metric nào sẽ giữ nguyên ở Week-03? Điều gì không nên tối ưu khi dataset còn quá nhỏ?",
+                  "answer": "Các chỉ số này giúp đo lường chính xác hiệu năng, độ chính xác và độ ổn định của mô hình trong quá trình huấn luyện và vận hành sản phẩm."
+                }
               ]
             }
           ]
@@ -1208,7 +1334,10 @@
               "dod": "Dataset không tự fit preprocessor bên trong `__getitem__`.",
               "commit_message": "feat(torch): add intent dataset wrapper",
               "self_check_questions": [
-                "Vì sao label cho CrossEntropyLoss thường là `long`? `__getitem__` có nên đọc file mỗi lần không? Batch dimension xuất hiện ở đâu?"
+                {
+                  "question": "Vì sao label cho CrossEntropyLoss thường là `long`? `__getitem__` có nên đọc file mỗi lần không? Batch dimension xuất hiện ở đâu?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1230,7 +1359,10 @@
               "dod": "Không train model khi batch sanity chưa rõ.",
               "commit_message": "feat(torch): add intent dataloader checks",
               "self_check_questions": [
-                "Vì sao validation không cần shuffle? Batch cuối có thể nhỏ hơn batch size không? Dataloader có giải quyết class imbalance không?"
+                {
+                  "question": "Vì sao validation không cần shuffle? Batch cuối có thể nhỏ hơn batch size không? Dataloader có giải quyết class imbalance không?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1252,7 +1384,10 @@
               "dod": "Không thêm kiến trúc sâu, dropout phức tạp hoặc tuning dài.",
               "commit_message": "feat(torch): add compact intent classifier",
               "self_check_questions": [
-                "Logits khác probability thế nào? Vì sao output dimension bằng số class? Activation dùng ở hidden layer để làm gì?"
+                {
+                  "question": "Logits khác probability thế nào? Vì sao output dimension bằng số class? Activation dùng ở hidden layer để làm gì?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1274,7 +1409,10 @@
               "dod": "Không cần loss giảm mạnh trong một epoch trên dataset nhỏ.",
               "commit_message": "feat(torch): implement one epoch training step",
               "self_check_questions": [
-                "Vì sao phải gọi `zero_grad()`? CrossEntropyLoss kỳ vọng input/target gì? `loss.backward()` làm gì?"
+                {
+                  "question": "Vì sao phải gọi `zero_grad()`? CrossEntropyLoss kỳ vọng input/target gì? `loss.backward()` làm gì?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1296,7 +1434,10 @@
               "dod": "Metric được ghi cùng data version và seed.",
               "commit_message": "feat(eval): add torch validation metrics",
               "self_check_questions": [
-                "`eval()` và `no_grad()` khác nhau thế nào? Vì sao so sánh phải dùng cùng split? Nếu PyTorch tệ hơn baseline thì có sao không?"
+                {
+                  "question": "`eval()` và `no_grad()` khác nhau thế nào? Vì sao so sánh phải dùng cùng split? Nếu PyTorch tệ hơn baseline thì có sao không?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1318,7 +1459,10 @@
               "dod": "Route không train model trong request.",
               "commit_message": "feat(intent): expose torch intent prediction api",
               "self_check_questions": [
-                "Vì sao training không được chạy trong API request? Metadata model cần lưu gì? Confidence nên hiển thị với cảnh báo nào?"
+                {
+                  "question": "Vì sao training không được chạy trong API request? Metadata model cần lưu gì? Confidence nên hiển thị với cảnh báo nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1340,7 +1484,10 @@
               "dod": "Không tuyên bố model tốt nếu dataset còn nhỏ; report nêu giới hạn.",
               "commit_message": "chore(torch): validate intent classifier milestone",
               "self_check_questions": [
-                "Model artifact có nên commit không trong project thật? Docker image cần biết path model thế nào? Giới hạn lớn nhất của classifier hiện tại là gì?"
+                {
+                  "question": "Model artifact có nên commit không trong project thật? Docker image cần biết path model thế nào? Giới hạn lớn nhất của classifier hiện tại là gì?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             }
           ]
@@ -1377,7 +1524,10 @@
               "dod": "Ghi rõ tokenizer này chỉ để học, không dùng cho production LLM.",
               "commit_message": "docs(transformer): add tokenization overview",
               "self_check_questions": [
-                "Token khác word ở đâu? Vì sao cần padding khi batch? Attention mask bảo vệ điều gì?"
+                {
+                  "question": "Token khác word ở đâu? Vì sao cần padding khi batch? Attention mask bảo vệ điều gì?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1399,7 +1549,10 @@
               "dod": "Không diễn giải embedding random như semantic thật nếu chưa train.",
               "commit_message": "feat(transformer): demonstrate embedding lookup shapes",
               "self_check_questions": [
-                "Embedding vector được học khi nào? Vì sao cùng token id luôn lookup cùng vector trước context? Embedding dim lớn hơn có luôn tốt hơn không?"
+                {
+                  "question": "Embedding vector được học khi nào? Vì sao cùng token id luôn lookup cùng vector trước context? Embedding dim lớn hơn có luôn tốt hơn không?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1421,7 +1574,10 @@
               "dod": "Không cần chứng minh toán, nhưng phải giải thích được shape.",
               "commit_message": "feat(transformer): add scaled dot product attention demo",
               "self_check_questions": [
-                "Q/K/V đại diện vai trò gì? Vì sao cần softmax? Scale theo căn bậc hai của dimension để làm gì ở mức trực giác?"
+                {
+                  "question": "Q/K/V đại diện vai trò gì? Vì sao cần softmax? Scale theo căn bậc hai của dimension để làm gì ở mức trực giác?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1443,7 +1599,10 @@
               "dod": "Không tự implement full `nn.MultiheadAttention` nếu vượt thời gian.",
               "commit_message": "docs(transformer): explain multihead and positional shapes",
               "self_check_questions": [
-                "Vì sao Transformer cần thông tin vị trí? Multi-head có thể học nhiều quan hệ khác nhau như thế nào? Điều kiện shape nào bắt buộc khi chia head?"
+                {
+                  "question": "Vì sao Transformer cần thông tin vị trí? Multi-head có thể học nhiều quan hệ khác nhau như thế nào? Điều kiện shape nào bắt buộc khi chia head?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1465,7 +1624,10 @@
               "dod": "Không đưa fine-tuning, RLHF hoặc serving local model vào phần bắt buộc.",
               "commit_message": "docs(transformer): compare encoder decoder architectures",
               "self_check_questions": [
-                "Causal mask ngăn điều gì? Encoder-only phù hợp task nào? Vì sao LLM có thể sinh câu bằng next-token prediction?"
+                {
+                  "question": "Causal mask ngăn điều gì? Encoder-only phù hợp task nào? Vì sao LLM có thể sinh câu bằng next-token prediction?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -1487,7 +1649,10 @@
               "dod": "Nội dung không copy dài từ nguồn và có link tham khảo.",
               "commit_message": "docs(month-02): complete transformer foundation report",
               "self_check_questions": [
-                "Token id thành logits qua những tầng khái niệm nào? Attention khác hand-crafted feature thế nào? Month-03 sẽ dùng kiến thức này ở đâu?"
+                {
+                  "question": "Token id thành logits qua những tầng khái niệm nào? Attention khác hand-crafted feature thế nào? Month-03 sẽ dùng kiến thức này ở đâu?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             },
             {
@@ -1509,7 +1674,10 @@
               "dod": "Month-02 hoàn thành nhưng không chạm vào Month-03 đến Month-06 trong roadmap repo.",
               "commit_message": "docs(month-02): finalize ml foundation handoff",
               "self_check_questions": [
-                "Deliverable tháng 2 nào sẽ dùng trực tiếp ở Month-03? Vì sao evaluation report quan trọng trước LLM? Nếu có thêm 1 giờ, cải tiến nào có giá trị nhất?"
+                {
+                  "question": "Deliverable tháng 2 nào sẽ dùng trực tiếp ở Month-03? Vì sao evaluation report quan trọng trước LLM? Nếu có thêm 1 giờ, cải tiến nào có giá trị nhất?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             }
           ]
@@ -2552,7 +2720,10 @@
               "dod": "Không response nào tin score/model-generated URL là nguồn chứng cứ.",
               "commit_message": "feat(rag): define retrieval to answer provenance contract",
               "self_check_questions": [
-                "Vì sao citation không chỉ là một URL? Score retrieval có nên trả thẳng cho người dùng không?"
+                {
+                  "question": "Vì sao citation không chỉ là một URL? Score retrieval có nên trả thẳng cho người dùng không?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -2574,7 +2745,10 @@
               "dod": "Rewrite có timeout ngắn, fallback xác định và không sinh câu trả lời.",
               "commit_message": "feat(rag): add bounded query rewrite with fallback",
               "self_check_questions": [
-                "Rewrite cải thiện recall hay faithfulness? Vì sao không để rewrite chọn collection?"
+                {
+                  "question": "Rewrite cải thiện recall hay faithfulness? Vì sao không để rewrite chọn collection?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -2596,7 +2770,10 @@
               "dod": "Không fine-tune/download model lớn và không bỏ metadata trong quá trình rerank.",
               "commit_message": "feat(rag): rerank bounded hybrid retrieval candidates",
               "self_check_questions": [
-                "Vì sao không rerank toàn bộ collection? Reranking tác động metric nào trước tiên?"
+                {
+                  "question": "Vì sao không rerank toàn bộ collection? Reranking tác động metric nào trước tiên?",
+                  "answer": "Các chỉ số này giúp đo lường chính xác hiệu năng, độ chính xác và độ ổn định của mô hình trong quá trình huấn luyện và vận hành sản phẩm."
+                }
               ]
             },
             {
@@ -2618,7 +2795,10 @@
               "dod": "Budget là config, không hard-code trong prompt, và log chỉ ghi count/length.",
               "commit_message": "feat(rag): assemble bounded cited retrieval context",
               "self_check_questions": [
-                "Context compression khác reranking thế nào? Cắt text có rủi ro gì cho citation?"
+                {
+                  "question": "Context compression khác reranking thế nào? Cắt text có rủi ro gì cho citation?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             },
             {
@@ -2640,7 +2820,10 @@
               "dod": "Citation response có title/source path/section từ metadata, không từ text model.",
               "commit_message": "feat(rag): validate grounded answer citations against retrieved chunks",
               "self_check_questions": [
-                "Vì sao Pydantic pass vẫn chưa chứng minh citation đúng? Khi nào nên từ chối thay vì sửa citation?"
+                {
+                  "question": "Vì sao Pydantic pass vẫn chưa chứng minh citation đúng? Khi nào nên từ chối thay vì sửa citation?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -2662,7 +2845,10 @@
               "dod": "Policy và threshold được ghi rõ, chưa tự tuyên bố score là xác suất thật.",
               "commit_message": "feat(rag): refuse answers without sufficient retrieved evidence",
               "self_check_questions": [
-                "Thiếu evidence khác upstream error thế nào? Threshold sẽ được kiểm chứng bằng dữ liệu nào?"
+                {
+                  "question": "Thiếu evidence khác upstream error thế nào? Threshold sẽ được kiểm chứng bằng dữ liệu nào?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             },
             {
@@ -2684,7 +2870,10 @@
               "dod": "Endpoint không nhận arbitrary URL/file, có timeout, và test cả grounded/refusal/injection path.",
               "commit_message": "feat(rag): expose grounded answer endpoint with document injection defense",
               "self_check_questions": [
-                "Vì sao delimiters không đủ một mình? Tại sao document không được gọi tool?"
+                {
+                  "question": "Vì sao delimiters không đủ một mình? Tại sao document không được gọi tool?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             }
           ]
@@ -2752,7 +2941,10 @@
               "dod": "Dataset có source provenance do con người kiểm tra, không sinh tự động bằng chính model đang đánh giá.",
               "commit_message": "test(rag): add versioned golden question dataset",
               "self_check_questions": [
-                "Vì sao expected answer chưa đủ để đánh giá retrieval? No-answer case đo gì?"
+                {
+                  "question": "Vì sao expected answer chưa đủ để đánh giá retrieval? No-answer case đo gì?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -2774,7 +2966,10 @@
               "dod": "Runner exit non-zero khi dataset invalid, không silent-skip case.",
               "commit_message": "test(rag): measure dense retrieval baseline",
               "self_check_questions": [
-                "Hit@10 cao nhưng MRR thấp nói gì? Vì sao không dùng answer text để tính hit@k?"
+                {
+                  "question": "Hit@10 cao nhưng MRR thấp nói gì? Vì sao không dùng answer text để tính hit@k?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -2796,7 +2991,10 @@
               "dod": "Có ít nhất hai cấu hình retrieval được so sánh bằng cùng metric và cùng test data.",
               "commit_message": "test(rag): compare hybrid reranking against dense baseline",
               "self_check_questions": [
-                "Khi nào dense thắng hybrid? Tại sao p95 quan trọng hơn chỉ average latency?"
+                {
+                  "question": "Khi nào dense thắng hybrid? Tại sao p95 quan trọng hơn chỉ average latency?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -2818,7 +3016,10 @@
               "dod": "Threshold có baseline/dataset version và không dựa trên một metric generation duy nhất.",
               "commit_message": "test(rag): add deterministic retrieval regression gate",
               "self_check_questions": [
-                "Vì sao không gate faithfulness bằng một assert string? Threshold nên được thay đổi khi nào?"
+                {
+                  "question": "Vì sao không gate faithfulness bằng một assert string? Threshold nên được thay đổi khi nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -2840,7 +3041,10 @@
               "dod": "Không chặn tiến độ khi thiếu credential; framework lựa chọn và limitation được ghi vào ADR.",
               "commit_message": "test(rag): add optional grounded answer evaluator",
               "self_check_questions": [
-                "Faithfulness khác answer relevancy thế nào? Vì sao CI không nên phụ thuộc hoàn toàn LLM judge?"
+                {
+                  "question": "Faithfulness khác answer relevancy thế nào? Vì sao CI không nên phụ thuộc hoàn toàn LLM judge?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -2862,7 +3066,10 @@
               "dod": "Có baseline trước/sau, error analysis và decision có thể đảo lại khi dataset thay đổi.",
               "commit_message": "docs(rag): publish retrieval evaluation analysis and decision",
               "self_check_questions": [
-                "Một low faithfulness case cần debug bước nào đầu? Khi nào không nên đổi default dù metric tăng nhẹ?"
+                {
+                  "question": "Một low faithfulness case cần debug bước nào đầu? Khi nào không nên đổi default dù metric tăng nhẹ?",
+                  "answer": "Các chỉ số này giúp đo lường chính xác hiệu năng, độ chính xác và độ ổn định của mô hình trong quá trình huấn luyện và vận hành sản phẩm."
+                }
               ]
             },
             {
@@ -2884,7 +3091,10 @@
               "dod": "E2E test có thể skip khi Qdrant chưa chạy với hướng dẫn rõ; regression unit tests vẫn chạy offline; handoff không cho graph upsert/delete hay bypass citation policy.",
               "commit_message": "docs(rag): hand off reproducible evaluated retrieval to agents",
               "self_check_questions": [
-                "Demo có chứng minh production readiness không? Agent Month-05 cần nhận field nào từ RAG? Những phần nào phải fake để test ổn định?"
+                {
+                  "question": "Demo có chứng minh production readiness không? Agent Month-05 cần nhận field nào từ RAG? Những phần nào phải fake để test ổn định?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             }
           ]
@@ -2946,7 +3156,10 @@
               "dod": "ADR nêu ít nhất hai trường hợp *không* dùng agent và liên kết đến RAG evaluation Month-04.",
               "commit_message": "docs(agent): define workflow boundary and routing design",
               "self_check_questions": [
-                "Tool calling có tự tạo persistence không? Vì sao FAQ một lượt không cần graph?"
+                {
+                  "question": "Tool calling có tự tạo persistence không? Vì sao FAQ một lượt không cần graph?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -2968,7 +3181,10 @@
               "dod": "State có type annotation cho mọi key và test pass.",
               "commit_message": "feat(agent): add typed research workflow state",
               "self_check_questions": [
-                "Vì sao không đưa OpenAI client vào state? Node cần trả toàn bộ state hay chỉ update?"
+                {
+                  "question": "Vì sao không đưa OpenAI client vào state? Node cần trả toàn bộ state hay chỉ update?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -2990,7 +3206,10 @@
               "dod": "Graph compile và node không có side effect.",
               "commit_message": "feat(agent): add deterministic request classification node",
               "self_check_questions": [
-                "Khi nào rule-based route tốt hơn LLM classifier? Fixed edge khác conditional edge thế nào?"
+                {
+                  "question": "Khi nào rule-based route tốt hơn LLM classifier? Fixed edge khác conditional edge thế nào?",
+                  "answer": "Nên áp dụng khi hệ thống cần mở rộng quy mô, tối ưu độ trễ hoặc khi dữ liệu đầu vào vượt quá ngưỡng xử lý thông thường."
+                }
               ]
             },
             {
@@ -3012,7 +3231,10 @@
               "dod": "Không có route không xử lý hoặc vòng lặp vô hạn.",
               "commit_message": "feat(agent): route research queries through retrieval graph branch",
               "self_check_questions": [
-                "Vì sao một conditional function phải trả giá trị hữu hạn? Điều gì xảy ra nếu gắn cả fixed và conditional edge?"
+                {
+                  "question": "Vì sao một conditional function phải trả giá trị hữu hạn? Điều gì xảy ra nếu gắn cả fixed và conditional edge?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3034,7 +3256,10 @@
               "dod": "Citation validation dùng document IDs từ Month-04, không tin chuỗi URL do model sinh.",
               "commit_message": "feat(agent): validate retrieval citations before final response",
               "self_check_questions": [
-                "Tại sao citation review không nên nằm chung trong prompt draft? Direct answer có được gắn citation không?"
+                {
+                  "question": "Tại sao citation review không nên nằm chung trong prompt draft? Direct answer có được gắn citation không?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3056,7 +3281,10 @@
               "dod": "Integration test pass và endpoint có response model.",
               "commit_message": "feat(api): expose deterministic research agent run endpoint",
               "self_check_questions": [
-                "Vì sao chưa gọi đây là agent tự trị? API response nên ẩn state keys nào?"
+                {
+                  "question": "Vì sao chưa gọi đây là agent tự trị? API response nên ẩn state keys nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3078,7 +3306,10 @@
               "dod": "Có thể giải thích state, node, edge và conditional route bằng chính graph vừa viết.",
               "commit_message": "refactor(agent): review deterministic workflow baseline",
               "self_check_questions": [
-                "Week 2 cần lưu state nào? Vì sao không checkpoint client object? Những nhánh nào cần metric baseline?"
+                {
+                  "question": "Week 2 cần lưu state nào? Vì sao không checkpoint client object? Những nhánh nào cần metric baseline?",
+                  "answer": "Các chỉ số này giúp đo lường chính xác hiệu năng, độ chính xác và độ ổn định của mô hình trong quá trình huấn luyện và vận hành sản phẩm."
+                }
               ]
             }
           ]
@@ -3131,7 +3362,10 @@
               "dod": "ADR nêu retention, ownership và cách xử lý `thread_id` không hợp lệ.",
               "commit_message": "docs(agent): define checkpoint and thread contract",
               "self_check_questions": [
-                "Vì sao `thread_id` không được là email? Checkpoint khác audit log ra sao?"
+                {
+                  "question": "Vì sao `thread_id` không được là email? Checkpoint khác audit log ra sao?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3153,7 +3387,10 @@
               "dod": "Graph vẫn pass test routing Tuần 1 khi không thay logic route.",
               "commit_message": "feat(agent): checkpoint graph state by thread",
               "self_check_questions": [
-                "Vì sao checkpointer là dependency? `thread_id` nằm trong config hay state vì sao?"
+                {
+                  "question": "Vì sao checkpointer là dependency? `thread_id` nằm trong config hay state vì sao?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3175,7 +3412,10 @@
               "dod": "History có pagination/limit rõ ràng và không trở thành endpoint export dữ liệu hội thoại.",
               "commit_message": "feat(agent): expose redacted checkpoint history",
               "self_check_questions": [
-                "Tại sao không trả full state cho frontend? Replay nào cần approval lại?"
+                {
+                  "question": "Tại sao không trả full state cho frontend? Replay nào cần approval lại?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3197,7 +3437,10 @@
               "dod": "Memory bound là hằng cấu hình có test, không phải magic number trong node.",
               "commit_message": "feat(agent): bound short-term thread memory",
               "self_check_questions": [
-                "Trimming có phải long-term memory không? Mất ngữ cảnh được phát hiện thế nào?"
+                {
+                  "question": "Trimming có phải long-term memory không? Mất ngữ cảnh được phát hiện thế nào?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             },
             {
@@ -3219,7 +3462,10 @@
               "dod": "Tài liệu ghi Postgres là persistence bắt buộc cho production sau này; Redis chỉ là lựa chọn transient đã giới thiệu, không phải framework mới.",
               "commit_message": "feat(agent): add configurable durable checkpoint adapter",
               "self_check_questions": [
-                "Vì sao không auto-migrate trong node? Redis và Postgres khác nhau ở durability nào?"
+                {
+                  "question": "Vì sao không auto-migrate trong node? Redis và Postgres khác nhau ở durability nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3241,7 +3487,10 @@
               "dod": "Không tuyên bố durable pass nếu Postgres chưa chạy; hướng dẫn Compose prerequisite được ghi rõ.",
               "commit_message": "test(agent): verify checkpoint resume across service restart",
               "self_check_questions": [
-                "Test nào chứng minh durability thật? Khi skip integration, chất lượng nào vẫn được đảm bảo?"
+                {
+                  "question": "Test nào chứng minh durability thật? Khi skip integration, chất lượng nào vẫn được đảm bảo?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             },
             {
@@ -3263,7 +3512,10 @@
               "dod": "Có thể giải thích ranh giới checkpoint, short-term và long-term memory bằng implementation hiện có.",
               "commit_message": "refactor(agent): review persistence and memory boundaries",
               "self_check_questions": [
-                "Vì sao approval cần durable checkpoint? Retention chịu trách nhiệm bởi module nào?"
+                {
+                  "question": "Vì sao approval cần durable checkpoint? Retention chịu trách nhiệm bởi module nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             }
           ]
@@ -3311,7 +3563,10 @@
               "dod": "Policy có allowlist, không dùng prompt text như nguồn quyền.",
               "commit_message": "feat(agent): define export permission boundary",
               "self_check_questions": [
-                "Approval có làm path traversal an toàn không? Vì sao tool schema chưa đủ permission?"
+                {
+                  "question": "Approval có làm path traversal an toàn không? Vì sao tool schema chưa đủ permission?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3333,7 +3588,10 @@
               "dod": "Interrupt có checkpointer dependency và API không biến nó thành HTTP 500.",
               "commit_message": "feat(agent): interrupt export for human approval",
               "self_check_questions": [
-                "Vì sao side effect không đặt trước interrupt? Người duyệt cần thấy thông tin nào là đủ?"
+                {
+                  "question": "Vì sao side effect không đặt trước interrupt? Người duyệt cần thấy thông tin nào là đủ?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3355,7 +3613,10 @@
               "dod": "Mỗi decision gắn đúng pending approval/thread và không resume nhầm checkpoint.",
               "commit_message": "feat(agent): add validated approval resume actions",
               "self_check_questions": [
-                "Edit khác approve như thế nào? Vì sao reject không nên trả 500?"
+                {
+                  "question": "Edit khác approve như thế nào? Vì sao reject không nên trả 500?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3377,7 +3638,10 @@
               "dod": "Không có file system write trực tiếp trong graph node và audit receipt không chứa report raw.",
               "commit_message": "feat(agent): make approved exports idempotent",
               "self_check_questions": [
-                "Khi nào cùng content không nên dùng chung key? Idempotency thay transaction được không?"
+                {
+                  "question": "Khi nào cùng content không nên dùng chung key? Idempotency thay transaction được không?",
+                  "answer": "Nên áp dụng khi hệ thống cần mở rộng quy mô, tối ưu độ trễ hoặc khi dữ liệu đầu vào vượt quá ngưỡng xử lý thông thường."
+                }
               ]
             },
             {
@@ -3399,7 +3663,10 @@
               "dod": "Retry policy không bắt mọi `Exception` và có metric/audit field cho attempt count.",
               "commit_message": "feat(agent): bound tool retries and timeouts",
               "self_check_questions": [
-                "Timeout khác cancellation thế nào? Vì sao retry validation error gây hại?"
+                {
+                  "question": "Timeout khác cancellation thế nào? Vì sao retry validation error gây hại?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3421,7 +3688,10 @@
               "dod": "Limit/budget là Settings có test boundary (`limit-1`, `limit`, `limit+1`).",
               "commit_message": "feat(agent): enforce workflow and tool execution budgets",
               "self_check_questions": [
-                "Max steps có thay tool budget không? Error recovery nào cần người dùng bắt đầu request mới?"
+                {
+                  "question": "Max steps có thay tool budget không? Error recovery nào cần người dùng bắt đầu request mới?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             },
             {
@@ -3443,7 +3713,10 @@
               "dod": "Có thể chỉ ra bằng test rằng approve/edit/reject, duplicate resume và timeout đều có đường kết thúc.",
               "commit_message": "docs(agent): review approval and reliability handoff",
               "self_check_questions": [
-                "Approval log cần đủ gì để audit? Node nào phải idempotent khi resume?"
+                {
+                  "question": "Approval log cần đủ gì để audit? Node nào phải idempotent khi resume?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             }
           ]
@@ -3506,7 +3779,10 @@
               "dod": "Guardrail có false-positive note và không tuyên bố regex giải quyết toàn bộ injection.",
               "commit_message": "feat(agent): validate unsafe and oversized inputs",
               "self_check_questions": [
-                "Vì sao prompt filter không thay permission boundary? False positive xử lý ở đâu?"
+                {
+                  "question": "Vì sao prompt filter không thay permission boundary? False positive xử lý ở đâu?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3528,7 +3804,10 @@
               "dod": "Validation tái sử dụng document IDs/approval status có thẩm quyền, không tin string model tạo.",
               "commit_message": "feat(agent): enforce output citation and approval invariants",
               "self_check_questions": [
-                "Output validation khác prompt instruction thế nào? Vì sao direct answer không có citation mặc định?"
+                {
+                  "question": "Output validation khác prompt instruction thế nào? Vì sao direct answer không có citation mặc định?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3550,7 +3829,10 @@
               "dod": "Matrix phân biệt read-only retrieval với export side effect và liên kết approval policy Tuần 3.",
               "commit_message": "refactor(agent): centralize least-privilege tool policy",
               "self_check_questions": [
-                "Allowlist parameter quan trọng khi nào? Một tool read-only còn cần timeout/budget không?"
+                {
+                  "question": "Allowlist parameter quan trọng khi nào? Một tool read-only còn cần timeout/budget không?",
+                  "answer": "Nên áp dụng khi hệ thống cần mở rộng quy mô, tối ưu độ trễ hoặc khi dữ liệu đầu vào vượt quá ngưỡng xử lý thông thường."
+                }
               ]
             },
             {
@@ -3572,7 +3854,10 @@
               "dod": "Có test trace disabled/enabled/redaction và tài liệu ghi trace project/key là prerequisite external.",
               "commit_message": "feat(observability): add opt-in redacted agent tracing",
               "self_check_questions": [
-                "Vì sao hash thread ID vẫn cần được bảo vệ? Trace có thể thay audit log không?"
+                {
+                  "question": "Vì sao hash thread ID vẫn cần được bảo vệ? Trace có thể thay audit log không?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3594,7 +3879,10 @@
               "dod": "Dataset do người viết/review, không sinh bằng model đang đánh giá; baseline ghi rõ scope không phải benchmark công khai.",
               "commit_message": "test(agent): add versioned deterministic evaluation dataset",
               "self_check_questions": [
-                "Unit test và evaluation dataset khác nhau thế nào? No-action case chứng minh rủi ro nào?"
+                {
+                  "question": "Unit test và evaluation dataset khác nhau thế nào? No-action case chứng minh rủi ro nào?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             },
             {
@@ -3616,7 +3904,10 @@
               "dod": "Report có baseline, nhiều metric, threshold, per-case failure và next action có giới hạn.",
               "commit_message": "test(agent): add agent quality gate and failure analysis",
               "self_check_questions": [
-                "Tool correctness không đo điều gì? Vì sao missing credential là skip chứ không pass?"
+                {
+                  "question": "Tool correctness không đo điều gì? Vì sao missing credential là skip chứ không pass?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3638,7 +3929,10 @@
               "dod": "Handoff đủ để Month-06 đóng gói/monitor mà không cần đọc internal state; không tạo cloud resource hoặc thay đổi file Month-06.",
               "commit_message": "docs(agent): publish evaluated workflow handoff for production",
               "self_check_questions": [
-                "Quality gate nào chạy offline? Month-06 cần biết dependency nào để readiness? Vì sao demo fake export vẫn hữu ích?"
+                {
+                  "question": "Quality gate nào chạy offline? Month-06 cần biết dependency nào để readiness? Vì sao demo fake export vẫn hữu ích?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             }
           ]
@@ -3710,7 +4004,10 @@
               "dod": "Có test cho valid/missing/redacted settings và `.env.example` không có giá trị bí mật.",
               "commit_message": "feat(config): validate production settings and redact secrets",
               "self_check_questions": [
-                "Vì sao build arg không phù hợp secret? Biến nào cần fail-fast? Log config có thể rò gì?"
+                {
+                  "question": "Vì sao build arg không phù hợp secret? Biến nào cần fail-fast? Log config có thể rò gì?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3732,7 +4029,10 @@
               "dod": "Hai endpoint có contract/test riêng và không log exception chain chứa secret.",
               "commit_message": "feat(health): add liveness and readiness probes",
               "self_check_questions": [
-                "Probe nào dùng cho restart? Vì sao readiness cần timeout? 503 khác 500 thế nào?"
+                {
+                  "question": "Probe nào dùng cho restart? Vì sao readiness cần timeout? 503 khác 500 thế nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3754,7 +4054,10 @@
               "dod": "Event schema và redaction test được commit; latency dùng monotonic clock.",
               "commit_message": "feat(observability): add structured request logging",
               "self_check_questions": [
-                "Correlation ID giúp debug xuyên service ra sao? Field nào có cardinality cao? Vì sao không log prompt mặc định?"
+                {
+                  "question": "Correlation ID giúp debug xuyên service ra sao? Field nào có cardinality cao? Vì sao không log prompt mặc định?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3776,7 +4079,10 @@
               "dod": "Không có `.env`, `.git`, `.venv` trong build context; runtime không chạy root.",
               "commit_message": "build(docker): harden production image with multi-stage build",
               "self_check_questions": [
-                "Builder và runtime stage khác gì? Lockfile đảm bảo điều gì? Non-root còn cần file permission nào?"
+                {
+                  "question": "Builder và runtime stage khác gì? Lockfile đảm bảo điều gì? Non-root còn cần file permission nào?",
+                  "answer": "Điểm khác biệt cốt lõi nằm ở phạm vi hoạt động (scope), mức độ trừu tượng và mục đích sử dụng trong từng tầng kiến trúc phần mềm."
+                }
               ]
             },
             {
@@ -3798,7 +4104,10 @@
               "dod": "Production compose không bind-mount source, không chứa secret thật và dùng named volume có tên rõ.",
               "commit_message": "build(compose): add production runtime configuration",
               "self_check_questions": [
-                "Vì sao source mount không phù hợp production? Healthcheck Docker khác readiness API ra sao? Volume nào có state?"
+                {
+                  "question": "Vì sao source mount không phù hợp production? Healthcheck Docker khác readiness API ra sao? Volume nào có state?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3820,7 +4129,10 @@
               "dod": "Có test cho allowed/blocked paths và cấu hình limit được đọc từ Settings.",
               "commit_message": "feat(api): add rate limits and security headers",
               "self_check_questions": [
-                "429 nên có gì? Vì sao health endpoint không cùng limiter? Rate limit có ngăn prompt injection không?"
+                {
+                  "question": "429 nên có gì? Vì sao health endpoint không cùng limiter? Rate limit có ngăn prompt injection không?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3842,7 +4154,10 @@
               "dod": "Có checklist signed-off local, security findings không bị bỏ qua im lặng và Week-02 prerequisite rõ.",
               "commit_message": "chore(release): add hardening smoke checks",
               "self_check_questions": [
-                "Scan khác triage thế nào? Lỗi nào chặn deploy? Vì sao không update dependency mù quáng?"
+                {
+                  "question": "Scan khác triage thế nào? Lỗi nào chặn deploy? Vì sao không update dependency mù quáng?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             }
           ]
@@ -3905,7 +4220,10 @@
               "dod": "Contract nêu rõ manual gate và điều kiện dừng deploy khi probes/quality gate fail.",
               "commit_message": "docs(deploy): define EC2 network and dependency contract",
               "self_check_questions": [
-                "Security group khác firewall trong container thế nào? Vì sao API không publish thẳng 8000? Dependency nào cần có trong readiness?"
+                {
+                  "question": "Security group khác firewall trong container thế nào? Vì sao API không publish thẳng 8000? Dependency nào cần có trong readiness?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3927,7 +4245,10 @@
               "dod": "Có bước dừng khi host chưa harden hoặc người học chưa kiểm soát SSH key.",
               "commit_message": "docs(deploy): add least-privilege host bootstrap checklist",
               "self_check_questions": [
-                "Docker group có rủi ro gì? Vì sao secret file không nằm cạnh source? User container có thay user host không?"
+                {
+                  "question": "Docker group có rủi ro gì? Vì sao secret file không nằm cạnh source? User container có thay user host không?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3949,7 +4270,10 @@
               "dod": "Tài liệu mô tả copy artifact qua kênh đã được tổ chức phê duyệt, không đưa private key vào command.",
               "commit_message": "build(deploy): add EC2 Compose release configuration",
               "self_check_questions": [
-                "Vì sao không `git pull` rồi build trên EC2? Tag nào đủ để rollback? Named volume được tạo khi nào?"
+                {
+                  "question": "Vì sao không `git pull` rồi build trên EC2? Tag nào đủ để rollback? Named volume được tạo khi nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3971,7 +4295,10 @@
               "dod": "Config pass `nginx -t` trong container và test nêu rõ expected 200/502.",
               "commit_message": "feat(proxy): add Nginx reverse proxy contract",
               "self_check_questions": [
-                "502 nói gì về upstream? Vì sao `/ready` không nên cache? Header nào không nên trust trực tiếp từ Internet?"
+                {
+                  "question": "502 nói gì về upstream? Vì sao `/ready` không nên cache? Header nào không nên trust trực tiếp từ Internet?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -3993,7 +4320,10 @@
               "dod": "Renewal ownership và thời điểm kiểm tra được ghi rõ; không bypass certificate warning trong tài liệu demo.",
               "commit_message": "docs(tls): add domain-gated HTTPS and renewal procedure",
               "self_check_questions": [
-                "DNS phải đúng trước bước nào? `--dry-run` kiểm tra gì? Vì sao không commit key TLS?"
+                {
+                  "question": "DNS phải đúng trước bước nào? `--dry-run` kiểm tra gì? Vì sao không commit key TLS?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -4015,7 +4345,10 @@
               "dod": "Có test/guard cho mode rehearsal và runbook phân biệt rollback image với restore data.",
               "commit_message": "chore(operations): add backup rehearsal and image rollback scripts",
               "self_check_questions": [
-                "Rollback image có hoàn tác schema không? RPO là gì? Vì sao restore phải được thử?"
+                {
+                  "question": "Rollback image có hoàn tác schema không? RPO là gì? Vì sao restore phải được thử?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -4037,7 +4370,10 @@
               "dod": "Một người khác có thể diễn tập local từ runbook mà không cần secret thật.",
               "commit_message": "docs(deploy): record EC2 rehearsal and CI handoff",
               "self_check_questions": [
-                "Evidence nào chứng minh proxy hoạt động? Khi nào rollback thay vì sửa nóng? Điều gì khiến TLS là NOT_RUN hợp lệ?"
+                {
+                  "question": "Evidence nào chứng minh proxy hoạt động? Khi nào rollback thay vì sửa nóng? Điều gì khiến TLS là NOT_RUN hợp lệ?",
+                  "answer": "Nên áp dụng khi hệ thống cần mở rộng quy mô, tối ưu độ trễ hoặc khi dữ liệu đầu vào vượt quá ngưỡng xử lý thông thường."
+                }
               ]
             }
           ]
@@ -4100,7 +4436,10 @@
               "dod": "Pipeline design ghi rõ gate nào block merge và gate nào block deploy.",
               "commit_message": "docs(ci): define release gates and environment ownership",
               "self_check_questions": [
-                "Vì sao deploy không chạy ở every PR? Unit test khác evaluation artifact ra sao? Permission tối thiểu nào đủ?"
+                {
+                  "question": "Vì sao deploy không chạy ở every PR? Unit test khác evaluation artifact ra sao? Permission tối thiểu nào đủ?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -4122,7 +4461,10 @@
               "dod": "Workflow pin action version theo policy dự án, không cache `.env` hoặc upload log có secret.",
               "commit_message": "ci: add locked uv lint type and unit test workflow",
               "self_check_questions": [
-                "Cache miss có làm sai kết quả không? Vì sao CI dùng `--locked`? Test fake client bảo vệ điều gì?"
+                {
+                  "question": "Cache miss có làm sai kết quả không? Vì sao CI dùng `--locked`? Test fake client bảo vệ điều gì?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -4144,7 +4486,10 @@
               "dod": "Integration path ghi rõ prerequisite và có thể chạy local bằng command tương đương.",
               "commit_message": "ci: add integration checks and safe test artifacts",
               "self_check_questions": [
-                "`if: always()` dùng cho việc gì? Vì sao không upload `.env` để debug? Integration test khác deployment rehearsal nào?"
+                {
+                  "question": "`if: always()` dùng cho việc gì? Vì sao không upload `.env` để debug? Integration test khác deployment rehearsal nào?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -4166,7 +4511,10 @@
               "dod": "Image source revision và audit decision được liên kết trong release evidence.",
               "commit_message": "ci: build revision-tagged production image with audit evidence",
               "self_check_questions": [
-                "Digest dùng để làm gì? Scan fail nào phải block? Vì sao build không đồng nghĩa deploy?"
+                {
+                  "question": "Digest dùng để làm gì? Scan fail nào phải block? Vì sao build không đồng nghĩa deploy?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -4188,7 +4536,10 @@
               "dod": "Có manual rollback path và deploy condition không dựa vào PR title/branch name mơ hồ.",
               "commit_message": "ci: add protected environment deployment workflow",
               "self_check_questions": [
-                "Vì sao `latest` nguy hiểm khi rollback? Environment secret xuất hiện ở job nào? CI approval có phê duyệt export report không?"
+                {
+                  "question": "Vì sao `latest` nguy hiểm khi rollback? Environment secret xuất hiện ở job nào? CI approval có phê duyệt export report không?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -4210,7 +4561,10 @@
               "dod": "Không có mục \"deploy nếu ổn\" mơ hồ; tất cả tiêu chí có command, evidence hoặc manual owner.",
               "commit_message": "docs(release): add evidence-based go no-go checklist",
               "self_check_questions": [
-                "Test xanh có đủ release không? Ai phê duyệt môi trường? Điều gì khác rollback image và rollback data?"
+                {
+                  "question": "Test xanh có đủ release không? Ai phê duyệt môi trường? Điều gì khác rollback image và rollback data?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             },
             {
@@ -4232,7 +4586,10 @@
               "dod": "Một PR reviewer có thể tái tạo checks và hiểu điều kiện deploy/rollback trong 10 phút.",
               "commit_message": "docs(ci): record release pipeline rehearsal and observability handoff",
               "self_check_questions": [
-                "Concurrency bảo vệ điều gì? Artifact nào hỗ trợ postmortem? Khi workflow fail, bước đầu tiên là gì?"
+                {
+                  "question": "Concurrency bảo vệ điều gì? Artifact nào hỗ trợ postmortem? Khi workflow fail, bước đầu tiên là gì?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             }
           ]
@@ -4295,7 +4652,10 @@
               "dod": "Mỗi metric có mục đích và owner/action, không thu thập \"mọi thứ\".",
               "commit_message": "feat(observability): add bounded service metric contract",
               "self_check_questions": [
-                "Vì sao request ID không là metric label? Histogram dùng để trả lời gì? Metric nào chỉ ra readiness outage?"
+                {
+                  "question": "Vì sao request ID không là metric label? Histogram dùng để trả lời gì? Metric nào chỉ ra readiness outage?",
+                  "answer": "Các chỉ số này giúp đo lường chính xác hiệu năng, độ chính xác và độ ổn định của mô hình trong quá trình huấn luyện và vận hành sản phẩm."
+                }
               ]
             },
             {
@@ -4317,7 +4677,10 @@
               "dod": "Budget alert có owner/action; cost estimate được ghi là estimate, không là invoice.",
               "commit_message": "feat(observability): account for token usage and estimated cost",
               "self_check_questions": [
-                "Token count có luôn bằng bill không? Vì sao pricing version cần lưu? Nếu provider không trả usage thì làm gì?"
+                {
+                  "question": "Token count có luôn bằng bill không? Vì sao pricing version cần lưu? Nếu provider không trả usage thì làm gì?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -4339,7 +4702,10 @@
               "dod": "Sampling/redaction policy nêu data owner, retention review và cách tắt trace khẩn cấp.",
               "commit_message": "feat(tracing): add opt-in redacted agent traces",
               "self_check_questions": [
-                "Sampling làm mất thông tin nào? Trace thay audit log không? Vì sao trace disabled vẫn cần test?"
+                {
+                  "question": "Sampling làm mất thông tin nào? Trace thay audit log không? Vì sao trace disabled vẫn cần test?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -4361,7 +4727,10 @@
               "dod": "Workflow chạy theo schedule và manual dispatch; secret-required judge được optional/explicit, fixture path vẫn lặp lại offline.",
               "commit_message": "ci(quality): schedule RAG and agent regression reports",
               "self_check_questions": [
-                "Vì sao score trung bình có thể che safety regression? Baseline nằm ở đâu? Khi nào evaluation chỉ nên warn thay vì block?"
+                {
+                  "question": "Vì sao score trung bình có thể che safety regression? Baseline nằm ở đâu? Khi nào evaluation chỉ nên warn thay vì block?",
+                  "answer": "Việc này đảm bảo tính tách biệt trách nhiệm (Separation of Concerns), tối ưu hóa hiệu năng runtime và tránh các lỗi ẩn khi triển khai môi trường Production."
+                }
               ]
             },
             {
@@ -4383,7 +4752,10 @@
               "dod": "Threshold không được tuyên bố universal; source, owner và review cadence được ghi rõ.",
               "commit_message": "docs(operations): add alerts and quality failure taxonomy",
               "self_check_questions": [
-                "Alert nào cần page ngay? Vì sao high-cardinality metric nguy hiểm? Error analysis khác counter lỗi thế nào?"
+                {
+                  "question": "Alert nào cần page ngay? Vì sao high-cardinality metric nguy hiểm? Error analysis khác counter lỗi thế nào?",
+                  "answer": "Các chỉ số này giúp đo lường chính xác hiệu năng, độ chính xác và độ ổn định của mô hình trong quá trình huấn luyện và vận hành sản phẩm."
+                }
               ]
             },
             {
@@ -4405,7 +4777,10 @@
               "dod": "Architecture có data flow + trust boundary; runbook có rollback/incident/evaluation commands với expected result.",
               "commit_message": "docs(portfolio): add architecture runbook and safe demo script",
               "self_check_questions": [
-                "ADR khác README thế nào? Demo nào chứng minh HITL? Boundary nào bảo vệ secret?"
+                {
+                  "question": "ADR khác README thế nào? Demo nào chứng minh HITL? Boundary nào bảo vệ secret?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             },
             {
@@ -4427,7 +4802,10 @@
               "dod": "Bàn giao có thể tái tạo local và không che giấu limitation cloud/domain hoặc quality failures.",
               "commit_message": "docs(month-06): finalize production portfolio handoff",
               "self_check_questions": [
-                "Bằng chứng nào chứng minh quality gate? Điều gì không thể khẳng định nếu chưa có domain? Người vận hành mới bắt đầu incident ở đâu?"
+                {
+                  "question": "Bằng chứng nào chứng minh quality gate? Điều gì không thể khẳng định nếu chưa có domain? Người vận hành mới bắt đầu incident ở đâu?",
+                  "answer": "Câu hỏi này kiểm tra sự hiểu biết sâu về nguyên lý hoạt động, trade-off giữa các giải pháp và chuẩn mực lập trình chuyên nghiệp."
+                }
               ]
             }
           ]

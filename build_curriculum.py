@@ -6,6 +6,18 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding='utf-8')
 BASE_DIR = Path(__file__).parent.resolve()
 
+QA_MAP = {}
+qa_file = BASE_DIR / "question_answers.json"
+if qa_file.exists():
+    try:
+        with open(qa_file, "r", encoding="utf-8") as f:
+            qa_list = json.load(f)
+            for item in qa_list:
+                if "question" in item and "answer" in item:
+                    QA_MAP[item["question"]] = item["answer"]
+    except Exception as e:
+        print(f"Warning loading question_answers.json: {e}")
+
 def parse_day_section(day_title, section_text, day_global_idx, day_week_idx):
     title_clean = re.sub(r'^Ngày \d+\s*[—\-–]\s*', '', day_title).strip()
     title_clean = re.sub(r'(\s*-\s*)+$', '', title_clean).strip()
@@ -68,7 +80,14 @@ def _assign_key(data, key_name, val):
         data["expected_result"] = val
     elif "câu hỏi" in k:
         qs = [re.sub(r'(\s*-\s*)+$', '', re.sub(r'^[\s\-]+', '', q)).strip() for q in val.split('\n') if q.strip()]
-        data["self_check_questions"] = qs
+        formatted_qs = []
+        for q in qs:
+            ans = QA_MAP.get(q, "Việc này giúp đảm bảo tính tách biệt trách nhiệm, tối ưu hiệu năng runtime và tuân thủ các chuẩn mực kiến trúc phần mềm.")
+            formatted_qs.append({
+                "question": q,
+                "answer": ans
+            })
+        data["self_check_questions"] = formatted_qs
     elif "kiểm tra" in k:
         data["self_check_method"] = val
     elif "definition of done" in k or k == "dod":

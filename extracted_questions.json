@@ -1,0 +1,884 @@
+[
+  {
+    "month": 1,
+    "week": 1,
+    "day": 1,
+    "global_day": 1,
+    "question": "Vì sao không nên dùng `pip install` ngoài môi trường project?"
+  },
+  {
+    "month": 1,
+    "week": 1,
+    "day": 2,
+    "global_day": 2,
+    "question": "Type hint có tự chặn `None` khi chạy Python không?"
+  },
+  {
+    "month": 1,
+    "week": 1,
+    "day": 3,
+    "global_day": 3,
+    "question": "Vì sao không dùng Pydantic model này trước khi có HTTP boundary?"
+  },
+  {
+    "month": 1,
+    "week": 1,
+    "day": 4,
+    "global_day": 4,
+    "question": "Khi nào log `warning` phù hợp hơn `error`?"
+  },
+  {
+    "month": 1,
+    "week": 1,
+    "day": 5,
+    "global_day": 5,
+    "question": "Vì sao không ghép path bằng chuỗi `../`?"
+  },
+  {
+    "month": 1,
+    "week": 1,
+    "day": 6,
+    "global_day": 6,
+    "question": "Vì sao test không nên kiểm tra log text nguyên văn?"
+  },
+  {
+    "month": 1,
+    "week": 1,
+    "day": 7,
+    "global_day": 7,
+    "question": "Refactor nào nên để lại sang tuần 2?"
+  },
+  {
+    "month": 1,
+    "week": 2,
+    "day": 1,
+    "global_day": 8,
+    "question": "Vì sao health không gọi dependency ngoài mạng?"
+  },
+  {
+    "month": 1,
+    "week": 2,
+    "day": 2,
+    "global_day": 9,
+    "question": "HTTP 422 khác gì domain error của tuần 1?"
+  },
+  {
+    "month": 1,
+    "week": 2,
+    "day": 3,
+    "global_day": 10,
+    "question": "Vì sao không đặt business logic trong router?"
+  },
+  {
+    "month": 1,
+    "week": 2,
+    "day": 4,
+    "global_day": 11,
+    "question": "Vì sao `.env.example` không chứa giá trị thật?"
+  },
+  {
+    "month": 1,
+    "week": 2,
+    "day": 5,
+    "global_day": 12,
+    "question": "Dependency injection hỗ trợ test thế nào?"
+  },
+  {
+    "month": 1,
+    "week": 2,
+    "day": 6,
+    "global_day": 13,
+    "question": "Khi nào nên trả 400 thay vì 422?"
+  },
+  {
+    "month": 1,
+    "week": 2,
+    "day": 7,
+    "global_day": 14,
+    "question": "Client có thể suy ra gì từ `response_model`?"
+  },
+  {
+    "month": 1,
+    "week": 3,
+    "day": 1,
+    "global_day": 15,
+    "question": "Async có làm PyTorch inference CPU nhanh hơn không?"
+  },
+  {
+    "month": 1,
+    "week": 3,
+    "day": 2,
+    "global_day": 16,
+    "question": "Vì sao timeout mặc định không đủ rõ cho production?"
+  },
+  {
+    "month": 1,
+    "week": 3,
+    "day": 3,
+    "global_day": 17,
+    "question": "Request ID khác trace ID thế nào?"
+  },
+  {
+    "month": 1,
+    "week": 3,
+    "day": 4,
+    "global_day": 18,
+    "question": "Vì sao copy source trước dependency làm build chậm hơn?"
+  },
+  {
+    "month": 1,
+    "week": 3,
+    "day": 5,
+    "global_day": 19,
+    "question": "Khi nào `--build` là cần thiết?"
+  },
+  {
+    "month": 1,
+    "week": 3,
+    "day": 6,
+    "global_day": 20,
+    "question": "Integration test nào không thay thế được unit test?"
+  },
+  {
+    "month": 1,
+    "week": 3,
+    "day": 7,
+    "global_day": 21,
+    "question": "Lỗi nào cần được ghi vào troubleshooting?"
+  },
+  {
+    "month": 1,
+    "week": 4,
+    "day": 1,
+    "global_day": 22,
+    "question": "Vì sao batch dimension hữu ích cho API inference?"
+  },
+  {
+    "month": 1,
+    "week": 4,
+    "day": 2,
+    "global_day": 23,
+    "question": "`eval()` tự tắt gradient không?"
+  },
+  {
+    "month": 1,
+    "week": 4,
+    "day": 3,
+    "global_day": 24,
+    "question": "Vì sao seed giúp test toy model?"
+  },
+  {
+    "month": 1,
+    "week": 4,
+    "day": 4,
+    "global_day": 25,
+    "question": "Vì sao model phải được giữ trong service lifecycle?"
+  },
+  {
+    "month": 1,
+    "week": 4,
+    "day": 5,
+    "global_day": 26,
+    "question": "Vì sao batch cuối có thể nhỏ hơn batch size?"
+  },
+  {
+    "month": 1,
+    "week": 4,
+    "day": 6,
+    "global_day": 27,
+    "question": "Smoke test khác integration test ở đâu?"
+  },
+  {
+    "month": 1,
+    "week": 4,
+    "day": 7,
+    "global_day": 28,
+    "question": "Tháng 2 cần data contract nào từ endpoint hiện tại?"
+  },
+  {
+    "month": 2,
+    "week": 1,
+    "day": 1,
+    "global_day": 29,
+    "question": "Label `intent` khác text output ở đâu? Vì sao dataset nhỏ vẫn cần schema? Dòng duplicate ảnh hưởng train/test thế nào?"
+  },
+  {
+    "month": 2,
+    "week": 1,
+    "day": 2,
+    "global_day": 30,
+    "question": "Vì sao model cần input dạng ma trận numeric? `shape[0]` và `shape[1]` biểu diễn gì? Dtype object gây khó khăn gì?"
+  },
+  {
+    "month": 2,
+    "week": 1,
+    "day": 3,
+    "global_day": 31,
+    "question": "Khi nào nên drop missing, khi nào nên fill? Vì sao phải log số dòng bị loại? Cleaning có được dùng label test set không?"
+  },
+  {
+    "month": 2,
+    "week": 1,
+    "day": 4,
+    "global_day": 32,
+    "question": "`fit` học thông tin gì từ dữ liệu? Vì sao scaling trước split có thể leak? Unknown category nên xử lý thế nào trong API?"
+  },
+  {
+    "month": 2,
+    "week": 1,
+    "day": 5,
+    "global_day": 33,
+    "question": "Validation và test khác nhau thế nào? Vì sao seed quan trọng? Khi label quá ít sample thì stratify gặp lỗi gì?"
+  },
+  {
+    "month": 2,
+    "week": 1,
+    "day": 6,
+    "global_day": 34,
+    "question": "Feature nào có thể chứa label trá hình? Vì sao test set không dùng để chọn threshold? Smoke test khác unit test thế nào?"
+  },
+  {
+    "month": 2,
+    "week": 1,
+    "day": 7,
+    "global_day": 35,
+    "question": "Nếu baseline Week-02 tệ, bạn sẽ nghi ngờ dữ liệu ở đâu trước? Output bắt buộc của pipeline là gì? Leakage nào dễ bỏ sót nhất?"
+  },
+  {
+    "month": 2,
+    "week": 2,
+    "day": 1,
+    "global_day": 36,
+    "question": "Regression trả output dạng gì? Classification khác regression ở target như thế nào? Vì sao toy regression không nên đưa vào API?"
+  },
+  {
+    "month": 2,
+    "week": 2,
+    "day": 2,
+    "global_day": 37,
+    "question": "Vì sao Logistic Regression vẫn hữu ích khi sau này dùng LLM? Regularization mặc định giúp gì? Validation set dùng ở bước nào?"
+  },
+  {
+    "month": 2,
+    "week": 2,
+    "day": 3,
+    "global_day": 38,
+    "question": "False negative của intent `create_ticket` có rủi ro gì? Vì sao label order phải cố định? Accuracy cao có thể che lỗi nào?"
+  },
+  {
+    "month": 2,
+    "week": 2,
+    "day": 4,
+    "global_day": 39,
+    "question": "Khi nào ưu tiên recall hơn precision? Macro F1 khác weighted F1 thế nào? Vì sao validation metric không phải production monitoring?"
+  },
+  {
+    "month": 2,
+    "week": 2,
+    "day": 5,
+    "global_day": 40,
+    "question": "Confidence từ Logistic Regression có phải xác suất đáng tin tuyệt đối không? Vì sao service cần `model_version`? Artifact missing nên fail thế nào?"
+  },
+  {
+    "month": 2,
+    "week": 2,
+    "day": 6,
+    "global_day": 41,
+    "question": "Vì sao không nhìn test set mỗi ngày? Nếu test thấp hơn validation nhiều, nguyên nhân có thể là gì? Data version nên ghi gì?"
+  },
+  {
+    "month": 2,
+    "week": 2,
+    "day": 7,
+    "global_day": 42,
+    "question": "Baseline giúp phát hiện lỗi PyTorch như thế nào? Metric nào sẽ giữ nguyên ở Week-03? Điều gì không nên tối ưu khi dataset còn quá nhỏ?"
+  },
+  {
+    "month": 2,
+    "week": 3,
+    "day": 1,
+    "global_day": 43,
+    "question": "Vì sao label cho CrossEntropyLoss thường là `long`? `__getitem__` có nên đọc file mỗi lần không? Batch dimension xuất hiện ở đâu?"
+  },
+  {
+    "month": 2,
+    "week": 3,
+    "day": 2,
+    "global_day": 44,
+    "question": "Vì sao validation không cần shuffle? Batch cuối có thể nhỏ hơn batch size không? Dataloader có giải quyết class imbalance không?"
+  },
+  {
+    "month": 2,
+    "week": 3,
+    "day": 3,
+    "global_day": 45,
+    "question": "Logits khác probability thế nào? Vì sao output dimension bằng số class? Activation dùng ở hidden layer để làm gì?"
+  },
+  {
+    "month": 2,
+    "week": 3,
+    "day": 4,
+    "global_day": 46,
+    "question": "Vì sao phải gọi `zero_grad()`? CrossEntropyLoss kỳ vọng input/target gì? `loss.backward()` làm gì?"
+  },
+  {
+    "month": 2,
+    "week": 3,
+    "day": 5,
+    "global_day": 47,
+    "question": "`eval()` và `no_grad()` khác nhau thế nào? Vì sao so sánh phải dùng cùng split? Nếu PyTorch tệ hơn baseline thì có sao không?"
+  },
+  {
+    "month": 2,
+    "week": 3,
+    "day": 6,
+    "global_day": 48,
+    "question": "Vì sao training không được chạy trong API request? Metadata model cần lưu gì? Confidence nên hiển thị với cảnh báo nào?"
+  },
+  {
+    "month": 2,
+    "week": 3,
+    "day": 7,
+    "global_day": 49,
+    "question": "Model artifact có nên commit không trong project thật? Docker image cần biết path model thế nào? Giới hạn lớn nhất của classifier hiện tại là gì?"
+  },
+  {
+    "month": 2,
+    "week": 4,
+    "day": 1,
+    "global_day": 50,
+    "question": "Token khác word ở đâu? Vì sao cần padding khi batch? Attention mask bảo vệ điều gì?"
+  },
+  {
+    "month": 2,
+    "week": 4,
+    "day": 2,
+    "global_day": 51,
+    "question": "Embedding vector được học khi nào? Vì sao cùng token id luôn lookup cùng vector trước context? Embedding dim lớn hơn có luôn tốt hơn không?"
+  },
+  {
+    "month": 2,
+    "week": 4,
+    "day": 3,
+    "global_day": 52,
+    "question": "Q/K/V đại diện vai trò gì? Vì sao cần softmax? Scale theo căn bậc hai của dimension để làm gì ở mức trực giác?"
+  },
+  {
+    "month": 2,
+    "week": 4,
+    "day": 4,
+    "global_day": 53,
+    "question": "Vì sao Transformer cần thông tin vị trí? Multi-head có thể học nhiều quan hệ khác nhau như thế nào? Điều kiện shape nào bắt buộc khi chia head?"
+  },
+  {
+    "month": 2,
+    "week": 4,
+    "day": 5,
+    "global_day": 54,
+    "question": "Causal mask ngăn điều gì? Encoder-only phù hợp task nào? Vì sao LLM có thể sinh câu bằng next-token prediction?"
+  },
+  {
+    "month": 2,
+    "week": 4,
+    "day": 6,
+    "global_day": 55,
+    "question": "Token id thành logits qua những tầng khái niệm nào? Attention khác hand-crafted feature thế nào? Month-03 sẽ dùng kiến thức này ở đâu?"
+  },
+  {
+    "month": 2,
+    "week": 4,
+    "day": 7,
+    "global_day": 56,
+    "question": "Deliverable tháng 2 nào sẽ dùng trực tiếp ở Month-03? Vì sao evaluation report quan trọng trước LLM? Nếu có thêm 1 giờ, cải tiến nào có giá trị nhất?"
+  },
+  {
+    "month": 4,
+    "week": 3,
+    "day": 1,
+    "global_day": 99,
+    "question": "Vì sao citation không chỉ là một URL? Score retrieval có nên trả thẳng cho người dùng không?"
+  },
+  {
+    "month": 4,
+    "week": 3,
+    "day": 2,
+    "global_day": 100,
+    "question": "Rewrite cải thiện recall hay faithfulness? Vì sao không để rewrite chọn collection?"
+  },
+  {
+    "month": 4,
+    "week": 3,
+    "day": 3,
+    "global_day": 101,
+    "question": "Vì sao không rerank toàn bộ collection? Reranking tác động metric nào trước tiên?"
+  },
+  {
+    "month": 4,
+    "week": 3,
+    "day": 4,
+    "global_day": 102,
+    "question": "Context compression khác reranking thế nào? Cắt text có rủi ro gì cho citation?"
+  },
+  {
+    "month": 4,
+    "week": 3,
+    "day": 5,
+    "global_day": 103,
+    "question": "Vì sao Pydantic pass vẫn chưa chứng minh citation đúng? Khi nào nên từ chối thay vì sửa citation?"
+  },
+  {
+    "month": 4,
+    "week": 3,
+    "day": 6,
+    "global_day": 104,
+    "question": "Thiếu evidence khác upstream error thế nào? Threshold sẽ được kiểm chứng bằng dữ liệu nào?"
+  },
+  {
+    "month": 4,
+    "week": 3,
+    "day": 7,
+    "global_day": 105,
+    "question": "Vì sao delimiters không đủ một mình? Tại sao document không được gọi tool?"
+  },
+  {
+    "month": 4,
+    "week": 4,
+    "day": 1,
+    "global_day": 106,
+    "question": "Vì sao expected answer chưa đủ để đánh giá retrieval? No-answer case đo gì?"
+  },
+  {
+    "month": 4,
+    "week": 4,
+    "day": 2,
+    "global_day": 107,
+    "question": "Hit@10 cao nhưng MRR thấp nói gì? Vì sao không dùng answer text để tính hit@k?"
+  },
+  {
+    "month": 4,
+    "week": 4,
+    "day": 3,
+    "global_day": 108,
+    "question": "Khi nào dense thắng hybrid? Tại sao p95 quan trọng hơn chỉ average latency?"
+  },
+  {
+    "month": 4,
+    "week": 4,
+    "day": 4,
+    "global_day": 109,
+    "question": "Vì sao không gate faithfulness bằng một assert string? Threshold nên được thay đổi khi nào?"
+  },
+  {
+    "month": 4,
+    "week": 4,
+    "day": 5,
+    "global_day": 110,
+    "question": "Faithfulness khác answer relevancy thế nào? Vì sao CI không nên phụ thuộc hoàn toàn LLM judge?"
+  },
+  {
+    "month": 4,
+    "week": 4,
+    "day": 6,
+    "global_day": 111,
+    "question": "Một low faithfulness case cần debug bước nào đầu? Khi nào không nên đổi default dù metric tăng nhẹ?"
+  },
+  {
+    "month": 4,
+    "week": 4,
+    "day": 7,
+    "global_day": 112,
+    "question": "Demo có chứng minh production readiness không? Agent Month-05 cần nhận field nào từ RAG? Những phần nào phải fake để test ổn định?"
+  },
+  {
+    "month": 5,
+    "week": 1,
+    "day": 1,
+    "global_day": 113,
+    "question": "Tool calling có tự tạo persistence không? Vì sao FAQ một lượt không cần graph?"
+  },
+  {
+    "month": 5,
+    "week": 1,
+    "day": 2,
+    "global_day": 114,
+    "question": "Vì sao không đưa OpenAI client vào state? Node cần trả toàn bộ state hay chỉ update?"
+  },
+  {
+    "month": 5,
+    "week": 1,
+    "day": 3,
+    "global_day": 115,
+    "question": "Khi nào rule-based route tốt hơn LLM classifier? Fixed edge khác conditional edge thế nào?"
+  },
+  {
+    "month": 5,
+    "week": 1,
+    "day": 4,
+    "global_day": 116,
+    "question": "Vì sao một conditional function phải trả giá trị hữu hạn? Điều gì xảy ra nếu gắn cả fixed và conditional edge?"
+  },
+  {
+    "month": 5,
+    "week": 1,
+    "day": 5,
+    "global_day": 117,
+    "question": "Tại sao citation review không nên nằm chung trong prompt draft? Direct answer có được gắn citation không?"
+  },
+  {
+    "month": 5,
+    "week": 1,
+    "day": 6,
+    "global_day": 118,
+    "question": "Vì sao chưa gọi đây là agent tự trị? API response nên ẩn state keys nào?"
+  },
+  {
+    "month": 5,
+    "week": 1,
+    "day": 7,
+    "global_day": 119,
+    "question": "Week 2 cần lưu state nào? Vì sao không checkpoint client object? Những nhánh nào cần metric baseline?"
+  },
+  {
+    "month": 5,
+    "week": 2,
+    "day": 1,
+    "global_day": 120,
+    "question": "Vì sao `thread_id` không được là email? Checkpoint khác audit log ra sao?"
+  },
+  {
+    "month": 5,
+    "week": 2,
+    "day": 2,
+    "global_day": 121,
+    "question": "Vì sao checkpointer là dependency? `thread_id` nằm trong config hay state vì sao?"
+  },
+  {
+    "month": 5,
+    "week": 2,
+    "day": 3,
+    "global_day": 122,
+    "question": "Tại sao không trả full state cho frontend? Replay nào cần approval lại?"
+  },
+  {
+    "month": 5,
+    "week": 2,
+    "day": 4,
+    "global_day": 123,
+    "question": "Trimming có phải long-term memory không? Mất ngữ cảnh được phát hiện thế nào?"
+  },
+  {
+    "month": 5,
+    "week": 2,
+    "day": 5,
+    "global_day": 124,
+    "question": "Vì sao không auto-migrate trong node? Redis và Postgres khác nhau ở durability nào?"
+  },
+  {
+    "month": 5,
+    "week": 2,
+    "day": 6,
+    "global_day": 125,
+    "question": "Test nào chứng minh durability thật? Khi skip integration, chất lượng nào vẫn được đảm bảo?"
+  },
+  {
+    "month": 5,
+    "week": 2,
+    "day": 7,
+    "global_day": 126,
+    "question": "Vì sao approval cần durable checkpoint? Retention chịu trách nhiệm bởi module nào?"
+  },
+  {
+    "month": 5,
+    "week": 3,
+    "day": 1,
+    "global_day": 127,
+    "question": "Approval có làm path traversal an toàn không? Vì sao tool schema chưa đủ permission?"
+  },
+  {
+    "month": 5,
+    "week": 3,
+    "day": 2,
+    "global_day": 128,
+    "question": "Vì sao side effect không đặt trước interrupt? Người duyệt cần thấy thông tin nào là đủ?"
+  },
+  {
+    "month": 5,
+    "week": 3,
+    "day": 3,
+    "global_day": 129,
+    "question": "Edit khác approve như thế nào? Vì sao reject không nên trả 500?"
+  },
+  {
+    "month": 5,
+    "week": 3,
+    "day": 4,
+    "global_day": 130,
+    "question": "Khi nào cùng content không nên dùng chung key? Idempotency thay transaction được không?"
+  },
+  {
+    "month": 5,
+    "week": 3,
+    "day": 5,
+    "global_day": 131,
+    "question": "Timeout khác cancellation thế nào? Vì sao retry validation error gây hại?"
+  },
+  {
+    "month": 5,
+    "week": 3,
+    "day": 6,
+    "global_day": 132,
+    "question": "Max steps có thay tool budget không? Error recovery nào cần người dùng bắt đầu request mới?"
+  },
+  {
+    "month": 5,
+    "week": 3,
+    "day": 7,
+    "global_day": 133,
+    "question": "Approval log cần đủ gì để audit? Node nào phải idempotent khi resume?"
+  },
+  {
+    "month": 5,
+    "week": 4,
+    "day": 1,
+    "global_day": 134,
+    "question": "Vì sao prompt filter không thay permission boundary? False positive xử lý ở đâu?"
+  },
+  {
+    "month": 5,
+    "week": 4,
+    "day": 2,
+    "global_day": 135,
+    "question": "Output validation khác prompt instruction thế nào? Vì sao direct answer không có citation mặc định?"
+  },
+  {
+    "month": 5,
+    "week": 4,
+    "day": 3,
+    "global_day": 136,
+    "question": "Allowlist parameter quan trọng khi nào? Một tool read-only còn cần timeout/budget không?"
+  },
+  {
+    "month": 5,
+    "week": 4,
+    "day": 4,
+    "global_day": 137,
+    "question": "Vì sao hash thread ID vẫn cần được bảo vệ? Trace có thể thay audit log không?"
+  },
+  {
+    "month": 5,
+    "week": 4,
+    "day": 5,
+    "global_day": 138,
+    "question": "Unit test và evaluation dataset khác nhau thế nào? No-action case chứng minh rủi ro nào?"
+  },
+  {
+    "month": 5,
+    "week": 4,
+    "day": 6,
+    "global_day": 139,
+    "question": "Tool correctness không đo điều gì? Vì sao missing credential là skip chứ không pass?"
+  },
+  {
+    "month": 5,
+    "week": 4,
+    "day": 7,
+    "global_day": 140,
+    "question": "Quality gate nào chạy offline? Month-06 cần biết dependency nào để readiness? Vì sao demo fake export vẫn hữu ích?"
+  },
+  {
+    "month": 6,
+    "week": 1,
+    "day": 1,
+    "global_day": 141,
+    "question": "Vì sao build arg không phù hợp secret? Biến nào cần fail-fast? Log config có thể rò gì?"
+  },
+  {
+    "month": 6,
+    "week": 1,
+    "day": 2,
+    "global_day": 142,
+    "question": "Probe nào dùng cho restart? Vì sao readiness cần timeout? 503 khác 500 thế nào?"
+  },
+  {
+    "month": 6,
+    "week": 1,
+    "day": 3,
+    "global_day": 143,
+    "question": "Correlation ID giúp debug xuyên service ra sao? Field nào có cardinality cao? Vì sao không log prompt mặc định?"
+  },
+  {
+    "month": 6,
+    "week": 1,
+    "day": 4,
+    "global_day": 144,
+    "question": "Builder và runtime stage khác gì? Lockfile đảm bảo điều gì? Non-root còn cần file permission nào?"
+  },
+  {
+    "month": 6,
+    "week": 1,
+    "day": 5,
+    "global_day": 145,
+    "question": "Vì sao source mount không phù hợp production? Healthcheck Docker khác readiness API ra sao? Volume nào có state?"
+  },
+  {
+    "month": 6,
+    "week": 1,
+    "day": 6,
+    "global_day": 146,
+    "question": "429 nên có gì? Vì sao health endpoint không cùng limiter? Rate limit có ngăn prompt injection không?"
+  },
+  {
+    "month": 6,
+    "week": 1,
+    "day": 7,
+    "global_day": 147,
+    "question": "Scan khác triage thế nào? Lỗi nào chặn deploy? Vì sao không update dependency mù quáng?"
+  },
+  {
+    "month": 6,
+    "week": 2,
+    "day": 1,
+    "global_day": 148,
+    "question": "Security group khác firewall trong container thế nào? Vì sao API không publish thẳng 8000? Dependency nào cần có trong readiness?"
+  },
+  {
+    "month": 6,
+    "week": 2,
+    "day": 2,
+    "global_day": 149,
+    "question": "Docker group có rủi ro gì? Vì sao secret file không nằm cạnh source? User container có thay user host không?"
+  },
+  {
+    "month": 6,
+    "week": 2,
+    "day": 3,
+    "global_day": 150,
+    "question": "Vì sao không `git pull` rồi build trên EC2? Tag nào đủ để rollback? Named volume được tạo khi nào?"
+  },
+  {
+    "month": 6,
+    "week": 2,
+    "day": 4,
+    "global_day": 151,
+    "question": "502 nói gì về upstream? Vì sao `/ready` không nên cache? Header nào không nên trust trực tiếp từ Internet?"
+  },
+  {
+    "month": 6,
+    "week": 2,
+    "day": 5,
+    "global_day": 152,
+    "question": "DNS phải đúng trước bước nào? `--dry-run` kiểm tra gì? Vì sao không commit key TLS?"
+  },
+  {
+    "month": 6,
+    "week": 2,
+    "day": 6,
+    "global_day": 153,
+    "question": "Rollback image có hoàn tác schema không? RPO là gì? Vì sao restore phải được thử?"
+  },
+  {
+    "month": 6,
+    "week": 2,
+    "day": 7,
+    "global_day": 154,
+    "question": "Evidence nào chứng minh proxy hoạt động? Khi nào rollback thay vì sửa nóng? Điều gì khiến TLS là NOT_RUN hợp lệ?"
+  },
+  {
+    "month": 6,
+    "week": 3,
+    "day": 1,
+    "global_day": 155,
+    "question": "Vì sao deploy không chạy ở every PR? Unit test khác evaluation artifact ra sao? Permission tối thiểu nào đủ?"
+  },
+  {
+    "month": 6,
+    "week": 3,
+    "day": 2,
+    "global_day": 156,
+    "question": "Cache miss có làm sai kết quả không? Vì sao CI dùng `--locked`? Test fake client bảo vệ điều gì?"
+  },
+  {
+    "month": 6,
+    "week": 3,
+    "day": 3,
+    "global_day": 157,
+    "question": "`if: always()` dùng cho việc gì? Vì sao không upload `.env` để debug? Integration test khác deployment rehearsal nào?"
+  },
+  {
+    "month": 6,
+    "week": 3,
+    "day": 4,
+    "global_day": 158,
+    "question": "Digest dùng để làm gì? Scan fail nào phải block? Vì sao build không đồng nghĩa deploy?"
+  },
+  {
+    "month": 6,
+    "week": 3,
+    "day": 5,
+    "global_day": 159,
+    "question": "Vì sao `latest` nguy hiểm khi rollback? Environment secret xuất hiện ở job nào? CI approval có phê duyệt export report không?"
+  },
+  {
+    "month": 6,
+    "week": 3,
+    "day": 6,
+    "global_day": 160,
+    "question": "Test xanh có đủ release không? Ai phê duyệt môi trường? Điều gì khác rollback image và rollback data?"
+  },
+  {
+    "month": 6,
+    "week": 3,
+    "day": 7,
+    "global_day": 161,
+    "question": "Concurrency bảo vệ điều gì? Artifact nào hỗ trợ postmortem? Khi workflow fail, bước đầu tiên là gì?"
+  },
+  {
+    "month": 6,
+    "week": 4,
+    "day": 1,
+    "global_day": 162,
+    "question": "Vì sao request ID không là metric label? Histogram dùng để trả lời gì? Metric nào chỉ ra readiness outage?"
+  },
+  {
+    "month": 6,
+    "week": 4,
+    "day": 2,
+    "global_day": 163,
+    "question": "Token count có luôn bằng bill không? Vì sao pricing version cần lưu? Nếu provider không trả usage thì làm gì?"
+  },
+  {
+    "month": 6,
+    "week": 4,
+    "day": 3,
+    "global_day": 164,
+    "question": "Sampling làm mất thông tin nào? Trace thay audit log không? Vì sao trace disabled vẫn cần test?"
+  },
+  {
+    "month": 6,
+    "week": 4,
+    "day": 4,
+    "global_day": 165,
+    "question": "Vì sao score trung bình có thể che safety regression? Baseline nằm ở đâu? Khi nào evaluation chỉ nên warn thay vì block?"
+  },
+  {
+    "month": 6,
+    "week": 4,
+    "day": 5,
+    "global_day": 166,
+    "question": "Alert nào cần page ngay? Vì sao high-cardinality metric nguy hiểm? Error analysis khác counter lỗi thế nào?"
+  },
+  {
+    "month": 6,
+    "week": 4,
+    "day": 6,
+    "global_day": 167,
+    "question": "ADR khác README thế nào? Demo nào chứng minh HITL? Boundary nào bảo vệ secret?"
+  },
+  {
+    "month": 6,
+    "week": 4,
+    "day": 7,
+    "global_day": 168,
+    "question": "Bằng chứng nào chứng minh quality gate? Điều gì không thể khẳng định nếu chưa có domain? Người vận hành mới bắt đầu incident ở đâu?"
+  }
+]

@@ -338,25 +338,106 @@
     .alert-warning { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); color: #fde047; }
     .alert-important { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; }
 
-    /* Self Check Questions Accordion */
+    /* Self Check Questions Accordion & Toggle Answer */
     .question-item {
-      background: #0f172a;
+      background: rgba(15, 23, 42, 0.7);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      margin-bottom: 10px;
+      border-radius: 12px;
+      margin-bottom: 12px;
       overflow: hidden;
+      transition: all 0.2s ease;
+    }
+    .question-item:hover {
+      border-color: rgba(96, 165, 250, 0.4);
     }
     .question-head {
-      padding: 12px 16px;
+      padding: 14px 18px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: #e2e8f0;
+      gap: 16px;
+      color: #f1f5f9;
+      background: rgba(30, 41, 59, 0.4);
+      transition: background 0.2s;
     }
-    .question-head:hover { background: rgba(255,255,255,0.03); }
+    .question-head:hover { background: rgba(30, 41, 59, 0.8); }
+    .question-text {
+      flex: 1;
+      line-height: 1.5;
+    }
+    .q-number {
+      color: #60a5fa;
+      font-weight: 700;
+      margin-right: 4px;
+    }
+    .btn-toggle-answer {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-toggle-answer:hover {
+      background: rgba(59, 130, 246, 0.3);
+      color: #ffffff;
+      border-color: #3b82f6;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.35);
+    }
+    .btn-toggle-answer.active {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #6ee7b7;
+    }
+    .btn-toggle-answer .arrow {
+      font-size: 0.75rem;
+      transition: transform 0.2s ease;
+    }
+    .btn-toggle-answer.active .arrow {
+      transform: rotate(180deg);
+    }
+    .question-answer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 23, 42, 0.95);
+      animation: fadeIn 0.2s ease-in-out;
+    }
+    .answer-content {
+      padding: 16px 20px;
+      border-left: 4px solid #3b82f6;
+      margin: 12px 16px 16px 16px;
+      background: rgba(30, 41, 59, 0.6);
+      border-radius: 0 10px 10px 0;
+    }
+    .answer-badge {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .answer-text {
+      font-size: 0.9rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* Search Results Drawer */
     .search-results-container {
@@ -731,13 +812,30 @@
       const reason = state.reasons[dayKey] || '';
 
       const questionsHtml = day.self_check_questions && day.self_check_questions.length > 0 
-        ? day.self_check_questions.map((q, i) => `
+        ? day.self_check_questions.map((q, i) => {
+            const isObj = typeof q === 'object' && q !== null;
+            const qText = isObj ? q.question : q;
+            const qAns = isObj ? (q.answer || '') : '';
+            const qId = `ans-${selectedMonthIdx}-${selectedWeekIdx}-${day.week_day}-${i}`;
+            return `
             <div class="question-item">
-              <div class="question-head">
-                <span>❓ Câu ${i+1}: ${renderMarkdownLinks(q)}</span>
+              <div class="question-head" onclick="toggleAnswer('${qId}')">
+                <div class="question-text">
+                  <span class="q-number">❓ Câu ${i+1}:</span> ${renderMarkdownLinks(qText)}
+                </div>
+                <button class="btn-toggle-answer" id="btn-${qId}" type="button" aria-label="Xem câu trả lời" onclick="event.stopPropagation(); toggleAnswer('${qId}');">
+                  <span class="icon">💡</span> <span class="label">Xem câu trả lời</span> <span class="arrow">▼</span>
+                </button>
+              </div>
+              <div class="question-answer" id="${qId}" style="display: none;">
+                <div class="answer-content">
+                  <div class="answer-badge">💡 GỢI Ý TRẢ LỜI</div>
+                  <div class="answer-text">${qAns ? renderMarkdownLinks(qAns) : 'Chưa có câu trả lời mẫu cho câu hỏi này.'}</div>
+                </div>
               </div>
             </div>
-          `).join('')
+          `;
+          }).join('')
         : '<p style="color: var(--text-muted); font-size: 0.88rem;">Không có câu hỏi kiểm tra cho ngày này.</p>';
 
       const pitfallsHtml = currentWeek.pitfalls && currentWeek.pitfalls.length > 0
@@ -986,6 +1084,24 @@
     function closeSearch() {
       document.getElementById('search-results').style.display = 'none';
       document.getElementById('search-input').value = '';
+    }
+
+    function toggleAnswer(id) {
+      const el = document.getElementById(id);
+      const btn = document.getElementById('btn-' + id);
+      if (!el || !btn) return;
+      const isOpen = el.style.display !== 'none';
+      if (isOpen) {
+        el.style.display = 'none';
+        btn.classList.remove('active');
+        const label = btn.querySelector('.label');
+        if (label) label.textContent = 'Xem câu trả lời';
+      } else {
+        el.style.display = 'block';
+        btn.classList.add('active');
+        const label = btn.querySelector('.label');
+        if (label) label.textContent = 'Ẩn câu trả lời';
+      }
     }
 
     init();
