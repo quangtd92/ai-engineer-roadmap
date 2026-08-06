@@ -7,7 +7,15 @@ from ai_assistant_platform.api.routes.chat import router as chat_router
 from ai_assistant_platform.api.routes.health import router as health_router
 from ai_assistant_platform.core.logging import setup_logging
 
-app = FastAPI()
+app = FastAPI(
+    title="AI Assistant Platform",
+    version="1.0.0",
+    description="AI Assistant Platform",
+    tags=[
+        {"name": "chat", "description": "Chat API"},
+        {"name": "health", "description": "Health Check API"},
+    ],
+)
 app.include_router(health_router)
 app.include_router(chat_router)
 
