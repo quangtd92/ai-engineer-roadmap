@@ -51,3 +51,15 @@ def test_chat_domain_error(client: TestClient, monkeypatch: pytest.MonkeyPatch):
         "code": "INVALID_MESSAGE",
         "detail": "Message was rejected by the chat service",
     }
+
+
+def test_chat_openapi_documents_runtime_error_contract(client: TestClient):
+    operation = client.get("/openapi.json").json()["paths"]["/api/v1/chat"]["post"]
+    responses = operation["responses"]
+
+    assert responses["400"]["content"]["application/json"]["schema"]["$ref"] == (
+        "#/components/schemas/ErrorResponse"
+    )
+    assert responses["422"]["content"]["application/json"]["schema"]["$ref"] == (
+        "#/components/schemas/ErrorResponse"
+    )

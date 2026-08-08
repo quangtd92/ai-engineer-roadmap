@@ -1,23 +1,27 @@
 from fastapi import APIRouter
 
 from ai_assistant_platform.api.schemas import ChatRequest, ChatResponse
+from ai_assistant_platform.api.schemas.errors import ErrorResponse
 from ai_assistant_platform.domain.chat import ChatMessage
 from ai_assistant_platform.services import build_mock_reply
 
 router = APIRouter(
     prefix="/api/v1",
     tags=["chatbot"],
-    responses={418: {"description": "I'm a teapot"}},
 )
 
 
-@router.post("/chat")
+@router.post(
+    "/chat",
+    response_model=ChatResponse,
+    responses={
+        400: {"model": ErrorResponse, "description": "Invalid message"},
+        422: {"model": ErrorResponse, "description": "Request validation error"},
+    },
+)
 def chat(request: ChatRequest) -> ChatResponse:
-    # 1. Map từ API Schema -> Domain Model
     domain_message = ChatMessage("user", request.content)
 
-    # 2. Gọi Service với Domain Model
     reply = build_mock_reply(domain_message)
 
-    # 3. Trả về API Response Schema
     return ChatResponse(reply=reply)

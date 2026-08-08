@@ -16,3 +16,14 @@ uv run pytest
 uv run ruff check --fix
 uv run ruff format
 ```
+
+## OpenAPI Schema
+
+- Swagger UI: http://localhost:8001/docs
+- OpenAPI JSON: http://localhost:8001/openapi.json
+
+## Example Request
+
+```powershell
+curl -X POST "http://localhost:8001/api/v1/chat" -H "Content-Type: application/json" -d "{\"content\": \"Hello\"}"
+```
