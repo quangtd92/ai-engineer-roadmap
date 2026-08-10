@@ -1,6 +1,7 @@
 # Unit tests for StatusClient (Day 16)
 import httpx
 import pytest
+
 from ai_assistant_platform.core.errors import ExternalServiceError
 from ai_assistant_platform.services.status_client import StatusClient
 

@@ -1,11 +1,15 @@
-from ai_assistant_platform.core.errors import ExternalServiceError
 import httpx
 
-class StatusClient():
-    def __init__(self, client: httpx.AsyncClient | None = None, timeout: float  = 2) -> None:
+from ai_assistant_platform.core.errors import ExternalServiceError
+
+
+class StatusClient:
+    def __init__(
+        self, client: httpx.AsyncClient | None = None, timeout: float = 2
+    ) -> None:
         self.client = client
         self.timeout = timeout
-        
+
     async def get_status(self, url: str) -> dict:
         try:
             response = await self.client.get(url, timeout=self.timeout)

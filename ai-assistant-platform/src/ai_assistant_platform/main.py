@@ -1,4 +1,7 @@
-﻿"""Application entry point for the AI assistant platform."""
+"""Application entry point for the AI assistant platform."""
+
+import logging
+from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
@@ -19,8 +22,17 @@ from ai_assistant_platform.core.errors import (
     validation_error_handler,
 )
 from ai_assistant_platform.core.logging import setup_logging
+from ai_assistant_platform.core.middleware import RequestIDMiddleware
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    setup_logging(level=logging.INFO)
+    yield
+
 
 app = FastAPI(
+    lifespan=lifespan,
     title="AI Assistant Platform",
     version="1.0.0",
     description="AI Assistant Platform",
@@ -39,10 +51,10 @@ app.add_exception_handler(NotFoundError, not_found_error_handler)
 app.add_exception_handler(ExternalServiceError, external_service_error_handler)
 app.add_exception_handler(LLMProviderError, llm_provider_error_handler)
 
+app.add_middleware(RequestIDMiddleware)
+
 
 def main() -> None:
-    """Initialize logging and start the AI assistant platform."""
-    setup_logging()
     print("ai-assistant-platform ready")
     uvicorn.run(
         "ai_assistant_platform.main:app", host="127.0.0.1", port=8001, reload=True

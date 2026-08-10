@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 from fastapi.testclient import TestClient
 
 from ai_assistant_platform.api.routes import chat as chat_route
