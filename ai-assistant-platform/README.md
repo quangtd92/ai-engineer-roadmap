@@ -2,6 +2,7 @@
 
 ```powershell
 uv run python -m ai_assistant_platform.main
+uv run uvicorn ai_assistant_platform.main:app --reload --port=8001
 ```
 
 ## Run test

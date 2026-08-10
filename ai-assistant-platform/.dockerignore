@@ -1,0 +1,32 @@
+# Virtual Environment & Python cache
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment & Secrets (CRITICAL)
+.env
+.env.*
+!.env.example
+
+# Git
+.git/
+.gitignore
+
+# Caches & Logs
+.pytest_cache/
+.ruff_cache/
+*.log
+logs.log
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+Dockerfile
+docker-compose*.yml
+tests/
+*.md
+!README.md
