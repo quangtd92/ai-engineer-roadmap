@@ -55,7 +55,6 @@ app.add_middleware(RequestIDMiddleware)
 
 
 def main() -> None:
-    print("ai-assistant-platform ready")
     uvicorn.run(
         "ai_assistant_platform.main:app", host="127.0.0.1", port=8001, reload=True
     )
