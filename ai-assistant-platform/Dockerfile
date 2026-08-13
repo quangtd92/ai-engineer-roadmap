@@ -29,8 +29,4 @@ RUN uv sync --frozen --no-cache
 # Expose port 8001
 EXPOSE 8001
 
-# Run the FastAPI application using uvicorn
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-    CMD ["python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
-
 CMD ["uv", "run", "uvicorn", "ai_assistant_platform.main:app", "--host", "0.0.0.0", "--port", "8001"]

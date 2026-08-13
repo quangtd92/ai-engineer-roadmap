@@ -28,3 +28,11 @@ uv run ruff format
 ```powershell
 curl -X POST "http://localhost:8001/api/v1/chat" -H "Content-Type: application/json" -d "{\"content\": \"Hello\"}"
 ```
+
+## Build Docker image
+
+```bash
+docker compose up --build -d
+
+docker compose down
+```
