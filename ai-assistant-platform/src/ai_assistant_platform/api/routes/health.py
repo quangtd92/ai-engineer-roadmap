@@ -7,7 +7,10 @@ from ai_assistant_platform.api.dependencies import get_settings
 from ai_assistant_platform.api.schemas.health import HealthResponse
 from ai_assistant_platform.core.config import Settings
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/api/v1",
+    tags=["health"],
+)
 
 logger = logging.getLogger(__name__)
 

@@ -8,7 +8,7 @@ client = TestClient(app)
 
 
 def test_health_endpoint():
-    response = client.get("/health")
+    response = client.get("/api/v1/health")
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "ok"
@@ -20,7 +20,7 @@ def test_health_endpoint_with_dependency_override():
     mock_settings = Settings(app_name="test-app", app_env="testing")
     app.dependency_overrides[get_settings] = lambda: mock_settings
 
-    response = client.get("/health")
+    response = client.get("/api/v1/health")
     assert response.status_code == 200
     assert response.json()["app_env"] == "testing"
 

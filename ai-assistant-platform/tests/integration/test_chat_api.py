@@ -15,27 +15,32 @@ def test_chat_success(client: TestClient):
     response = client.post("/api/v1/chat", json={"content": "Hello there"})
     assert response.status_code == 200
     assert "reply" in response.json()
+    assert "X-Request-ID" in response.headers
 
 
 def test_chat_empty_content(client: TestClient):
     response = client.post("/api/v1/chat", json={"content": ""})
     assert response.status_code == 422
+    assert response.json()["code"] == "VALIDATION_ERROR"
 
 
 def test_chat_whitespace_content(client: TestClient):
     response = client.post("/api/v1/chat", json={"content": "   "})
     assert response.status_code == 422
+    assert response.json()["code"] == "VALIDATION_ERROR"
 
 
 def test_chat_content_too_long(client: TestClient):
     long_content = "a" * 1001
     response = client.post("/api/v1/chat", json={"content": long_content})
     assert response.status_code == 422
+    assert response.json()["code"] == "VALIDATION_ERROR"
 
 
 def test_chat_missing_content(client: TestClient):
     response = client.post("/api/v1/chat", json={})
     assert response.status_code == 422
+    assert response.json()["code"] == "VALIDATION_ERROR"
 
 
 def test_chat_domain_error(client: TestClient, monkeypatch: pytest.MonkeyPatch):
