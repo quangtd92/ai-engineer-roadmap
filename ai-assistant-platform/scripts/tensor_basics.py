@@ -1,12 +1,13 @@
 import torch
 
 def main():
-    tensor = torch.tensor([[1.0, 2.0]])
+    tensor = torch.tensor([[123.0, 23.0]])
 
     shape = tensor.shape
     device = tensor.device
     dtype = tensor.dtype
 
+    print(tensor)
     print(shape)
     print(device)
     print(dtype)
