@@ -1,27 +1,15 @@
-from fastapi.testclient import TestClient
-
-from ai_assistant_platform.api.dependencies import get_settings
+from ai_assistant_platform.api.routes.health import health_check
+from ai_assistant_platform.api.schemas.health import HealthResponse
 from ai_assistant_platform.core.config import Settings
-from ai_assistant_platform.main import app
-
-client = TestClient(app)
 
 
-def test_health_endpoint():
-    response = client.get("/api/v1/health")
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "ok"
-    assert "app_name" in data
-    assert "app_env" in data
+def test_health_check():
+    """Unit test: gọi trực tiếp hàm health_check không qua HTTP/TestClient."""
+    settings = Settings(app_name="unit-test-app", app_env="testing")
+    response = health_check(settings=settings)
 
+    assert isinstance(response, HealthResponse)
+    assert response.status == "ok"
+    assert response.app_name == "unit-test-app"
+    assert response.app_env == "testing"
 
-def test_health_endpoint_with_dependency_override():
-    mock_settings = Settings(app_name="test-app", app_env="testing")
-    app.dependency_overrides[get_settings] = lambda: mock_settings
-
-    response = client.get("/api/v1/health")
-    assert response.status_code == 200
-    assert response.json()["app_env"] == "testing"
-
-    app.dependency_overrides.clear()

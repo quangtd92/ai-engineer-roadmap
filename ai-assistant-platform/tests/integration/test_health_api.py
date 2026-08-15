@@ -24,3 +24,19 @@ def test_status_success(client: TestClient):
     assert response.status_code == 200
     assert response.json() == {"status": "ready"}
     assert "X-Request-ID" in response.headers
+
+
+def test_health_endpoint_with_dependency_override(client: TestClient):
+    from ai_assistant_platform.api.dependencies import get_settings
+    from ai_assistant_platform.core.config import Settings
+
+    mock_settings = Settings(app_name="test-app", app_env="testing")
+    app.dependency_overrides[get_settings] = lambda: mock_settings
+
+    try:
+        response = client.get("/api/v1/health")
+        assert response.status_code == 200
+        assert response.json()["app_env"] == "testing"
+    finally:
+        app.dependency_overrides.clear()
+

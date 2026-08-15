@@ -1,11 +1,12 @@
-from fastapi.testclient import TestClient
-
-from ai_assistant_platform.main import app
-
-client = TestClient(app)
+from ai_assistant_platform.api.routes.chat import chat
+from ai_assistant_platform.api.schemas import ChatRequest, ChatResponse
 
 
-def test_chat_endpoint_success():
-    response = client.post("/api/v1/chat", json={"content": "Hello World"})
-    assert response.status_code == 200
-    assert response.json() == {"reply": "Mock reply to: Hello World"}
+def test_chat_route_handler():
+    """Unit test: gọi trực tiếp hàm chat route handler."""
+    request = ChatRequest(content="Hello World")
+    response = chat(request)
+
+    assert isinstance(response, ChatResponse)
+    assert response.reply == "Mock reply to: Hello World"
+

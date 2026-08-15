@@ -1,29 +1,13 @@
-"""Tests for the async status endpoint (Day 15)."""
+"""Unit tests for the async status route handler."""
 
-from fastapi.testclient import TestClient
+import pytest
 
-from ai_assistant_platform.main import app
-
-client = TestClient(app)
+from ai_assistant_platform.api.routes.status import get_status
 
 
-class TestStatusEndpoint:
-    """Test GET /api/v1/status endpoint."""
+@pytest.mark.anyio
+async def test_get_status_handler():
+    """Unit test: gọi trực tiếp async handler get_status."""
+    response = await get_status()
+    assert response == {"status": "ready"}
 
-    def test_status_returns_200(self):
-        """Route trả status code 200."""
-        response = client.get("/api/v1/status")
-        assert response.status_code == 200
-
-    def test_status_returns_ready(self):
-        """Response body là {"status": "ready"}."""
-        response = client.get("/api/v1/status")
-        data = response.json()
-        assert data == {"status": "ready"}
-
-    def test_status_called_multiple_times(self):
-        """Gọi route nhiều lần đều trả kết quả nhất quán (không blocking)."""
-        for _ in range(5):
-            response = client.get("/api/v1/status")
-            assert response.status_code == 200
-            assert response.json()["status"] == "ready"
