@@ -86,6 +86,7 @@ Chạy bộ kiểm thử tự động và kiểm tra chất lượng mã nguồn
 | `GET` | `/api/v1/health` | Health check endpoint trả về trạng thái service & tên môi trường |
 | `GET` | `/api/v1/status` | Async status endpoint kiểm tra khả năng phục vụ |
 | `POST` | `/api/v1/chat` | Echo/process endpoint gửi tin nhắn tới assistant |
+| `POST` | `/api/v1/inference/score` | Chấm điểm deterministic PyTorch toy model từ vector số thực |
 
 ### Ví dụ Lệnh `curl` kiểm tra
 
@@ -106,6 +107,13 @@ Chạy bộ kiểm thử tự động và kiểm tra chất lượng mã nguồn
      -d "{\"content\": \"Xin chào AI Assistant\"}"
    ```
 
+4. **PyTorch Toy Model Inference** (Sử dụng curl)
+   ```powershell
+   curl -X POST "http://localhost:8001/api/v1/inference/score" `
+     -H "Content-Type: application/json" `
+     -d "{\"values\": [1.0, 2.0]}"
+   ```
+
 ---
 
 ## 🛠️ Troubleshooting (Xử lý lỗi thường gặp)
@@ -120,4 +128,43 @@ Chạy bộ kiểm thử tự động và kiểm tra chất lượng mã nguồn
      ```powershell
      cp .env.example .env
      ```
+
+---
+
+## 🧪 Quy trình chạy và Lệnh Smoke Test đầy đủ
+
+### **Bước 1: Build và khởi động Container**
+```powershell
+# Chạy tại thư mục ai-assistant-platform
+docker compose up --build -d
+```
+
+### **Bước 2: Health Check**
+```powershell
+curl -X GET "http://localhost:8001/api/v1/health"
+```
+*Kết quả mong đợi*: `HTTP 200 OK`, `{"status":"ok","environment":"development"}`
+
+### **Bước 3: Status Check**
+```powershell
+curl -X GET "http://localhost:8001/api/v1/status"
+```
+*Kết quả mong đợi*: `HTTP 200 OK`, `{"message":"Service is healthy and ready to process requests."}`
+
+### **Bước 4: Chat Endpoint**
+```powershell
+curl -X POST "http://localhost:8001/api/v1/chat" `
+     -H "Content-Type: application/json" `
+     -d "{\"content\": \"Xin chào AI Assistant\"}"
+```
+*Kết quả mong đợi*: `HTTP 200 OK`, `{"content":"Xin chào AI Assistant","request_id":"..."}`
+
+### **Bước 5: Toy Model Inference**
+```powershell
+curl -X POST "http://localhost:8001/api/v1/inference/score" `
+     -H "Content-Type: application/json" `
+     -d "{\"values\": [1.0, 2.0]}"
+```
+*Kết quả mong đợi*: `HTTP 200 OK`, `{"score": <giá trị float>}`
+
 

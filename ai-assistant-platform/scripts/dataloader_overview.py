@@ -1,5 +1,6 @@
 import torch
-from torch.utils.data import Dataset, DataLoader 
+from torch.utils.data import DataLoader, Dataset
+
 
 class ToyVectorDataset(Dataset):
     def __init__(self, data: list[list[float]]):
@@ -11,13 +12,9 @@ class ToyVectorDataset(Dataset):
     def __getitem__(self, idx) -> torch.Tensor:
         return self.data[idx]
 
+
 def main():
-    data = [
-        [1., 2.],
-        [3., 4.],
-        [5., 6.],
-        [7., 8.]
-    ]
+    data = [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0]]
 
     dataset = ToyVectorDataset(data)
     dataloader = DataLoader(dataset, batch_size=2, shuffle=True)

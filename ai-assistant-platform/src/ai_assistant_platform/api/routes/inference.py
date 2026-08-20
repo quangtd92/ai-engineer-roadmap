@@ -14,7 +14,8 @@ router = APIRouter(prefix="/api/v1", tags=["inference"])
 
 @router.post("/inference/score")
 def post_score(
-    data: InferenceRequest, service: Annotated[InferenceService, Depends(get_inference_service)]
+    data: InferenceRequest,
+    service: Annotated[InferenceService, Depends(get_inference_service)],
 ) -> InferenceResponse:
     result = service.run_inference(data.values)
     return InferenceResponse(score=result)

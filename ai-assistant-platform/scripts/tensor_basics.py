@@ -2,13 +2,13 @@ import torch
 
 
 def main():
-    tensor = torch.tensor([[[123.0, 23.0]],[[1., 2.]]])
+    tensor = torch.tensor([[[123.0, 23.0]], [[1.0, 2.0]]])
 
     shape = tensor.shape
     device = tensor.device
     dtype = tensor.dtype
 
-    print(f"xxx: {[[[123.0, 23.0]],[[1., 2.]]]}")
+    print(f"xxx: {[[[123.0, 23.0]], [[1.0, 2.0]]]}")
     print(f"tensor: {tensor}")
     print(f"shape: {shape}")
     print(f"device: {device}")

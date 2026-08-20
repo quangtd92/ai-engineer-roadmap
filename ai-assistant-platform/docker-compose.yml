@@ -1,6 +1,7 @@
 services:
   api:
     build: .
+    image: ai-assistant-platform:v1.1
     ports:
       - "${APP_PORT}:8001"
     env_file:
