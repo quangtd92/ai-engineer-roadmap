@@ -12,4 +12,3 @@ def test_health_check():
     assert response.status == "ok"
     assert response.app_name == "unit-test-app"
     assert response.app_env == "testing"
-

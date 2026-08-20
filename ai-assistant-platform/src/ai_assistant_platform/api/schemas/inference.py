@@ -1,5 +1,7 @@
 import math
-from pydantic import field_validator, Field, BaseModel
+
+from pydantic import BaseModel, Field, field_validator
+
 
 class InferenceRequest(BaseModel):
     values: list[float] = Field(
@@ -13,6 +15,7 @@ class InferenceRequest(BaseModel):
             if math.isnan(val) or math.isinf(val):
                 raise ValueError("Value have to be a float")
         return v
-    
+
+
 class InferenceResponse(BaseModel):
-    score: float    
+    score: float

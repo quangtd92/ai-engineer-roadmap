@@ -1,5 +1,6 @@
 import torch
-import torch.nn as nn
+from torch import nn
+
 
 class InferenceService:
     def __init__(self):
@@ -16,6 +17,4 @@ class InferenceService:
         x = torch.tensor(values, dtype=torch.float32)
         with torch.no_grad():
             prediction = self.model(x)
-        print(f"\n\n\n {prediction=}")
-        print(f"\n\n\n {prediction.item()=}")
         return float(prediction.item())

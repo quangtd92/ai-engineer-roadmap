@@ -1,5 +1,6 @@
 import torch
 
+
 def main():
     tensor = torch.tensor([[123.0, 23.0]])
 
@@ -13,6 +14,7 @@ def main():
     print(dtype)
     # get item (chỉ áp dụng cho tensor 1 phần tử, ví dụ phần tử đầu tiên tensor[0, 0])
     print(tensor[0, 0].item())
+
 
 if __name__ == "__main__":
     main()

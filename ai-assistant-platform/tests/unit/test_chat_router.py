@@ -9,4 +9,3 @@ def test_chat_route_handler():
 
     assert isinstance(response, ChatResponse)
     assert response.reply == "Mock reply to: Hello World"
-

@@ -9,6 +9,7 @@ from fastapi.exceptions import RequestValidationError
 
 from ai_assistant_platform.api.routes.chat import router as chat_router
 from ai_assistant_platform.api.routes.health import router as health_router
+from ai_assistant_platform.api.routes.inference import router as inference_router
 from ai_assistant_platform.api.routes.status import router as status_router
 from ai_assistant_platform.core.errors import (
     ExternalServiceError,
@@ -39,11 +40,13 @@ app = FastAPI(
     tags=[
         {"name": "chat", "description": "Chat API"},
         {"name": "health", "description": "Health Check API"},
+        {"name": "inference", "description": "Inference API"},
     ],
 )
 app.include_router(health_router)
 app.include_router(chat_router)
 app.include_router(status_router)
+app.include_router(inference_router)
 
 app.add_exception_handler(RequestValidationError, validation_error_handler)
 app.add_exception_handler(InvalidMessageError, invalid_message_error_handler)

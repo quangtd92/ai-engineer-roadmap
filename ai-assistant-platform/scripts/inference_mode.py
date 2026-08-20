@@ -1,8 +1,8 @@
 import torch
-import torch.nn as nn
+from torch import nn
 
 torch.manual_seed(2)
-x = torch.tensor([1., 2.])
+x = torch.tensor([1.0, 2.0])
 model = nn.Linear(2, 3)
 model_eval = model.eval()
 

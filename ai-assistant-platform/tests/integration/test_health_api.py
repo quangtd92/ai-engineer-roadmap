@@ -39,4 +39,3 @@ def test_health_endpoint_with_dependency_override(client: TestClient):
         assert response.json()["app_env"] == "testing"
     finally:
         app.dependency_overrides.clear()
-
