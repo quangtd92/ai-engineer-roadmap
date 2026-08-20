@@ -167,4 +167,15 @@ curl -X POST "http://localhost:8001/api/v1/inference/score" `
 ```
 *Kết quả mong đợi*: `HTTP 200 OK`, `{"score": <giá trị float>}`
 
+---
 
+## 🤖 Ghi chú về PyTorch Toy Inference Model
+
+> [!NOTE]
+> Endpoint `/api/v1/inference/score` tích hợp một mô hình tuyến tính đơn giản (`nn.Linear(2, 1)`) với seed cố định (`torch.manual_seed(2)`).
+> 
+> **Mục tiêu**: Kiểm thử và hoàn thiện toàn bộ luồng tích hợp PyTorch vào FastAPI (chế độ `eval()`, tắt gradient với `torch.no_grad()`, schema validation chống `NaN`/`Inf`, chuyển đổi Tensor sang scalar chuẩn).
+> 
+> **Lưu ý**: Đây là deterministic score baseline cho mục đích kiến trúc hệ thống, **không phải model AI/ML nghiệp vụ hoàn chỉnh**. Quá trình huấn luyện model thực tế (Training loop, Dataset/DataLoader, Loss functions, Optimizers) sẽ được triển khai trong **Month 02**.
+> 
+> Chi tiết xem thêm tại: [Month 02 Handoff & Technical Baseline](docs/month-02-handoff.md).

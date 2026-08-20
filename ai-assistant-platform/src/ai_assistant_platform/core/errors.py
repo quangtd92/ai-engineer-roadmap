@@ -8,39 +8,31 @@ logger = logging.getLogger(__name__)
 
 
 class PlatformError(Exception):
-    pass
+    """Base exception for all domain and platform errors."""
+
+    def __init__(self, message: str = ""):
+        super().__init__(message)
+        self.message = message
 
 
 class ValidationError(PlatformError):
-    pass
+    """Raised when data validation fails."""
 
 
-class BaseException(Exception):
-    pass
+class NotFoundError(PlatformError):
+    """Raised when a requested resource is not found."""
 
 
-class NotFoundError(BaseException):
-    def __init__(self, message):
-        super().__init__(message)
-        self.message = message
+class ExternalServiceError(PlatformError):
+    """Raised when an external downstream service fails or times out."""
 
 
-class ExternalServiceError(BaseException):
-    def __init__(self, message):
-        super().__init__(message)
-        self.message = message
+class LLMProviderError(PlatformError):
+    """Raised when an LLM upstream provider encounters an error."""
 
 
-class LLMProviderError(BaseException):
-    def __init__(self, message):
-        super().__init__(message)
-        self.message = message
-
-
-class InvalidMessageError(Exception):
-    def __init__(self, message):
-        super().__init__(message)
-        self.message = message
+class InvalidMessageError(PlatformError):
+    """Raised when a chat message is invalid or rejected by domain rules."""
 
 
 async def not_found_error_handler(request: Request, exc: NotFoundError):

@@ -13,8 +13,8 @@ def main():
     print(f"shape: {shape}")
     print(f"device: {device}")
     print(f"dtype: {dtype}")
-    # get item (chỉ áp dụng cho tensor 1 phần tử, ví dụ phần tử đầu tiên tensor[0, 0])
-    print(tensor[0, 0].item())
+    # get item (chỉ áp dụng cho tensor 1 phần tử - scalar)
+    print(f"First element as scalar: {tensor[0, 0, 0].item()}")
 
 
 if __name__ == "__main__":
