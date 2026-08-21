@@ -25,33 +25,57 @@
           "official_resources": [
             {
               "title": "Python - Defining Functions",
+              "raw_title": "Python - Defining Functions",
               "url": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions",
               "description": "function, type hint và docstring."
             },
             {
               "title": "Python - dataclasses",
+              "raw_title": "Python - dataclasses",
               "url": "https://docs.python.org/3/library/dataclasses.html",
               "description": "`@dataclass`."
             },
             {
               "title": "Python - Logging HOWTO",
+              "raw_title": "Python - Logging HOWTO",
               "url": "https://docs.python.org/3/howto/logging.html",
               "description": "logger, level và format."
             },
             {
               "title": "uv - Working on projects",
+              "raw_title": "uv - Working on projects",
               "url": "https://docs.astral.sh/uv/guides/projects/",
               "description": "khởi tạo và chạy project."
             },
             {
               "title": "pytest - Getting Started",
+              "raw_title": "pytest - Getting Started",
               "url": "https://docs.pytest.org/en/stable/getting-started.html",
               "description": "test đầu tiên."
             },
             {
               "title": "Ruff - Tutorial",
+              "raw_title": "Ruff - Tutorial",
               "url": "https://docs.astral.sh/ruff/tutorial/",
               "description": "lint cơ bản."
+            },
+            {
+              "title": "Python - pathlib",
+              "raw_title": "Python - pathlib",
+              "url": "https://docs.python.org/3/library/pathlib.html",
+              "description": ""
+            },
+            {
+              "title": "Python - json",
+              "raw_title": "Python - json",
+              "url": "https://docs.python.org/3/library/json.html",
+              "description": ""
+            },
+            {
+              "title": "Dockerfile reference",
+              "raw_title": "Dockerfile reference",
+              "url": "https://docs.docker.com/reference/dockerfile/",
+              "description": ""
             }
           ],
           "days": [
@@ -64,7 +88,7 @@
               "expected_outcome": "Có `pyproject.toml`, `.python-version`, `src/ai_assistant_platform/main.py` và README project.",
               "time_allocation": "15 phút đọc, 45 phút khởi tạo, 20 phút chạy thử, 10 phút ghi chú.",
               "theory_content": "`uv init`, lockfile và khác biệt giữa `uv run` với gọi Python hệ thống.",
-              "reading_docs": "[uv - Working on projects](https://docs.astral.sh/uv/guides/projects/).",
+              "reading_docs": "uv: [Working on projects](https://docs.astral.sh/uv/guides/projects/).",
               "practice_task": "Tạo hàm `main()` in tên service.",
               "project_changes": "Khởi tạo project bằng `uv`.",
               "expected_files": "pyproject.toml, .python-version, README.md, src/ai_assistant_platform/main.py",
@@ -89,7 +113,7 @@
               "expected_outcome": "Input chuỗi hợp lệ tạo reply có nội dung ổn định.",
               "time_allocation": "20 phút đọc, 50 phút code, 20 phút chạy thử, 10 phút ghi chú.",
               "theory_content": "Parameter type, return type, docstring và ranh giới giữa type hint với validation runtime.",
-              "reading_docs": "[Python - Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions).",
+              "reading_docs": "Python: [Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions).",
               "practice_task": "Thêm `src/ai_assistant_platform/services/chat_service.py`, cắt khoảng trắng đầu/cuối trước khi tạo reply.",
               "project_changes": "Có service thuần Python chưa phụ thuộc FastAPI.",
               "expected_files": "src/ai_assistant_platform/services/__init__.py, src/ai_assistant_platform/services/chat_service.py, src/ai_assistant_platform/main.py",
@@ -114,7 +138,7 @@
               "expected_outcome": "`ChatMessage(role, content)` có thể tạo và không bị sửa sau khi khởi tạo.",
               "time_allocation": "20 phút đọc, 50 phút code, 20 phút thử nghiệm, 10 phút ghi chú.",
               "theory_content": "Khi dùng dataclass cho domain object và khi để Pydantic xử lý biên API.",
-              "reading_docs": "Python: `dataclasses` xem [Python - Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions), [Python - dataclasses](https://docs.python.org/3/library/dataclasses.html), [Python - Logging HOWTO](https://docs.python.org/3/howto/logging.html).",
+              "reading_docs": "Python: [dataclasses](https://docs.python.org/3/library/dataclasses.html).",
               "practice_task": "Thêm `src/ai_assistant_platform/domain/chat.py`; đổi service nhận `ChatMessage`.",
               "project_changes": "Tách domain object khỏi service logic.",
               "expected_files": "src/ai_assistant_platform/domain/__init__.py, src/ai_assistant_platform/domain/chat.py, src/ai_assistant_platform/services/chat_service.py",
@@ -139,7 +163,7 @@
               "expected_outcome": "`InvalidMessageError` được raise; log không ghi secret hay toàn bộ payload.",
               "time_allocation": "20 phút đọc, 50 phút code, 20 phút thử lỗi, 10 phút ghi chú.",
               "theory_content": "Log level, exception domain và thông tin nào không nên log.",
-              "reading_docs": "Python [Python - Logging HOWTO](https://docs.python.org/3/howto/logging.html).",
+              "reading_docs": "Python [Logging HOWTO](https://docs.python.org/3/howto/logging.html).",
               "practice_task": "Thêm `src/ai_assistant_platform/core/errors.py`, `src/ai_assistant_platform/core/logging.py`; log độ dài message thay vì nội dung.",
               "project_changes": "Chat service có validation nhỏ trước khi xử lý.",
               "expected_files": "src/ai_assistant_platform/core/errors.py, src/ai_assistant_platform/core/logging.py, src/ai_assistant_platform/services/chat_service.py",
@@ -164,7 +188,7 @@
               "expected_outcome": "Service load được fixture độc lập với working directory.",
               "time_allocation": "20 phút đọc, 50 phút code, 20 phút kiểm tra, 10 phút ghi chú.",
               "theory_content": "`Path(__file__)`, encoding UTF-8 và lỗi parse JSON.",
-              "reading_docs": "Python `pathlib` và `json` xem [Python - Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions), [Python - dataclasses](https://docs.python.org/3/library/dataclasses.html), [Python - Logging HOWTO](https://docs.python.org/3/howto/logging.html).",
+              "reading_docs": "Python [pathlib](https://docs.python.org/3/library/pathlib.html) và [json](https://docs.python.org/3/library/json.html).",
               "practice_task": "Tạo `tests/fixtures/chat_messages.json` và hàm `load_messages()`.",
               "project_changes": "Có dữ liệu mẫu tái sử dụng cho test ngày 6.",
               "expected_files": "src/ai_assistant_platform/services/fixture_loader.py, tests/fixtures/chat_messages.json",
@@ -189,7 +213,7 @@
               "expected_outcome": "Có test cho reply hợp lệ, trim khoảng trắng và exception message rỗng.",
               "time_allocation": "15 phút đọc, 70 phút viết test, 20 phút sửa lỗi, 15 phút ghi chú.",
               "theory_content": "Arrange-Act-Assert và test độc lập.",
-              "reading_docs": "pytest [pytest - Getting Started](https://docs.pytest.org/en/stable/getting-started.html).",
+              "reading_docs": "pytest [Getting Started](https://docs.pytest.org/en/stable/getting-started.html).",
               "practice_task": "Cài `pytest` bằng `uv add --dev pytest`, tạo `tests/unit/test_chat_service.py`.",
               "project_changes": "Milestone service được bảo vệ bởi unit test.",
               "expected_files": "pyproject.toml, uv.lock, tests/unit/test_chat_service.py",
@@ -214,7 +238,7 @@
               "expected_outcome": "Test và Ruff cùng chạy; import, tên hàm, docstring nhất quán.",
               "time_allocation": "20 phút review, 40 phút refactor, 20 phút lint, 20 phút ghi README hoặc nghỉ bù.",
               "theory_content": "Refactor không đổi hành vi và linter khác unit test.",
-              "reading_docs": "Ruff [Ruff - Tutorial](https://docs.astral.sh/ruff/tutorial/).",
+              "reading_docs": "Ruff [Tutorial](https://docs.astral.sh/ruff/tutorial/).",
               "practice_task": "`uv add --dev ruff`; thêm cấu hình Ruff tối thiểu trong `pyproject.toml`.",
               "project_changes": "Có quality gate local cho code Python hiện tại.",
               "expected_files": "pyproject.toml, src/ai_assistant_platform/services/chat_service.py, tests/unit/test_chat_service.py, README.md",
@@ -250,33 +274,57 @@
           "official_resources": [
             {
               "title": "FastAPI - Request Body",
+              "raw_title": "FastAPI - Request Body",
               "url": "https://fastapi.tiangolo.com/tutorial/body/",
               "description": "Pydantic request model."
             },
             {
               "title": "FastAPI - Bigger Applications",
+              "raw_title": "FastAPI - Bigger Applications",
               "url": "https://fastapi.tiangolo.com/tutorial/bigger-applications/",
               "description": "router."
             },
             {
               "title": "FastAPI - Dependencies",
+              "raw_title": "FastAPI - Dependencies",
               "url": "https://fastapi.tiangolo.com/tutorial/dependencies/",
               "description": "dependency injection."
             },
             {
               "title": "FastAPI - Handling Errors",
+              "raw_title": "FastAPI - Handling Errors",
               "url": "https://fastapi.tiangolo.com/tutorial/handling-errors/",
               "description": "`HTTPException` và exception handler."
             },
             {
               "title": "Pydantic - Models",
+              "raw_title": "Pydantic - Models",
               "url": "https://docs.pydantic.dev/latest/concepts/models/",
               "description": "validation và serialization."
             },
             {
               "title": "pydantic-settings",
+              "raw_title": "pydantic-settings",
               "url": "https://docs.pydantic.dev/latest/concepts/pydantic_settings/",
               "description": "environment settings."
+            },
+            {
+              "title": "Python - pathlib",
+              "raw_title": "Python - pathlib",
+              "url": "https://docs.python.org/3/library/pathlib.html",
+              "description": ""
+            },
+            {
+              "title": "Python - json",
+              "raw_title": "Python - json",
+              "url": "https://docs.python.org/3/library/json.html",
+              "description": ""
+            },
+            {
+              "title": "Dockerfile reference",
+              "raw_title": "Dockerfile reference",
+              "url": "https://docs.docker.com/reference/dockerfile/",
+              "description": ""
             }
           ],
           "days": [
@@ -289,7 +337,7 @@
               "expected_outcome": "Uvicorn trả JSON `{\"status\":\"ok\"}`.",
               "time_allocation": "20 phút đọc, 55 phút code, 25 phút kiểm tra.",
               "theory_content": "app instance, route decorator, status code.",
-              "reading_docs": "FastAPI Tutorial và [FastAPI - Request Body](https://fastapi.tiangolo.com/tutorial/body/).",
+              "reading_docs": "FastAPI [Tutorial](https://docs.astral.sh/ruff/tutorial/) và [Request Body](https://fastapi.tiangolo.com/tutorial/body/).",
               "practice_task": "Cài `fastapi` và `uvicorn[standard]`; tạo `src/ai_assistant_platform/main.py`, `src/ai_assistant_platform/api/routes/health.py`.",
               "project_changes": "Có API entry point đầu tiên.",
               "expected_files": "pyproject.toml, uv.lock, src/ai_assistant_platform/main.py, src/ai_assistant_platform/api/routes/health.py",
@@ -314,7 +362,7 @@
               "expected_outcome": "Content rỗng hoặc toàn khoảng trắng bị từ chối với HTTP 422 khi schema được dùng.",
               "time_allocation": "20 phút đọc, 55 phút code, 25 phút thử request.",
               "theory_content": "field constraint, validation error và serialization.",
-              "reading_docs": "Pydantic Models và FastAPI [FastAPI - Request Body](https://fastapi.tiangolo.com/tutorial/body/).",
+              "reading_docs": "Pydantic [Models](https://docs.pydantic.dev/latest/concepts/models/) và FastAPI [Request Body](https://fastapi.tiangolo.com/tutorial/body/).",
               "practice_task": "Tạo model có `content` dài 1-2.000 ký tự và `reply`.",
               "project_changes": "Chuẩn hóa contract chat trước khi nối service.",
               "expected_files": "src/ai_assistant_platform/api/schemas/chat.py, src/ai_assistant_platform/api/schemas/__init__.py",
@@ -339,7 +387,7 @@
               "expected_outcome": "Request hợp lệ trả `ChatResponse` với reply.",
               "time_allocation": "15 phút thiết kế, 60 phút code, 25 phút kiểm tra.",
               "theory_content": "Router là adapter; service không biết HTTP.",
-              "reading_docs": "FastAPI [FastAPI - Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/).",
+              "reading_docs": "FastAPI [Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/).",
               "practice_task": "Tạo router, đổi `ChatRequest` thành `ChatMessage` trong route.",
               "project_changes": "Mock chat thành API có version prefix.",
               "expected_files": "src/ai_assistant_platform/api/routes/chat.py, src/ai_assistant_platform/main.py, src/ai_assistant_platform/services/chat_service.py",
@@ -364,7 +412,7 @@
               "expected_outcome": "Health trả tên app và environment không chứa secret.",
               "time_allocation": "20 phút đọc, 50 phút code, 30 phút kiểm tra.",
               "theory_content": "twelve-factor config và `.env.example`.",
-              "reading_docs": "pydantic-[pydantic-settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/).",
+              "reading_docs": "[pydantic-settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/).",
               "practice_task": "Cài `pydantic-settings`, tạo `Settings`, `.env.example`, `.gitignore` nếu thiếu.",
               "project_changes": "Config không hard-code trong route.",
               "expected_files": "src/ai_assistant_platform/core/config.py, .env.example, .gitignore, src/ai_assistant_platform/api/routes/health.py",
@@ -389,7 +437,7 @@
               "expected_outcome": "Không có global config rải rác trong handler.",
               "time_allocation": "20 phút đọc, 50 phút code, 30 phút kiểm tra.",
               "theory_content": "dependency cache và testability.",
-              "reading_docs": "FastAPI [FastAPI - Dependencies](https://fastapi.tiangolo.com/tutorial/dependencies/).",
+              "reading_docs": "FastAPI [Dependencies](https://fastapi.tiangolo.com/tutorial/dependencies/).",
               "practice_task": "Tạo `get_settings`; thêm title, version, tags cho OpenAPI.",
               "project_changes": "Health dependency rõ ràng, docs dễ quét.",
               "expected_files": "src/ai_assistant_platform/core/config.py, src/ai_assistant_platform/api/dependencies.py, src/ai_assistant_platform/main.py, src/ai_assistant_platform/api/routes/health.py",
@@ -414,7 +462,7 @@
               "expected_outcome": "Validation schema và domain error có response khác nhau.",
               "time_allocation": "15 phút đọc, 65 phút code, 25 phút test, 15 phút ghi chú.",
               "theory_content": "exception handler tập trung và không lộ stack trace.",
-              "reading_docs": "FastAPI [FastAPI - Handling Errors](https://fastapi.tiangolo.com/tutorial/handling-errors/).",
+              "reading_docs": "FastAPI [Handling Errors](https://fastapi.tiangolo.com/tutorial/handling-errors/).",
               "practice_task": "Thêm handler, test request schema hợp lệ nhưng service từ chối.",
               "project_changes": "Error contract có `code` và `detail`.",
               "expected_files": "src/ai_assistant_platform/main.py, src/ai_assistant_platform/core/errors.py, tests/integration/test_chat_api.py",
@@ -439,7 +487,7 @@
               "expected_outcome": "Test, lint và `/openapi.json` nhất quán.",
               "time_allocation": "25 phút review, 40 phút sửa, 25 phút kiểm tra, 10 phút nghỉ bù.",
               "theory_content": "API contract là đầu vào cho client và integration test.",
-              "reading_docs": "FastAPI Response Model xem [FastAPI - Request Body](https://fastapi.tiangolo.com/tutorial/body/), [FastAPI - Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/), [FastAPI - Dependencies](https://fastapi.tiangolo.com/tutorial/dependencies/).",
+              "reading_docs": "FastAPI [Response Model](https://fastapi.tiangolo.com/tutorial/response-model/).",
               "practice_task": "Rà title, status code, response model, error mẫu; cập nhật README project.",
               "project_changes": "Tài liệu local phản ánh endpoint thật.",
               "expected_files": "README.md, src/ai_assistant_platform/main.py, test liên quan",
@@ -475,33 +523,57 @@
           "official_resources": [
             {
               "title": "FastAPI - Async",
+              "raw_title": "FastAPI - Async",
               "url": "https://fastapi.tiangolo.com/async/",
               "description": "khi dùng `async def`."
             },
             {
               "title": "FastAPI - Middleware",
+              "raw_title": "FastAPI - Middleware",
               "url": "https://fastapi.tiangolo.com/tutorial/middleware/",
               "description": "request middleware."
             },
             {
               "title": "HTTPX - Async support",
+              "raw_title": "HTTPX - Async support",
               "url": "https://www.python-httpx.org/async/",
               "description": "`AsyncClient`."
             },
             {
               "title": "HTTPX - Timeouts",
+              "raw_title": "HTTPX - Timeouts",
               "url": "https://www.python-httpx.org/advanced/timeouts/",
               "description": "timeout rõ ràng."
             },
             {
               "title": "uv - Using uv in Docker",
+              "raw_title": "uv - Using uv in Docker",
               "url": "https://docs.astral.sh/uv/guides/integration/docker/",
               "description": "Docker image."
             },
             {
               "title": "Docker - Compose",
+              "raw_title": "Docker - Compose",
               "url": "https://docs.docker.com/compose/",
               "description": "compose local."
+            },
+            {
+              "title": "Python - pathlib",
+              "raw_title": "Python - pathlib",
+              "url": "https://docs.python.org/3/library/pathlib.html",
+              "description": ""
+            },
+            {
+              "title": "Python - json",
+              "raw_title": "Python - json",
+              "url": "https://docs.python.org/3/library/json.html",
+              "description": ""
+            },
+            {
+              "title": "Dockerfile reference",
+              "raw_title": "Dockerfile reference",
+              "url": "https://docs.docker.com/reference/dockerfile/",
+              "description": ""
             }
           ],
           "days": [
@@ -514,7 +586,7 @@
               "expected_outcome": "Route trả `{\"status\":\"ready\"}`.",
               "time_allocation": "20 phút đọc, 50 phút code, 30 phút kiểm tra.",
               "theory_content": "event loop và I/O-bound.",
-              "reading_docs": "FastAPI [FastAPI - Async](https://fastapi.tiangolo.com/async/).",
+              "reading_docs": "FastAPI [Async](https://fastapi.tiangolo.com/async/).",
               "practice_task": "Tạo status router, dùng `await asyncio.sleep(0)` chỉ để minh họa yield.",
               "project_changes": "Có endpoint nền cho kiểm tra readiness.",
               "expected_files": "src/ai_assistant_platform/api/routes/status.py, src/ai_assistant_platform/main.py",
@@ -539,7 +611,7 @@
               "expected_outcome": "Timeout và lỗi network thành exception mô tả rõ.",
               "time_allocation": "20 phút đọc, 55 phút code, 25 phút test.",
               "theory_content": "connect/read timeout và client lifecycle.",
-              "reading_docs": "HTTPX Async support, [HTTPX - Timeouts](https://www.python-httpx.org/advanced/timeouts/).",
+              "reading_docs": "HTTPX [Async](https://fastapi.tiangolo.com/async/) support, [Timeouts](https://www.python-httpx.org/advanced/timeouts/).",
               "practice_task": "Tạo `StatusClient` nhận `httpx.AsyncClient`; đặt timeout 2 giây.",
               "project_changes": "Service có adapter HTTP tách khỏi route.",
               "expected_files": "src/ai_assistant_platform/services/status_client.py, tests/unit/test_status_client.py",
@@ -564,7 +636,7 @@
               "expected_outcome": "Mỗi response có header `X-Request-ID`.",
               "time_allocation": "15 phút đọc, 55 phút code, 30 phút kiểm tra.",
               "theory_content": "correlation ID và middleware order.",
-              "reading_docs": "FastAPI [FastAPI - Middleware](https://fastapi.tiangolo.com/tutorial/middleware/).",
+              "reading_docs": "FastAPI [Middleware](https://fastapi.tiangolo.com/tutorial/middleware/).",
               "practice_task": "Dùng header client gửi hoặc `uuid4`; không log request body.",
               "project_changes": "Có trace thủ công tối thiểu cho lỗi API.",
               "expected_files": "src/ai_assistant_platform/core/middleware.py, src/ai_assistant_platform/core/logging.py, src/ai_assistant_platform/main.py",
@@ -589,7 +661,7 @@
               "expected_outcome": "Container phục vụ health tại cổng 8000.",
               "time_allocation": "20 phút đọc, 55 phút Dockerfile, 25 phút build.",
               "theory_content": "layer cache, `.dockerignore`, bind `0.0.0.0`.",
-              "reading_docs": "uv in Docker và Dockerfile reference xem [FastAPI - Async](https://fastapi.tiangolo.com/async/), [FastAPI - Middleware](https://fastapi.tiangolo.com/tutorial/middleware/), [HTTPX - Async support](https://www.python-httpx.org/async/).",
+              "reading_docs": "uv in Docker và [Dockerfile reference](https://docs.docker.com/reference/dockerfile/).",
               "practice_task": "Copy lockfile trước source, cài dependency rồi chạy uvicorn.",
               "project_changes": "Có runtime tái lập được.",
               "expected_files": "Dockerfile, .dockerignore",
@@ -614,7 +686,7 @@
               "expected_outcome": "Service `api` build và map cổng local.",
               "time_allocation": "15 phút đọc, 50 phút cấu hình, 30 phút chạy thử.",
               "theory_content": "service, port mapping và environment file.",
-              "reading_docs": "Docker [Docker - Compose](https://docs.docker.com/compose/).",
+              "reading_docs": "Docker [Compose](https://docs.docker.com/compose/).",
               "practice_task": "Tạo `docker-compose.yml` chỉ cho API; tham chiếu `.env` tùy chọn, không commit `.env`.",
               "project_changes": "Quy trình local nhất quán cho tuần 4.",
               "expected_files": "docker-compose.yml, README.md",
@@ -639,7 +711,7 @@
               "expected_outcome": "Test không cần server đang chạy.",
               "time_allocation": "15 phút đọc, 70 phút test, 25 phút sửa lỗi, 10 phút ghi chú.",
               "theory_content": "unit test so với integration test.",
-              "reading_docs": "FastAPI Testing xem [FastAPI - Async](https://fastapi.tiangolo.com/async/), [FastAPI - Middleware](https://fastapi.tiangolo.com/tutorial/middleware/), [HTTPX - Async support](https://www.python-httpx.org/async/).",
+              "reading_docs": "FastAPI Testing.",
               "practice_task": "Dùng `httpx.ASGITransport`, test header request ID và error 400/422.",
               "project_changes": "API contract được bảo vệ trước refactor.",
               "expected_files": "tests/integration/test_health_api.py, tests/integration/test_chat_api.py",
@@ -664,7 +736,7 @@
               "expected_outcome": "README có hai cách chạy và command kiểm tra.",
               "time_allocation": "25 phút review, 35 phút README, 30 phút kiểm tra, 10 phút nghỉ bù.",
               "theory_content": "Tài liệu vận hành là một phần của sản phẩm.",
-              "reading_docs": "Docker Compose docs xem [FastAPI - Async](https://fastapi.tiangolo.com/async/), [FastAPI - Middleware](https://fastapi.tiangolo.com/tutorial/middleware/), [HTTPX - Async support](https://www.python-httpx.org/async/).",
+              "reading_docs": "Docker [Compose](https://docs.docker.com/compose/) docs.",
               "practice_task": "Viết phần prerequisites, `uv run` và `docker compose`; xóa debug không cần thiết.",
               "project_changes": "Người khác có thể chạy service local.",
               "expected_files": "README.md, Dockerfile, compose, test liên quan",
@@ -701,36 +773,43 @@
           "official_resources": [
             {
               "title": "PyTorch - Tensors",
+              "raw_title": "PyTorch - Tensors",
               "url": "https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html",
               "description": "shape, dtype, device."
             },
             {
               "title": "PyTorch - Quickstart",
+              "raw_title": "PyTorch - Quickstart",
               "url": "https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html",
               "description": "Dataset, DataLoader, model mode."
             },
             {
               "title": "PyTorch - no_grad",
+              "raw_title": "PyTorch - no_grad",
               "url": "https://docs.pytorch.org/docs/stable/generated/torch.no_grad.html",
               "description": "tắt gradient khi inference."
             },
             {
               "title": "FastAPI - Response Model",
+              "raw_title": "FastAPI - Response Model",
               "url": "https://fastapi.tiangolo.com/tutorial/response-model/",
               "description": "response có schema."
             },
             {
               "title": "Python - pathlib",
+              "raw_title": "Python - pathlib",
               "url": "https://docs.python.org/3/library/pathlib.html",
               "description": ""
             },
             {
               "title": "Python - json",
+              "raw_title": "Python - json",
               "url": "https://docs.python.org/3/library/json.html",
               "description": ""
             },
             {
               "title": "Dockerfile reference",
+              "raw_title": "Dockerfile reference",
               "url": "https://docs.docker.com/reference/dockerfile/",
               "description": ""
             }
@@ -745,7 +824,7 @@
               "expected_outcome": "Script in đúng `shape`, `dtype`, `device`.",
               "time_allocation": "25 phút đọc, 45 phút thực hành, 20 phút kiểm tra, 10 phút ghi chú.",
               "theory_content": "scalar, vector, matrix, batch dimension, `float32`.",
-              "reading_docs": "PyTorch [PyTorch - Tensors](https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html).",
+              "reading_docs": "PyTorch [Tensors](https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html).",
               "practice_task": "Cài `torch`, tạo `scripts/tensor_basics.py` với `torch.tensor([[1.0, 2.0]])`.",
               "project_changes": "Có script nền cho service ngày 24.",
               "expected_files": "pyproject.toml, uv.lock, scripts/tensor_basics.py",
@@ -770,7 +849,7 @@
               "expected_outcome": "Output có shape dự đoán và `requires_grad=False`.",
               "time_allocation": "20 phút đọc, 55 phút code, 25 phút kiểm tra.",
               "theory_content": "CPU/GPU device, `model.eval()` và `torch.no_grad()`.",
-              "reading_docs": "PyTorch Quickstart và [PyTorch - no_grad](https://docs.pytorch.org/docs/stable/generated/torch.no_grad.html).",
+              "reading_docs": "[PyTorch Quickstart](https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html) và [no_grad](https://docs.pytorch.org/docs/stable/generated/torch.no_grad.html).",
               "practice_task": "Tạo model với seed cố định, gọi trong context `no_grad`.",
               "project_changes": "Quy ước inference an toàn trước khi tạo endpoint.",
               "expected_files": "scripts/inference_mode.py",
@@ -795,7 +874,7 @@
               "expected_outcome": "`InferenceRequest(values)` chỉ nhận 2 số hữu hạn; service trả float.",
               "time_allocation": "20 phút thiết kế, 55 phút code, 25 phút test.",
               "theory_content": "Validate ở boundary và kiểm tra shape trước model.",
-              "reading_docs": "Pydantic Models và PyTorch [PyTorch - Tensors](https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html).",
+              "reading_docs": "Pydantic [Models](https://docs.pydantic.dev/latest/concepts/models/) và PyTorch [Tensors](https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html).",
               "practice_task": "Tạo `InferenceRequest`, `InferenceResponse`, `InferenceService`; dùng linear layer seed cố định.",
               "project_changes": "Model logic không nằm trong FastAPI route.",
               "expected_files": "src/ai_assistant_platform/api/schemas/inference.py, src/ai_assistant_platform/services/inference_service.py, tests/unit/test_inference_service.py",
@@ -820,7 +899,7 @@
               "expected_outcome": "JSON vector hợp lệ trả score theo `response_model`.",
               "time_allocation": "15 phút đọc, 60 phút code, 25 phút test.",
               "theory_content": "response model và lỗi 422 trước route.",
-              "reading_docs": "FastAPI [FastAPI - Response Model](https://fastapi.tiangolo.com/tutorial/response-model/).",
+              "reading_docs": "FastAPI [Response Model](https://fastapi.tiangolo.com/tutorial/response-model/).",
               "practice_task": "Tạo route, include vào main, thêm integration test.",
               "project_changes": "API có inference capability đầu tiên, chưa phải LLM.",
               "expected_files": "src/ai_assistant_platform/api/routes/inference.py, src/ai_assistant_platform/main.py, tests/integration/test_inference_api.py",
@@ -845,7 +924,7 @@
               "expected_outcome": "Script duyệt được `DataLoader` từ toy dataset.",
               "time_allocation": "25 phút đọc, 45 phút code, 20 phút kiểm tra, 10 phút ghi chú.",
               "theory_content": "`Dataset.__getitem__`, `__len__`, batch và shuffle.",
-              "reading_docs": "PyTorch [PyTorch - Quickstart](https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html).",
+              "reading_docs": "[PyTorch Quickstart](https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html).",
               "practice_task": "Viết `scripts/dataloader_overview.py` cho ba vector 2 chiều, batch size 2.",
               "project_changes": "Ghi chú design cho data processing tháng 2, không thêm endpoint mới.",
               "expected_files": "scripts/dataloader_overview.py, docs/month-02-handoff.md",
@@ -870,7 +949,7 @@
               "expected_outcome": "Hai curl request thành công sau `docker compose up --build`.",
               "time_allocation": "15 phút chuẩn bị, 65 phút chạy/sửa, 25 phút ghi README, 15 phút kiểm tra.",
               "theory_content": "Reproducible runtime và smoke test.",
-              "reading_docs": "Docker Compose xem [PyTorch - Tensors](https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html), [PyTorch - Quickstart](https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html), [PyTorch - no_grad](https://docs.pytorch.org/docs/stable/generated/torch.no_grad.html).",
+              "reading_docs": "Docker [Compose](https://docs.docker.com/compose/).",
               "practice_task": "Build lại image, gọi `/health`, chat và inference; ghi command vào README.",
               "project_changes": "Milestone tháng 1 có demo chạy lại được.",
               "expected_files": "README.md, docker-compose.yml, test hoặc Dockerfile khi cần",
@@ -895,7 +974,7 @@
               "expected_outcome": "Test/lint pass, kiến trúc và giới hạn toy model được nêu rõ.",
               "time_allocation": "25 phút review, 35 phút refactor, 25 phút kiểm tra, 15 phút kế hoạch.",
               "theory_content": "Phân biệt inference demo với model có chất lượng nghiệp vụ.",
-              "reading_docs": "Xem lại PyTorch [PyTorch - Quickstart](https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html).",
+              "reading_docs": "Xem lại [PyTorch Quickstart](https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html).",
               "practice_task": "Xóa code thử, rà type hint, cập nhật README và `docs/month-02-handoff.md`.",
               "project_changes": "Có baseline ổn định trước data processing.",
               "expected_files": "README.md, docs/month-02-handoff.md, test liên quan",
@@ -933,7 +1012,38 @@
           "review_checklist": [],
           "dod": "Tuần 1 hoàn thành khi data pipeline của `ai-assistant-platform` tạo ra dữ liệu sạch, split ổn định và feature matrix dùng được cho scikit-learn baseline ở tuần 2.",
           "pitfalls": [],
-          "official_resources": [],
+          "official_resources": [
+            {
+              "title": "NumPy absolute beginners",
+              "raw_title": "NumPy absolute beginners",
+              "url": "https://numpy.org/doc/stable/user/absolute_beginners.html",
+              "description": "đọc phần import convention, array fundamentals, shape, dtype, aggregation."
+            },
+            {
+              "title": "NumPy quickstart",
+              "raw_title": "NumPy quickstart",
+              "url": "https://numpy.org/doc/stable/user/quickstart.html",
+              "description": "đọc phần basics, array creation, indexing và basic operations."
+            },
+            {
+              "title": "10 minutes to pandas",
+              "raw_title": "10 minutes to pandas",
+              "url": "https://pandas.pydata.org/docs/user_guide/10min.html",
+              "description": "đọc phần DataFrame, viewing data, selection, missing data."
+            },
+            {
+              "title": "pandas - Working with missing data",
+              "raw_title": "Working with missing data",
+              "url": "https://pandas.pydata.org/docs/user_guide/missing_data.html",
+              "description": "đọc phần detecting, filling và dropping missing values."
+            },
+            {
+              "title": "scikit-learn - train_test_split",
+              "raw_title": "train_test_split",
+              "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html",
+              "description": "đọc tham số `test_size`, `random_state`, `shuffle`, `stratify`."
+            }
+          ],
           "days": [
             {
               "global_day": 29,
@@ -944,7 +1054,7 @@
               "expected_outcome": "CSV có ít nhất 40 dòng với các cột `text`, `intent`, `source`, `created_at`, cố tình có vài missing/duplicate để luyện cleaning.",
               "time_allocation": "15 phút ôn Month-01 handoff, 20 phút đọc pandas DataFrame, 45 phút tạo CSV và script đọc, 15 phút kiểm tra, 10 phút ghi chú.",
               "theory_content": "DataFrame, schema dữ liệu, label classification và vì sao fixture phải nhỏ nhưng đại diện.",
-              "reading_docs": "pandas 10 minutes trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[pandas 10 minutes](https://pandas.pydata.org/docs/user_guide/10min.html).",
               "practice_task": "Tạo `data/raw/intent_samples.csv` và `scripts/inspect_intent_data.py` in số dòng, số label, missing count.",
               "project_changes": "Dataset này sẽ dùng cho baseline, PyTorch training và endpoint intent.",
               "expected_files": "data/raw/intent_samples.csv, scripts/inspect_intent_data.py, README.md của project nếu cần ghi cách chạy",
@@ -969,7 +1079,7 @@
               "expected_outcome": "Script tạo mảng `text_length`, `word_count`, `has_question_mark` với shape rõ ràng.",
               "time_allocation": "25 phút đọc NumPy basics, 40 phút code feature, 20 phút so sánh shape/dtype, 10 phút ghi chú.",
               "theory_content": "`ndarray`, shape, dtype, axis, vectorized operations.",
-              "reading_docs": "NumPy absolute beginners và quickstart trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[NumPy absolute beginners](https://numpy.org/doc/stable/user/absolute_beginners.html) và [quickstart](https://numpy.org/doc/stable/user/quickstart.html).",
               "practice_task": "Tạo `scripts/numpy_text_features.py` đọc CSV và xuất array feature 2D.",
               "project_changes": "Các feature này là baseline trước khi có embedding.",
               "expected_files": "scripts/numpy_text_features.py, docs/data-pipeline.md",
@@ -994,7 +1104,7 @@
               "expected_outcome": "`data/processed/intent_samples_clean.csv` không có text rỗng, label rỗng hoặc duplicate exact.",
               "time_allocation": "20 phút đọc missing data, 50 phút viết cleaning function, 20 phút test, 10 phút ghi notes.",
               "theory_content": "Missing value, duplicate, normalization nhẹ, audit log khi drop row.",
-              "reading_docs": "pandas Working with missing data trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[pandas Working with missing data](https://pandas.pydata.org/docs/user_guide/missing_data.html).",
               "practice_task": "Viết `clean_intent_dataframe(df)` trim text, chuẩn hóa intent lowercase, drop invalid rows và trả kèm summary.",
               "project_changes": "Cleaning function nằm trong module tái sử dụng, không chỉ trong script.",
               "expected_files": "src/ai_assistant_platform/ml/preprocessing.py, scripts/prepare_intent_data.py, tests/unit/test_preprocessing.py, data/processed/intent_samples_clean.csv",
@@ -1019,7 +1129,7 @@
               "expected_outcome": "Preprocessor chỉ `fit` trên train trong ngày 5, hôm nay mới chuẩn bị API.",
               "time_allocation": "20 phút đọc OneHotEncoder/StandardScaler, 45 phút thiết kế class/function, 25 phút unit test, 10 phút ghi chú.",
               "theory_content": "Categorical encoding, numeric scaling, `fit` vs `transform`, unknown category.",
-              "reading_docs": "OneHotEncoder và StandardScaler trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[OneHotEncoder](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html) và [StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html).",
               "practice_task": "Tạo `IntentPreprocessor` với `fit`, `transform`, `fit_transform`; numeric text features và optional one-hot `source`.",
               "project_changes": "Module sẽ dùng cho scikit-learn baseline và PyTorch dataset.",
               "expected_files": "src/ai_assistant_platform/ml/preprocessing.py, tests/unit/test_preprocessing.py",
@@ -1044,7 +1154,7 @@
               "expected_outcome": "`data/splits/train.csv`, `validation.csv`, `test.csv` có phân bố label hợp lý và không overlap text.",
               "time_allocation": "20 phút đọc `train_test_split`, 45 phút viết split script, 25 phút test overlap/distribution, 10 phút ghi chú.",
               "theory_content": "Train/validation/test, random seed, stratify, class imbalance.",
-              "reading_docs": "scikit-learn `train_test_split` trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "scikit-learn [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html).",
               "practice_task": "Cập nhật `scripts/prepare_intent_data.py` để tạo split 70/15/15 hoặc gần nhất với dataset nhỏ.",
               "project_changes": "Tất cả training script sau này chỉ đọc từ `data/splits/`.",
               "expected_files": "scripts/prepare_intent_data.py, data/splits/train.csv, data/splits/validation.csv, data/splits/test.csv, tests/unit/test_data_split.py",
@@ -1069,7 +1179,7 @@
               "expected_outcome": "`docs/data-pipeline.md` mô tả input, output, split và rule fit/transform.",
               "time_allocation": "20 phút đọc lại code, 35 phút viết tài liệu, 35 phút smoke test, 10 phút ghi nhận lỗi.",
               "theory_content": "Data leakage qua scaling, duplicate, timestamp, target-derived feature và test set reuse.",
-              "reading_docs": "Xem lại `train_test_split`, OneHotEncoder, StandardScaler trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "Xem lại [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html), [OneHotEncoder](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html), [StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html).",
               "practice_task": "Tạo script `scripts/check_data_pipeline.py` load train/validation/test, fit preprocessor trên train, transform cả ba split.",
               "project_changes": "Có command duy nhất kiểm tra data readiness cho Week-02.",
               "expected_files": "scripts/check_data_pipeline.py, docs/data-pipeline.md",
@@ -1094,7 +1204,7 @@
               "expected_outcome": "Cleaning, split, preprocessing và docs đều chạy lại được từ clone mới.",
               "time_allocation": "20 phút review checklist, 30 phút refactor nhỏ, 30 phút chạy test/lint, 20 phút ghi handoff sang Week-02.",
               "theory_content": "Reproducibility và dữ liệu là dependency của model.",
-              "reading_docs": "Không đọc nguồn mới; chỉ xem lại [RESOURCES.md](./RESOURCES.md) nhóm Tuần 1.",
+              "reading_docs": "Không đọc nguồn mới; chỉ xem lại nhóm Tuần 1.",
               "practice_task": "Chạy toàn bộ command tuần 1, sửa lỗi path hoặc import.",
               "project_changes": "Ghi `docs/week-02-baseline-plan.md` mô tả feature matrix và label mapping sẽ dùng.",
               "expected_files": "docs/week-02-baseline-plan.md, các test liên quan nếu cần",
@@ -1123,7 +1233,38 @@
           "review_checklist": [],
           "dod": "Tuần 2 hoàn thành khi baseline scikit-learn có thể train, evaluate, lưu artifact và được dùng như chuẩn so sánh cho PyTorch training ở tuần 3.",
           "pitfalls": [],
-          "official_resources": [],
+          "official_resources": [
+            {
+              "title": "scikit-learn - Linear Models",
+              "raw_title": "Linear Models",
+              "url": "https://scikit-learn.org/stable/modules/linear_model.html",
+              "description": "đọc Linear Regression overview và Logistic Regression section."
+            },
+            {
+              "title": "scikit-learn API - LogisticRegression",
+              "raw_title": "LogisticRegression",
+              "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+              "description": "đọc mục purpose, input expectation, regularization default."
+            },
+            {
+              "title": "scikit-learn - Model evaluation: classification metrics",
+              "raw_title": "Model evaluation: classification metrics",
+              "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics",
+              "description": "đọc accuracy, precision, recall, F1, confusion matrix."
+            },
+            {
+              "title": "scikit-learn - OneHotEncoder",
+              "raw_title": "OneHotEncoder",
+              "url": "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html",
+              "description": "đọc purpose, `handle_unknown` và output."
+            },
+            {
+              "title": "scikit-learn - StandardScaler",
+              "raw_title": "StandardScaler",
+              "url": "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html",
+              "description": "đọc khi nào cần scaling và vì sao fit trên train."
+            }
+          ],
           "days": [
             {
               "global_day": 36,
@@ -1134,7 +1275,7 @@
               "expected_outcome": "Script Linear Regression dự đoán toy latency từ `text_length` và ghi rõ đây không phải model chính của tháng.",
               "time_allocation": "25 phút đọc Linear Models, 40 phút code toy regression, 20 phút so sánh prediction/residual, 10 phút ghi chú.",
               "theory_content": "Feature, target, fit, predict, residual, overfitting ở mức trực giác.",
-              "reading_docs": "scikit-learn Linear Models trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[scikit-learn Linear Models](https://scikit-learn.org/stable/modules/linear_model.html).",
               "practice_task": "Tạo `scripts/linear_regression_overview.py` dùng vài dòng dữ liệu tổng hợp, in coefficient và MAE đơn giản.",
               "project_changes": "Bài này giúp hiểu training API của scikit-learn trước khi làm classification.",
               "expected_files": "scripts/linear_regression_overview.py, docs/ml-evaluation-report.md",
@@ -1159,7 +1300,7 @@
               "expected_outcome": "Baseline train được, dự đoán validation và lưu label mapping.",
               "time_allocation": "20 phút đọc LogisticRegression, 50 phút viết training script, 20 phút chạy validation, 10 phút ghi chú.",
               "theory_content": "Logistic Regression là classifier tuyến tính, probability, regularization default.",
-              "reading_docs": "LogisticRegression API và Linear Models trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[LogisticRegression API](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) và [Linear Models](https://scikit-learn.org/stable/modules/linear_model.html).",
               "practice_task": "Tạo `scripts/train_sklearn_baseline.py` load splits, fit preprocessor trên train, train model, predict validation.",
               "project_changes": "Baseline này là mốc so sánh cho PyTorch model tuần 3.",
               "expected_files": "scripts/train_sklearn_baseline.py, src/ai_assistant_platform/ml/label_mapping.py, models/sklearn_intent_baseline.joblib nếu dùng joblib",
@@ -1184,7 +1325,7 @@
               "expected_outcome": "Report nêu class nào hay bị nhầm với class nào.",
               "time_allocation": "20 phút đọc classification metrics, 40 phút code metric function, 25 phút phân tích lỗi, 10 phút ghi docs.",
               "theory_content": "True positive, false positive, false negative, confusion matrix theo label.",
-              "reading_docs": "scikit-learn Model evaluation classification metrics trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[scikit-learn Model evaluation classification metrics](https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics).",
               "practice_task": "Tạo `src/ai_assistant_platform/ml/metrics.py` và cập nhật training script xuất confusion matrix validation.",
               "project_changes": "Metric code dùng lại cho PyTorch Week-03.",
               "expected_files": "src/ai_assistant_platform/ml/metrics.py, tests/unit/test_metrics.py, docs/ml-evaluation-report.md",
@@ -1209,7 +1350,7 @@
               "expected_outcome": "`docs/ml-evaluation-report.md` có bảng metric theo class và macro average.",
               "time_allocation": "25 phút đọc metric, 40 phút cập nhật report, 20 phút diễn giải trade-off, 10 phút ghi commit.",
               "theory_content": "Precision, recall, F1, macro vs weighted average, threshold ở binary/multiclass probability.",
-              "reading_docs": "Classification metrics trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[Classification metrics](https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics).",
               "practice_task": "Dùng `classification_report` hoặc hàm tự bọc để xuất JSON/Markdown summary.",
               "project_changes": "Định nghĩa tiêu chí baseline: macro F1 là metric chính cho dataset nhỏ, kèm lỗi quan sát được.",
               "expected_files": "src/ai_assistant_platform/ml/metrics.py, scripts/train_sklearn_baseline.py, docs/ml-evaluation-report.md",
@@ -1234,7 +1375,7 @@
               "expected_outcome": "`IntentBaselineService.predict(text)` trả `intent`, `confidence`, `model_version`.",
               "time_allocation": "15 phút thiết kế contract, 50 phút code service, 25 phút test, 10 phút ghi docs.",
               "theory_content": "Service boundary, model artifact, fallback, confidence calibration ở mức cảnh báo.",
-              "reading_docs": "Xem lại LogisticRegression `predict_proba` trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "Xem lại [LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) `predict_proba`.",
               "practice_task": "Lưu model/preprocessor bằng joblib hoặc pickle có kiểm soát; service load artifact một lần.",
               "project_changes": "Chuẩn bị cho endpoint ngày 20 ở Week-03, nhưng hôm nay chưa cần route.",
               "expected_files": "src/ai_assistant_platform/services/intent_baseline_service.py, src/ai_assistant_platform/api/schemas/ml.py, tests/unit/test_intent_baseline_service.py",
@@ -1259,7 +1400,7 @@
               "expected_outcome": "Report phân biệt validation result và test result.",
               "time_allocation": "15 phút review quyết định model, 45 phút chạy test evaluation, 25 phút cập nhật report, 20 phút kiểm tra command.",
               "theory_content": "Test set chỉ dùng để ước lượng chất lượng cuối sau khi chọn model.",
-              "reading_docs": "Xem lại Model evaluation trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "Xem lại [Model evaluation](https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics).",
               "practice_task": "Thêm option `--evaluate-test` vào script, xuất metric test vào report.",
               "project_changes": "Baseline test result là mốc so sánh cho PyTorch Week-03.",
               "expected_files": "scripts/train_sklearn_baseline.py, docs/ml-evaluation-report.md, models/README.md nếu cần",
@@ -1284,7 +1425,7 @@
               "expected_outcome": "Baseline script, service, metric và report pass review.",
               "time_allocation": "20 phút review code, 30 phút refactor nhỏ, 30 phút chạy test/lint, 20 phút viết handoff.",
               "theory_content": "Baseline là điểm tựa, không phải sản phẩm cuối.",
-              "reading_docs": "Không đọc nguồn mới; xem lại [RESOURCES.md](./RESOURCES.md) nhóm Tuần 2.",
+              "reading_docs": "Không đọc nguồn mới; xem lại nhóm Tuần 2.",
               "practice_task": "Tạo `docs/week-03-training-plan.md` mô tả input tensor, label mapping và metric cần giữ.",
               "project_changes": "PyTorch model tuần 3 phải so sánh với scikit-learn baseline trong cùng report.",
               "expected_files": "docs/week-03-training-plan.md, docs/ml-evaluation-report.md, test liên quan",
@@ -1313,7 +1454,38 @@
           "review_checklist": [],
           "dod": "Tuần 3 hoàn thành khi người học có thể train một neural network nhỏ, đánh giá nó bằng cùng metric baseline và gọi được endpoint intent trong FastAPI.",
           "pitfalls": [],
-          "official_resources": [],
+          "official_resources": [
+            {
+              "title": "PyTorch - Learn the Basics",
+              "raw_title": "Learn the Basics",
+              "url": "https://docs.pytorch.org/tutorials/beginner/basics/intro.html",
+              "description": "đọc overview các phần Tensors, Dataset/DataLoader, Build Model, Autograd, Optimization."
+            },
+            {
+              "title": "PyTorch - Datasets and DataLoaders",
+              "raw_title": "Datasets and DataLoaders",
+              "url": "https://docs.pytorch.org/tutorials/beginner/basics/data_tutorial.html",
+              "description": "đọc cách viết Dataset và dùng DataLoader."
+            },
+            {
+              "title": "PyTorch - Build the Neural Network",
+              "raw_title": "Build the Neural Network",
+              "url": "https://docs.pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html",
+              "description": "đọc `nn.Module`, layers và forward pass."
+            },
+            {
+              "title": "PyTorch - Automatic Differentiation",
+              "raw_title": "Automatic Differentiation",
+              "url": "https://docs.pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html",
+              "description": "đọc gradient tracking ở mức khái niệm."
+            },
+            {
+              "title": "PyTorch - Optimizing Model Parameters",
+              "raw_title": "Optimizing Model Parameters",
+              "url": "https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html",
+              "description": "đọc training loop, validation loop, loss và optimizer."
+            }
+          ],
           "days": [
             {
               "global_day": 43,
@@ -1324,7 +1496,7 @@
               "expected_outcome": "Dataset trả `(features, label)` với dtype đúng và shape ổn định.",
               "time_allocation": "25 phút đọc Dataset/DataLoader, 45 phút code dataset, 20 phút test shape/dtype, 10 phút ghi chú.",
               "theory_content": "`__len__`, `__getitem__`, tensor dtype cho feature và class label.",
-              "reading_docs": "PyTorch Datasets and DataLoaders trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "PyTorch [Datasets and DataLoaders](https://docs.pytorch.org/tutorials/beginner/basics/data_tutorial.html).",
               "practice_task": "Viết `IntentDataset` nhận DataFrame, preprocessor đã fit và label mapping.",
               "project_changes": "Dùng lại preprocessing Week-01, không tạo pipeline riêng cho PyTorch.",
               "expected_files": "src/ai_assistant_platform/ml/dataset.py, tests/unit/test_intent_dataset.py",
@@ -1349,7 +1521,7 @@
               "expected_outcome": "Script in batch shape, label distribution trong batch và số batch.",
               "time_allocation": "20 phút đọc DataLoader, 40 phút code loader factory, 25 phút sanity checks, 10 phút ghi chú.",
               "theory_content": "Batch size, shuffle, deterministic seed, last batch.",
-              "reading_docs": "PyTorch Datasets and DataLoaders trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "PyTorch [Datasets and DataLoaders](https://docs.pytorch.org/tutorials/beginner/basics/data_tutorial.html).",
               "practice_task": "Tạo `create_intent_dataloaders()` và `scripts/check_intent_dataloader.py`.",
               "project_changes": "Training script ngày 18 dùng lại loader factory.",
               "expected_files": "src/ai_assistant_platform/ml/dataset.py, scripts/check_intent_dataloader.py, tests/unit/test_intent_dataloader.py",
@@ -1374,7 +1546,7 @@
               "expected_outcome": "Forward pass nhận batch feature và trả logits shape `(batch_size, num_classes)`.",
               "time_allocation": "25 phút đọc Build Model, 45 phút code model, 20 phút unit test, 10 phút ghi notes.",
               "theory_content": "Linear layer, ReLU, logits, softmax chỉ dùng khi diễn giải probability.",
-              "reading_docs": "PyTorch Build the Neural Network trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "PyTorch [Build the Neural Network](https://docs.pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html).",
               "practice_task": "Viết `IntentClassifier(input_dim, hidden_dim, num_classes)` và test output shape.",
               "project_changes": "Model nhỏ thay thế toy inference Month-01 bằng classifier có training.",
               "expected_files": "src/ai_assistant_platform/ml/intent_model.py, tests/unit/test_intent_model.py",
@@ -1399,7 +1571,7 @@
               "expected_outcome": "Script thực hiện `zero_grad`, forward, loss, backward, optimizer step và loss là số hữu hạn.",
               "time_allocation": "25 phút đọc Autograd/Optimization, 45 phút code training step, 20 phút test smoke, 10 phút ghi chú.",
               "theory_content": "Autograd, gradient accumulation, CrossEntropyLoss, optimizer.",
-              "reading_docs": "PyTorch Automatic Differentiation và Optimizing Model Parameters trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "PyTorch [Automatic Differentiation](https://docs.pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html) và [Optimizing Model Parameters](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html).",
               "practice_task": "Tạo `train_one_epoch()` bản đầu, log loss trung bình.",
               "project_changes": "Training logic tách khỏi script để test được.",
               "expected_files": "src/ai_assistant_platform/ml/training.py, scripts/train_torch_intent.py, tests/unit/test_training_step.py",
@@ -1424,7 +1596,7 @@
               "expected_outcome": "Sau mỗi epoch in train loss, validation loss, macro F1 và so sánh với baseline Week-02.",
               "time_allocation": "20 phút đọc optimization loop, 50 phút code validation, 25 phút cập nhật report, 10 phút ghi chú.",
               "theory_content": "Train mode vs eval mode, no_grad, early stopping ở mức khái niệm.",
-              "reading_docs": "PyTorch Optimizing Model Parameters trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "PyTorch [Optimizing Model Parameters](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html).",
               "practice_task": "Viết `evaluate_model()` trả predictions, loss và metrics; cập nhật `docs/ml-evaluation-report.md`.",
               "project_changes": "Dùng chung `src/ai_assistant_platform/ml/metrics.py` với baseline để so sánh công bằng.",
               "expected_files": "src/ai_assistant_platform/ml/training.py, scripts/train_torch_intent.py, docs/ml-evaluation-report.md, tests/unit/test_training_eval.py",
@@ -1449,7 +1621,7 @@
               "expected_outcome": "`POST /api/v1/ml/intent` nhận text, trả intent/confidence/source model.",
               "time_allocation": "20 phút thiết kế schema, 45 phút service/route, 30 phút integration test, 15 phút manual curl.",
               "theory_content": "State dict, model metadata, inference mode, API fallback khi artifact chưa có.",
-              "reading_docs": "PyTorch Quickstart phần Save/Load trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[PyTorch Quickstart phần Save/Load](https://docs.pytorch.org/tutorials/beginner/basics/intro.html).",
               "practice_task": "Cập nhật training script lưu `models/intent_classifier.pt` và `models/intent_metadata.json`; tạo `IntentService`.",
               "project_changes": "API có ML capability thực sự đầu tiên dựa trên model được train.",
               "expected_files": "src/ai_assistant_platform/services/intent_service.py, src/ai_assistant_platform/api/routes/ml.py, src/ai_assistant_platform/api/schemas/ml.py, src/ai_assistant_platform/main.py, tests/integration/test_ml_intent_api.py, models/intent_metadata.json",
@@ -1474,7 +1646,7 @@
               "expected_outcome": "Endpoint intent chạy được trong local hoặc container, docs nêu giới hạn model.",
               "time_allocation": "20 phút review checklist, 35 phút sửa lỗi nhỏ, 35 phút test/lint, 25 phút Docker smoke test.",
               "theory_content": "Reproducible training vs reproducible serving.",
-              "reading_docs": "Không đọc nguồn mới; xem lại nhóm Tuần 3 trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "Không đọc nguồn mới; xem lại nhóm Tuần 3.",
               "practice_task": "Cập nhật README project với lệnh train và predict; chạy Docker nếu project đã có Dockerfile từ Month-01.",
               "project_changes": "ML endpoint trở thành một phần của `ai-assistant-platform`, không phải script rời.",
               "expected_files": "README.md, docs/ml-evaluation-report.md, Docker config nếu cần copy model artifact",
@@ -1503,7 +1675,38 @@
           "review_checklist": [],
           "dod": "Tuần 4 hoàn thành khi learner giải thích được Transformer foundation bằng lời của mình, có script shape minh họa và project có handoff sang Month-03 LLM Engineering.",
           "pitfalls": [],
-          "official_resources": [],
+          "official_resources": [
+            {
+              "title": "Hugging Face Course - How do Transformers work?",
+              "raw_title": "How do Transformers work?",
+              "url": "https://huggingface.co/docs/course/main/en/chapter1/4",
+              "description": "đọc attention layers và encoder/decoder overview."
+            },
+            {
+              "title": "Hugging Face Course - Transformer Architectures",
+              "raw_title": "Transformer Architectures",
+              "url": "https://huggingface.co/docs/course/chapter1/6",
+              "description": "đọc encoder-only, decoder-only và encoder-decoder."
+            },
+            {
+              "title": "Hugging Face Transformers - Glossary",
+              "raw_title": "Glossary",
+              "url": "https://huggingface.co/docs/transformers/main/glossary",
+              "description": "đọc attention mask, autoregressive models, causal language modeling, embeddings nếu cần tra cứu."
+            },
+            {
+              "title": "Jay Alammar - The Illustrated Transformer",
+              "raw_title": "The Illustrated Transformer",
+              "url": "https://jalammar.github.io/illustrated-transformer/",
+              "description": "dùng như nguồn trực quan cho self-attention, Q/K/V, multi-head attention và positional encoding."
+            },
+            {
+              "title": "PyTorch API - torch.nn.Transformer",
+              "raw_title": "torch.nn.Transformer",
+              "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.modules.transformer.Transformer.html",
+              "description": "chỉ đọc purpose và shape notes, không cần dùng trong production."
+            }
+          ],
           "days": [
             {
               "global_day": 50,
@@ -1514,7 +1717,7 @@
               "expected_outcome": "Script biến câu thành tokens, ids và attention mask giả lập.",
               "time_allocation": "25 phút đọc Hugging Face overview/glossary, 40 phút code tokenizer nhỏ, 20 phút ghi ví dụ, 10 phút tự kiểm tra.",
               "theory_content": "Token, vocabulary, unknown token, padding, attention mask.",
-              "reading_docs": "Hugging Face Glossary và How do Transformers work trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[Hugging Face Glossary](https://huggingface.co/docs/transformers/main/glossary) và [How do Transformers work](https://huggingface.co/docs/course/main/en/chapter1/4).",
               "practice_task": "Tạo `scripts/tokenization_overview.py` với vocab từ vài câu trong intent dataset.",
               "project_changes": "Giải thích vì sao classifier Week-03 dùng numeric feature còn LLM dùng token ids/embedding.",
               "expected_files": "scripts/tokenization_overview.py, docs/transformer-foundation.md",
@@ -1539,7 +1742,7 @@
               "expected_outcome": "Script in shape `(batch, sequence_length, embedding_dim)` và giải thích embedding là tham số học được.",
               "time_allocation": "20 phút đọc lại PyTorch tensors/model, 45 phút code embedding demo, 20 phút shape notes, 10 phút commit.",
               "theory_content": "Embedding matrix, lookup, dimension, batch và sequence length.",
-              "reading_docs": "PyTorch Build Model và Hugging Face Glossary trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[PyTorch Build Model](https://docs.pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html) và [Hugging Face Glossary](https://huggingface.co/docs/transformers/main/glossary).",
               "practice_task": "Tạo `scripts/embedding_overview.py` dùng token ids từ ngày 22 và embedding dim nhỏ như 4 hoặc 8.",
               "project_changes": "So sánh hand-crafted features Week-01 với learned representation trong LLM.",
               "expected_files": "scripts/embedding_overview.py, docs/transformer-foundation.md",
@@ -1564,7 +1767,7 @@
               "expected_outcome": "Script in attention scores, weights sau softmax và output context vector.",
               "time_allocation": "25 phút đọc attention explanation, 50 phút code attention mini, 20 phút giải thích từng shape, 10 phút ghi docs.",
               "theory_content": "Query, Key, Value, dot product, scale, softmax, weighted sum.",
-              "reading_docs": "Hugging Face How do Transformers work và The Illustrated Transformer trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "Hugging Face [How do Transformers work](https://huggingface.co/docs/course/main/en/chapter1/4) và [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/).",
               "practice_task": "Tạo `scripts/attention_shapes.py` không dùng model lớn, chỉ tensor nhỏ và `torch.softmax`.",
               "project_changes": "Dùng ví dụ câu trong assistant để giải thích token nào attend token nào.",
               "expected_files": "scripts/attention_shapes.py, docs/transformer-foundation.md",
@@ -1589,7 +1792,7 @@
               "expected_outcome": "Script hoặc notes mô phỏng split embedding dim thành nhiều head và cộng positional encoding nhỏ.",
               "time_allocation": "25 phút đọc Illustrated Transformer, 45 phút code shape demo, 25 phút cập nhật docs, 10 phút tự kiểm tra.",
               "theory_content": "Multiple attention heads, concat heads, positional encoding, thứ tự token.",
-              "reading_docs": "The Illustrated Transformer và PyTorch `torch.nn.Transformer` shape notes trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "[The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/) và PyTorch [torch.nn.Transformer](https://docs.pytorch.org/docs/stable/generated/torch.nn.modules.transformer.Transformer.html) shape notes.",
               "practice_task": "Tạo `scripts/multihead_position_shapes.py` reshape tensor `(batch, seq, embed_dim)` thành `(batch, heads, seq, head_dim)`.",
               "project_changes": "Ghi vào docs vì bag-of-features baseline không nắm thứ tự tốt như Transformer.",
               "expected_files": "scripts/multihead_position_shapes.py, docs/transformer-foundation.md",
@@ -1614,7 +1817,7 @@
               "expected_outcome": "`docs/transformer-foundation.md` có bảng encoder-only, decoder-only, encoder-decoder và use case.",
               "time_allocation": "30 phút đọc Hugging Face architectures, 35 phút viết bảng so sánh, 20 phút vẽ flow text bằng Markdown, 10 phút review.",
               "theory_content": "Encoder-only, decoder-only, encoder-decoder, causal mask, next-token prediction.",
-              "reading_docs": "Hugging Face Transformer Architectures trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "Hugging Face [Transformer Architectures](https://huggingface.co/docs/course/chapter1/6).",
               "practice_task": "Viết ví dụ prompt `\"Summarize this ticket\"` thành chuỗi token và minh họa model dự đoán token tiếp theo từng bước.",
               "project_changes": "Chuẩn bị ngôn ngữ cho Month-03 khi gọi LLM API thay vì tự train.",
               "expected_files": "docs/transformer-foundation.md, docs/month-03-handoff.md",
@@ -1639,7 +1842,7 @@
               "expected_outcome": "`docs/transformer-foundation.md` có ví dụ tokenization, embedding, attention, multi-head, positional encoding và next-token prediction.",
               "time_allocation": "20 phút gom script outputs, 45 phút viết/refactor docs, 25 phút chạy scripts, 20 phút review nội dung.",
               "theory_content": "Từ data feature đến representation learning và attention.",
-              "reading_docs": "Xem lại nhóm Tuần 4 trong [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "Xem lại nhóm Tuần 4.",
               "practice_task": "Chạy tất cả scripts tuần 4 và chèn summary ngắn vào docs, không paste output quá dài.",
               "project_changes": "Docs chỉ ra Month-03 sẽ dùng LLM API thật, không tự build Transformer.",
               "expected_files": "docs/transformer-foundation.md, README.md nếu cần link docs",
@@ -1664,7 +1867,7 @@
               "expected_outcome": "Test/lint pass, report evaluation cập nhật, handoff sang Month-03 rõ ràng.",
               "time_allocation": "20 phút review checklist tháng, 30 phút chạy test/lint, 30 phút sửa docs nhỏ, 25 phút viết handoff, 15 phút commit plan.",
               "theory_content": "ML evaluation là thói quen trước khi đánh giá LLM workflow.",
-              "reading_docs": "Không đọc nguồn mới; đối chiếu [README tháng](./README.md) và [RESOURCES.md](./RESOURCES.md).",
+              "reading_docs": "Không đọc nguồn mới; đối chiếu [README tháng](./README.md).",
               "practice_task": "Chạy data pipeline, baseline, PyTorch smoke train, API test và transformer scripts.",
               "project_changes": "Tạo `docs/month-03-handoff.md` ghi endpoint hiện có, model limitation và kỳ vọng khi thay bằng LLM.",
               "expected_files": "docs/month-03-handoff.md, docs/ml-evaluation-report.md, docs/transformer-foundation.md, README.md",
@@ -1689,7 +1892,7 @@
       "folder": "Month-03",
       "title": "Tháng 03",
       "description": "LLM, Structured Output, Tool Calling & MCP",
-      "resources_markdown": "# Tháng 03 — Tài liệu tham khảo\n\nChỉ đọc phần được ghi ở từng ngày; tất cả nguồn dưới đây là tài liệu chính thức hoặc specification chính thức. Không cần API key để đọc hay chạy test bằng fake adapter.\n\n## LLM, output và evaluation\n\n- [OpenAI Responses API reference](https://platform.openai.com/docs/api-reference/responses) — request, output và `usage`.\n- [OpenAI Responses streaming](https://platform.openai.com/docs/api-reference/responses-streaming) — event stream và lifecycle.\n- [OpenAI Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs) — schema boundary.\n- [OpenAI Evals guide](https://platform.openai.com/docs/guides/evals) — dataset, baseline và grader.\n- [Pydantic models](https://docs.pydantic.dev/latest/concepts/models/) — validation và `ValidationError`.\n\n## Tool Calling, MCP và API boundary\n\n- [OpenAI Function Calling](https://platform.openai.com/docs/guides/function-calling) — schema, tool call và tool result.\n- [MCP server concepts](https://modelcontextprotocol.io/docs/learn/server-concepts) — server, tool, resource và security boundary.\n- [MCP tools specification](https://modelcontextprotocol.io/specification/draft/server/tools) — contract tool.\n- [MCP resources specification](https://modelcontextprotocol.io/specification/draft/server/resources) — resource read-only.\n- [FastAPI error handling](https://fastapi.tiangolo.com/tutorial/handling-errors/) — HTTP error boundary.\n\n## Tìm hiểu thêm\n\n- [OpenAI safety best practices](https://platform.openai.com/docs/guides/safety-best-practices) — prompt injection và xử lý input không tin cậy.\n- [Python asyncio timeout](https://docs.python.org/3/library/asyncio-task.html#asyncio.timeout) — timeout cho coroutine.\n",
+      "resources_markdown": "# Tháng 03 — Tài liệu tham khảo\n\nChỉ đọc phần được ghi ở từng ngày; tất cả nguồn dưới đây là tài liệu chính thức hoặc specification chính thức. Không cần API key để đọc hay chạy test bằng fake adapter.\n\n## Tuần 1 & 2 — LLM, output và evaluation\n\n- [OpenAI Responses API reference](https://platform.openai.com/docs/api-reference/responses) — request, output và `usage`.\n- [OpenAI Responses streaming](https://platform.openai.com/docs/api-reference/responses-streaming) — event stream và lifecycle.\n- [OpenAI Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs) — schema boundary.\n- [OpenAI Evals guide](https://platform.openai.com/docs/guides/evals) — dataset, baseline và grader.\n- [Pydantic models](https://docs.pydantic.dev/latest/concepts/models/) — validation và `ValidationError`.\n\n## Tuần 3 & 4 — Tool Calling, MCP và API boundary\n\n- [OpenAI Function Calling](https://platform.openai.com/docs/guides/function-calling) — schema, tool call và tool result.\n- [MCP server concepts](https://modelcontextprotocol.io/docs/learn/server-concepts) — server, tool, resource và security boundary.\n- [MCP tools specification](https://modelcontextprotocol.io/specification/draft/server/tools) — contract tool.\n- [MCP resources specification](https://modelcontextprotocol.io/specification/draft/server/resources) — resource read-only.\n- [FastAPI error handling](https://fastapi.tiangolo.com/tutorial/handling-errors/) — HTTP error boundary.\n\n## Tìm hiểu thêm\n\n- [OpenAI safety best practices](https://platform.openai.com/docs/guides/safety-best-practices) — prompt injection và xử lý input không tin cậy.\n- [Python asyncio timeout](https://docs.python.org/3/library/asyncio-task.html#asyncio.timeout) — timeout cho coroutine.\n",
       "weeks": [
         {
           "week_num": 1,
@@ -1702,7 +1905,50 @@
           "review_checklist": [],
           "dod": "",
           "pitfalls": [],
-          "official_resources": [],
+          "official_resources": [
+            {
+              "title": "OpenAI Responses API reference",
+              "raw_title": "OpenAI Responses API reference",
+              "url": "https://platform.openai.com/docs/api-reference/responses",
+              "description": "request, output và `usage`."
+            },
+            {
+              "title": "OpenAI Responses streaming",
+              "raw_title": "OpenAI Responses streaming",
+              "url": "https://platform.openai.com/docs/api-reference/responses-streaming",
+              "description": "event stream và lifecycle."
+            },
+            {
+              "title": "OpenAI Structured Outputs",
+              "raw_title": "OpenAI Structured Outputs",
+              "url": "https://platform.openai.com/docs/guides/structured-outputs",
+              "description": "schema boundary."
+            },
+            {
+              "title": "OpenAI Evals guide",
+              "raw_title": "OpenAI Evals guide",
+              "url": "https://platform.openai.com/docs/guides/evals",
+              "description": "dataset, baseline và grader."
+            },
+            {
+              "title": "Pydantic models",
+              "raw_title": "Pydantic models",
+              "url": "https://docs.pydantic.dev/latest/concepts/models/",
+              "description": "validation và `ValidationError`."
+            },
+            {
+              "title": "OpenAI safety best practices",
+              "raw_title": "OpenAI safety best practices",
+              "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+              "description": "prompt injection và xử lý input không tin cậy."
+            },
+            {
+              "title": "Python asyncio timeout",
+              "raw_title": "Python asyncio timeout",
+              "url": "https://docs.python.org/3/library/asyncio-task.html#asyncio.timeout",
+              "description": "timeout cho coroutine."
+            }
+          ],
           "days": [
             {
               "global_day": 57,
@@ -1857,7 +2103,50 @@
           "review_checklist": [],
           "dod": "",
           "pitfalls": [],
-          "official_resources": [],
+          "official_resources": [
+            {
+              "title": "OpenAI Responses API reference",
+              "raw_title": "OpenAI Responses API reference",
+              "url": "https://platform.openai.com/docs/api-reference/responses",
+              "description": "request, output và `usage`."
+            },
+            {
+              "title": "OpenAI Responses streaming",
+              "raw_title": "OpenAI Responses streaming",
+              "url": "https://platform.openai.com/docs/api-reference/responses-streaming",
+              "description": "event stream và lifecycle."
+            },
+            {
+              "title": "OpenAI Structured Outputs",
+              "raw_title": "OpenAI Structured Outputs",
+              "url": "https://platform.openai.com/docs/guides/structured-outputs",
+              "description": "schema boundary."
+            },
+            {
+              "title": "OpenAI Evals guide",
+              "raw_title": "OpenAI Evals guide",
+              "url": "https://platform.openai.com/docs/guides/evals",
+              "description": "dataset, baseline và grader."
+            },
+            {
+              "title": "Pydantic models",
+              "raw_title": "Pydantic models",
+              "url": "https://docs.pydantic.dev/latest/concepts/models/",
+              "description": "validation và `ValidationError`."
+            },
+            {
+              "title": "OpenAI safety best practices",
+              "raw_title": "OpenAI safety best practices",
+              "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+              "description": "prompt injection và xử lý input không tin cậy."
+            },
+            {
+              "title": "Python asyncio timeout",
+              "raw_title": "Python asyncio timeout",
+              "url": "https://docs.python.org/3/library/asyncio-task.html#asyncio.timeout",
+              "description": "timeout cho coroutine."
+            }
+          ],
           "days": [
             {
               "global_day": 64,
@@ -2012,7 +2301,50 @@
           "review_checklist": [],
           "dod": "",
           "pitfalls": [],
-          "official_resources": [],
+          "official_resources": [
+            {
+              "title": "OpenAI Function Calling",
+              "raw_title": "OpenAI Function Calling",
+              "url": "https://platform.openai.com/docs/guides/function-calling",
+              "description": "schema, tool call và tool result."
+            },
+            {
+              "title": "MCP server concepts",
+              "raw_title": "MCP server concepts",
+              "url": "https://modelcontextprotocol.io/docs/learn/server-concepts",
+              "description": "server, tool, resource và security boundary."
+            },
+            {
+              "title": "MCP tools specification",
+              "raw_title": "MCP tools specification",
+              "url": "https://modelcontextprotocol.io/specification/draft/server/tools",
+              "description": "contract tool."
+            },
+            {
+              "title": "MCP resources specification",
+              "raw_title": "MCP resources specification",
+              "url": "https://modelcontextprotocol.io/specification/draft/server/resources",
+              "description": "resource read-only."
+            },
+            {
+              "title": "FastAPI error handling",
+              "raw_title": "FastAPI error handling",
+              "url": "https://fastapi.tiangolo.com/tutorial/handling-errors/",
+              "description": "HTTP error boundary."
+            },
+            {
+              "title": "OpenAI safety best practices",
+              "raw_title": "OpenAI safety best practices",
+              "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+              "description": "prompt injection và xử lý input không tin cậy."
+            },
+            {
+              "title": "Python asyncio timeout",
+              "raw_title": "Python asyncio timeout",
+              "url": "https://docs.python.org/3/library/asyncio-task.html#asyncio.timeout",
+              "description": "timeout cho coroutine."
+            }
+          ],
           "days": [
             {
               "global_day": 71,
@@ -2167,7 +2499,50 @@
           "review_checklist": [],
           "dod": "",
           "pitfalls": [],
-          "official_resources": [],
+          "official_resources": [
+            {
+              "title": "OpenAI Function Calling",
+              "raw_title": "OpenAI Function Calling",
+              "url": "https://platform.openai.com/docs/guides/function-calling",
+              "description": "schema, tool call và tool result."
+            },
+            {
+              "title": "MCP server concepts",
+              "raw_title": "MCP server concepts",
+              "url": "https://modelcontextprotocol.io/docs/learn/server-concepts",
+              "description": "server, tool, resource và security boundary."
+            },
+            {
+              "title": "MCP tools specification",
+              "raw_title": "MCP tools specification",
+              "url": "https://modelcontextprotocol.io/specification/draft/server/tools",
+              "description": "contract tool."
+            },
+            {
+              "title": "MCP resources specification",
+              "raw_title": "MCP resources specification",
+              "url": "https://modelcontextprotocol.io/specification/draft/server/resources",
+              "description": "resource read-only."
+            },
+            {
+              "title": "FastAPI error handling",
+              "raw_title": "FastAPI error handling",
+              "url": "https://fastapi.tiangolo.com/tutorial/handling-errors/",
+              "description": "HTTP error boundary."
+            },
+            {
+              "title": "OpenAI safety best practices",
+              "raw_title": "OpenAI safety best practices",
+              "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+              "description": "prompt injection và xử lý input không tin cậy."
+            },
+            {
+              "title": "Python asyncio timeout",
+              "raw_title": "Python asyncio timeout",
+              "url": "https://docs.python.org/3/library/asyncio-task.html#asyncio.timeout",
+              "description": "timeout cho coroutine."
+            }
+          ],
           "days": [
             {
               "global_day": 78,
@@ -2334,23 +2709,39 @@
           "official_resources": [
             {
               "title": "Qdrant - Points",
+              "raw_title": "Qdrant - Points",
               "url": "https://qdrant.tech/documentation/concepts/points/",
               "description": "point ID, vector và payload."
             },
             {
               "title": "Qdrant - Payload",
+              "raw_title": "Qdrant - Payload",
               "url": "https://qdrant.tech/documentation/concepts/payload/",
               "description": "metadata, indexing và filter."
             },
             {
               "title": "Python - hashlib",
+              "raw_title": "Python - hashlib",
               "url": "https://docs.python.org/3/library/hashlib.html",
               "description": "SHA-256 fingerprint."
             },
             {
               "title": "Python - pathlib",
+              "raw_title": "Python - pathlib",
               "url": "https://docs.python.org/3/library/pathlib.html",
               "description": "allowlist đường dẫn và duyệt file."
+            },
+            {
+              "title": "Qdrant - Multitenancy",
+              "raw_title": "Qdrant - Multitenancy",
+              "url": "https://qdrant.tech/documentation/guides/multiple-partitions/",
+              "description": "chỉ đọc sau khi pipeline local ổn định."
+            },
+            {
+              "title": "OpenAI - Embeddings",
+              "raw_title": "OpenAI - Embeddings",
+              "url": "https://platform.openai.com/docs/guides/embeddings",
+              "description": "chọn embedding model và kích thước vector."
             }
           ],
           "days": [
@@ -2363,7 +2754,7 @@
               "expected_outcome": "Ba Markdown/TXT công khai/tự viết trong `data/knowledge_base/` và `IngestRequest`, `IngestSummary` Pydantic.",
               "time_allocation": "15 phút ôn Month-03, 20 phút lý thuyết, 45 phút tạo corpus/schema, 20 phút kiểm tra, 10 phút ghi chú (110 phút).",
               "theory_content": "Document gốc khác chunk; corpus demo không chứa PII, secret hoặc license mơ hồ.",
-              "reading_docs": "Python `pathlib` xem [Qdrant - Points](https://qdrant.tech/documentation/concepts/points/), [Qdrant - Payload](https://qdrant.tech/documentation/concepts/payload/), [Python - hashlib](https://docs.python.org/3/library/hashlib.html), Tuần 1.",
+              "reading_docs": "Python [pathlib](https://docs.python.org/3/library/pathlib.html), Tuần 1.",
               "practice_task": "Viết README corpus nêu nguồn, `source_id`, `title`, `category`.",
               "project_changes": "Thêm `src/ai_assistant_platform/rag/schemas.py` và route placeholder chỉ validate path tương đối.",
               "expected_files": "data/knowledge_base/*.md, data/knowledge_base/README.md, src/ai_assistant_platform/rag/schemas.py, src/ai_assistant_platform/api/routes/rag.py",
@@ -2383,7 +2774,7 @@
               "expected_outcome": "`ParsedDocument` có text sạch, heading hiện tại và lỗi nêu rõ file.",
               "time_allocation": "15 phút đọc, 25 phút lý thuyết, 45 phút code, 20 phút test, 10 phút ghi chú (115 phút).",
               "theory_content": "Normalize line ending/whitespace nhưng không làm mất code block hay tiêu đề.",
-              "reading_docs": "Python `pathlib` và encoding xem [Qdrant - Points](https://qdrant.tech/documentation/concepts/points/), [Qdrant - Payload](https://qdrant.tech/documentation/concepts/payload/), [Python - hashlib](https://docs.python.org/3/library/hashlib.html), Tuần 1.",
+              "reading_docs": "Python [pathlib](https://docs.python.org/3/library/pathlib.html) và encoding, Tuần 1.",
               "practice_task": "Viết `parse_document(path)` cho `.md`, `.txt`; từ chối extension khác.",
               "project_changes": "Ingestion route gọi parser ở dry-run và trả danh sách lỗi theo file.",
               "expected_files": "src/ai_assistant_platform/rag/parser.py, tests/unit/test_rag_parser.py, src/ai_assistant_platform/api/routes/rag.py",
@@ -2403,7 +2794,7 @@
               "expected_outcome": "Chunk 600 ký tự, overlap 80 ký tự, ưu tiên ranh giới đoạn/heading.",
               "time_allocation": "20 phút lý thuyết, 50 phút implementation, 25 phút test biên, 15 phút ghi chú (110 phút).",
               "theory_content": "Trade-off chunk size, overlap, recall và context noise; các số này là baseline để evaluation tuần 4.",
-              "reading_docs": "Qdrant [Qdrant - Points](https://qdrant.tech/documentation/concepts/points/), Tuần 1 (liên hệ point/chunk).",
+              "reading_docs": "Qdrant [Points](https://qdrant.tech/documentation/concepts/points/), Tuần 1 (liên hệ point/chunk).",
               "practice_task": "Viết `chunk_document(parsed, max_chars=600, overlap=80)`.",
               "project_changes": "`IngestSummary` trả `chunk_count` và cấu hình chunking.",
               "expected_files": "src/ai_assistant_platform/rag/chunking.py, tests/unit/test_chunking.py, src/ai_assistant_platform/rag/schemas.py",
@@ -2423,7 +2814,7 @@
               "expected_outcome": "Mỗi chunk có `chunk_id`, `document_id`, `version`, `source_path`, `title`, `section`, `chunk_index`.",
               "time_allocation": "20 phút đọc, 45 phút code, 25 phút unit test, 20 phút tích hợp route (110 phút).",
               "theory_content": "ID ổn định phục vụ upsert; version là thuộc tính dữ liệu, không phải timestamp ngẫu nhiên.",
-              "reading_docs": "Qdrant [Qdrant - Payload](https://qdrant.tech/documentation/concepts/payload/), Tuần 1.",
+              "reading_docs": "Qdrant [Payload](https://qdrant.tech/documentation/concepts/payload/), Tuần 1.",
               "practice_task": "Tạo UUID5 từ source path + version + chunk index.",
               "project_changes": "Dry-run trả sample metadata, không trả toàn bộ text lớn.",
               "expected_files": "src/ai_assistant_platform/rag/metadata.py, src/ai_assistant_platform/rag/schemas.py, tests/unit/test_rag_metadata.py",
@@ -2443,7 +2834,7 @@
               "expected_outcome": "SHA-256 của normalized text và report `new_chunks`/`duplicate_chunks`.",
               "time_allocation": "15 phút lý thuyết, 50 phút code, 30 phút test, 15 phút ghi chú (110 phút).",
               "theory_content": "Fingerprint không thay semantic duplicate; baseline chỉ giải quyết duplicate byte-normalized.",
-              "reading_docs": "Python `hashlib` xem [Qdrant - Points](https://qdrant.tech/documentation/concepts/points/), [Qdrant - Payload](https://qdrant.tech/documentation/concepts/payload/), [Python - hashlib](https://docs.python.org/3/library/hashlib.html), Tuần 1.",
+              "reading_docs": "Python [hashlib](https://docs.python.org/3/library/hashlib.html), Tuần 1.",
               "practice_task": "Thêm `content_sha256`, repository in-memory để test quyết định skip.",
               "project_changes": "Dry-run báo chunk trùng trước khi Qdrant được thêm ở tuần 2.",
               "expected_files": "src/ai_assistant_platform/rag/fingerprints.py, src/ai_assistant_platform/rag/ingestion.py, tests/unit/test_fingerprints.py",
@@ -2463,7 +2854,7 @@
               "expected_outcome": "`POST /api/v1/rag/ingest?dry_run=true` trả summary xác định được.",
               "time_allocation": "15 phút ôn, 30 phút route/dependency, 50 phút integration test, 20 phút sửa, 5 phút ghi chú (120 phút).",
               "theory_content": "Integration test kiểm tra wiring; unit test vẫn là nơi cover split edge case.",
-              "reading_docs": "FastAPI request body (đã học Month-01) và Qdrant [Qdrant - Points](https://qdrant.tech/documentation/concepts/points/).",
+              "reading_docs": "FastAPI request body (đã học Month-01) và Qdrant [Points](https://qdrant.tech/documentation/concepts/points/).",
               "practice_task": "Inject corpus root test, không dùng corpus thật trong test.",
               "project_changes": "Đăng ký rag router trong `src/ai_assistant_platform/main.py`, log count/latency thay vì raw document.",
               "expected_files": "src/ai_assistant_platform/api/routes/rag.py, src/ai_assistant_platform/main.py, tests/integration/test_rag_ingest.py",
@@ -2483,7 +2874,7 @@
               "expected_outcome": "Test/lint pass, ADR ngắn ghi chunk size/version policy và backlog parser PDF là optional.",
               "time_allocation": "25 phút review, 35 phút refactor, 20 phút test/lint, 20 phút ADR hoặc nghỉ bù (100 phút).",
               "theory_content": "Reproducibility: cùng corpus + config phải sinh cùng point ID/fingerprint.",
-              "reading_docs": "Xem lại Tuần 1 xem [Qdrant - Points](https://qdrant.tech/documentation/concepts/points/), [Qdrant - Payload](https://qdrant.tech/documentation/concepts/payload/), [Python - hashlib](https://docs.python.org/3/library/hashlib.html).",
+              "reading_docs": "Xem lại Tuần 1.",
               "practice_task": "Viết `docs/adr/0001-rag-ingestion-baseline.md`; xóa code chết, không thêm feature.",
               "project_changes": "Chuẩn bị interface `ChunkStore.upsert()` để tuần 2 thay in-memory bằng Qdrant.",
               "expected_files": "docs/adr/0001-rag-ingestion-baseline.md, src/ai_assistant_platform/rag/ingestion.py, tests liên quan",
@@ -2510,23 +2901,39 @@
           "official_resources": [
             {
               "title": "Qdrant Python client - Quickstart",
+              "raw_title": "Qdrant Python client - Quickstart",
               "url": "https://python-client.qdrant.tech/quickstart",
               "description": "tạo collection và upsert."
             },
             {
               "title": "Qdrant - Search",
+              "raw_title": "Qdrant - Search",
               "url": "https://qdrant.tech/documentation/concepts/search/",
               "description": "top-k, score và filter."
             },
             {
               "title": "Qdrant - Hybrid Queries",
+              "raw_title": "Qdrant - Hybrid Queries",
               "url": "https://qdrant.tech/documentation/concepts/hybrid-queries/",
               "description": "prefetch và fusion."
             },
             {
               "title": "rank-bm25",
+              "raw_title": "rank-bm25",
               "url": "https://pypi.org/project/rank-bm25/",
               "description": "API BM25 nhỏ dùng cho corpus local."
+            },
+            {
+              "title": "Qdrant - Multitenancy",
+              "raw_title": "Qdrant - Multitenancy",
+              "url": "https://qdrant.tech/documentation/guides/multiple-partitions/",
+              "description": "chỉ đọc sau khi pipeline local ổn định."
+            },
+            {
+              "title": "OpenAI - Embeddings",
+              "raw_title": "OpenAI - Embeddings",
+              "url": "https://platform.openai.com/docs/guides/embeddings",
+              "description": "chọn embedding model và kích thước vector."
             }
           ],
           "days": [
@@ -2539,7 +2946,7 @@
               "expected_outcome": "Service `qdrant` chạy ở port local, `QDRANT_URL`/collection nằm trong settings và `.env.example`.",
               "time_allocation": "20 phút đọc, 40 phút Compose/config, 30 phút smoke test, 15 phút ghi chú (105 phút).",
               "theory_content": "Collection khác database; development collection không được xóa từ API.",
-              "reading_docs": "Qdrant Python [Qdrant Python client - Quickstart](https://python-client.qdrant.tech/quickstart), Tuần 2.",
+              "reading_docs": "Qdrant Python [Quickstart](https://python-client.qdrant.tech/quickstart), Tuần 2.",
               "practice_task": "Thêm health dependency gọi client với timeout ngắn.",
               "project_changes": "`docker-compose.yml` có API + Qdrant; config không log URL có credential.",
               "expected_files": "docker-compose.yml, .env.example, src/ai_assistant_platform/core/config.py, src/ai_assistant_platform/rag/qdrant_store.py",
@@ -2559,7 +2966,7 @@
               "expected_outcome": "`ensure_collection()` idempotent, `upsert_chunks()` gửi vector+payload và test fake client.",
               "time_allocation": "20 phút lý thuyết, 50 phút code, 25 phút test, 15 phút ghi chú (110 phút).",
               "theory_content": "Point ID là từ tuần 1; payload dùng filter/citation, không lưu secret.",
-              "reading_docs": "Qdrant Points/Payload xem [Qdrant Python client - Quickstart](https://python-client.qdrant.tech/quickstart), [Qdrant - Search](https://qdrant.tech/documentation/concepts/search/), [Qdrant - Hybrid Queries](https://qdrant.tech/documentation/concepts/hybrid-queries/).",
+              "reading_docs": "Qdrant [Points](https://qdrant.tech/documentation/concepts/points/)/[Payload](https://qdrant.tech/documentation/concepts/payload/).",
               "practice_task": "Tạo `QdrantChunkStore` theo protocol `ChunkStore`.",
               "project_changes": "Ingestion write path vẫn chỉ nhận corpus allowlist và dùng batch nhỏ.",
               "expected_files": "src/ai_assistant_platform/rag/qdrant_store.py, src/ai_assistant_platform/rag/store.py, tests/unit/test_qdrant_store.py",
@@ -2579,7 +2986,7 @@
               "expected_outcome": "`Embedder.embed_query/embed_documents`, dense top-k trả `RetrievedChunk` có score.",
               "time_allocation": "20 phút đọc, 45 phút adapter/retriever, 30 phút test mock, 15 phút ghi chú (110 phút).",
               "theory_content": "Cùng embedding model/dimension cho index và query; cosine score không là xác suất.",
-              "reading_docs": "OpenAI Embeddings xem [Qdrant Python client - Quickstart](https://python-client.qdrant.tech/quickstart), [Qdrant - Search](https://qdrant.tech/documentation/concepts/search/), [Qdrant - Hybrid Queries](https://qdrant.tech/documentation/concepts/hybrid-queries/), Tìm hiểu thêm.",
+              "reading_docs": "OpenAI [Embeddings](https://platform.openai.com/docs/guides/embeddings), Tìm hiểu thêm.",
               "practice_task": "Mock embedder trong test, lưu model name/version ở metadata config.",
               "project_changes": "`POST /rag/ingest` chuyển `dry_run=false` chỉ sau explicit config; không cần real key trong test.",
               "expected_files": "src/ai_assistant_platform/rag/embeddings.py, src/ai_assistant_platform/rag/retrieval.py, tests/unit/test_dense_retrieval.py",
@@ -2599,7 +3006,7 @@
               "expected_outcome": "BM25 index từ chunk text, `search(query, k)` và test query có mã lỗi/tên riêng.",
               "time_allocation": "20 phút lý thuyết, 45 phút code, 30 phút tests, 15 phút ghi chú (110 phút).",
               "theory_content": "Tokenization đơn giản là giới hạn được ghi nhận; BM25 score không cùng thang dense score.",
-              "reading_docs": "`rank-bm25` xem [Qdrant Python client - Quickstart](https://python-client.qdrant.tech/quickstart), [Qdrant - Search](https://qdrant.tech/documentation/concepts/search/), [Qdrant - Hybrid Queries](https://qdrant.tech/documentation/concepts/hybrid-queries/), Tuần 2.",
+              "reading_docs": "[rank-bm25](https://pypi.org/project/rank-bm25/), Tuần 2.",
               "practice_task": "Build index từ chunks sau ingestion, không đọc Qdrant để tạo BM25.",
               "project_changes": "Thêm `mode=\"bm25\"` vào request search, giữ metadata/citation contract chung.",
               "expected_files": "src/ai_assistant_platform/rag/bm25_index.py, src/ai_assistant_platform/rag/schemas.py, tests/unit/test_bm25_index.py",
@@ -2619,7 +3026,7 @@
               "expected_outcome": "`mode=\"hybrid\"`, RRF `k=60`, `filters` schema allowlist.",
               "time_allocation": "20 phút đọc, 50 phút code, 25 phút tests, 15 phút ghi chú (110 phút).",
               "theory_content": "RRF dùng rank nên không đòi scale score; filter là constraint trước/sau retrieval cần nhất quán.",
-              "reading_docs": "Qdrant Hybrid Queries và Filtering xem [Qdrant Python client - Quickstart](https://python-client.qdrant.tech/quickstart), [Qdrant - Search](https://qdrant.tech/documentation/concepts/search/), [Qdrant - Hybrid Queries](https://qdrant.tech/documentation/concepts/hybrid-queries/).",
+              "reading_docs": "Qdrant [Hybrid Queries](https://qdrant.tech/documentation/concepts/hybrid-queries/) và [Filtering](https://qdrant.tech/documentation/concepts/filtering/).",
               "practice_task": "Fuse result list theo chunk_id, rồi load metadata đầy đủ.",
               "project_changes": "Search chỉ cho filter `category`, `document_id`, `version`; từ chối arbitrary payload key.",
               "expected_files": "src/ai_assistant_platform/rag/hybrid.py, src/ai_assistant_platform/rag/retrieval.py, tests/unit/test_hybrid.py",
@@ -2639,7 +3046,7 @@
               "expected_outcome": "`/api/v1/rag/search` validates `k` 1–10, logs mode/latency/count và không trả raw vector.",
               "time_allocation": "15 phút thiết kế, 45 phút route, 40 phút integration test, 15 phút ghi chú (115 phút).",
               "theory_content": "Retrieval result là evidence, chưa là câu trả lời LLM.",
-              "reading_docs": "Qdrant [Qdrant - Search](https://qdrant.tech/documentation/concepts/search/), Tuần 2.",
+              "reading_docs": "Qdrant [Search](https://qdrant.tech/documentation/concepts/search/), Tuần 2.",
               "practice_task": "Dependency inject retriever fake trong test client.",
               "project_changes": "Reuse error contract, request ID và timeout policy đã có từ Month-01/03.",
               "expected_files": "src/ai_assistant_platform/api/routes/rag.py, tests/integration/test_rag_search.py, src/ai_assistant_platform/core/logging.py",
@@ -2659,7 +3066,7 @@
               "expected_outcome": "Bảng `docs/rag-retrieval-baseline.md` ghi query, expected source và top-3 của dense/BM25/hybrid.",
               "time_allocation": "20 phút chọn query, 35 phút chạy search, 35 phút ghi bảng, 20 phút test/lint, 10 phút ghi chú (120 phút).",
               "theory_content": "Manual inspection không thay evaluation nhưng phát hiện lỗi index/config sớm.",
-              "reading_docs": "Xem lại Qdrant Search/Hybrid xem [Qdrant Python client - Quickstart](https://python-client.qdrant.tech/quickstart), [Qdrant - Search](https://qdrant.tech/documentation/concepts/search/), [Qdrant - Hybrid Queries](https://qdrant.tech/documentation/concepts/hybrid-queries/).",
+              "reading_docs": "Xem lại Qdrant [Search](https://qdrant.tech/documentation/concepts/search/)/Hybrid.",
               "practice_task": "Ingest corpus dev, chạy command từng mode; không chỉnh query để làm đẹp kết quả.",
               "project_changes": "Ghi config corpus/chunk/model cho baseline.",
               "expected_files": "docs/rag-retrieval-baseline.md, tests/integration/test_rag_search.py",
@@ -2686,18 +3093,33 @@
           "official_resources": [
             {
               "title": "OpenAI - File search",
+              "raw_title": "OpenAI - File search",
               "url": "https://platform.openai.com/docs/guides/tools-file-search",
               "description": "nguyên tắc grounding và citation (tham khảo khái niệm, không thay Qdrant)."
             },
             {
               "title": "OpenAI - Safety best practices",
+              "raw_title": "OpenAI - Safety best practices",
               "url": "https://platform.openai.com/docs/guides/safety-best-practices",
               "description": "prompt injection và ranh giới tin cậy."
             },
             {
               "title": "Qdrant - Filtering",
+              "raw_title": "Qdrant - Filtering",
               "url": "https://qdrant.tech/documentation/concepts/filtering/",
               "description": "điều kiện metadata an toàn."
+            },
+            {
+              "title": "Qdrant - Multitenancy",
+              "raw_title": "Qdrant - Multitenancy",
+              "url": "https://qdrant.tech/documentation/guides/multiple-partitions/",
+              "description": "chỉ đọc sau khi pipeline local ổn định."
+            },
+            {
+              "title": "OpenAI - Embeddings",
+              "raw_title": "OpenAI - Embeddings",
+              "url": "https://platform.openai.com/docs/guides/embeddings",
+              "description": "chọn embedding model và kích thước vector."
             }
           ],
           "days": [
@@ -2710,7 +3132,7 @@
               "expected_outcome": "Có `RetrievedChunk`, `Citation`, `RagAnswerResponse` với `status`, `answer`, `citations`, `retrieval_config` và `request_id`.",
               "time_allocation": "15 phút ôn output Tuần 02, 25 phút đọc, 45 phút code schema, 20 phút unit test, 10 phút ghi chú (115 phút).",
               "theory_content": "Contract tách score nội bộ khỏi response công khai; provenance phải đi theo chunk trong mọi bước.",
-              "reading_docs": "Qdrant [Payload](https://qdrant.tech/documentation/concepts/payload/) — payload và filter metadata.",
+              "reading_docs": "Qdrant [Payload](https://qdrant.tech/documentation/concepts/payload/) — [Payload](https://qdrant.tech/documentation/concepts/payload/) và filter metadata.",
               "practice_task": "Viết mapper từ search hit sang `RetrievedChunk`; cấm tạo citation từ URL/chuỗi do model trả về.",
               "project_changes": "Đặt schema ở `src/ai_assistant_platform/rag/schemas.py` để API và service dùng cùng contract.",
               "expected_files": "src/ai_assistant_platform/rag/schemas.py, src/ai_assistant_platform/rag/retrieval.py, tests/unit/test_rag_answer_schemas.py",
@@ -2892,31 +3314,37 @@
           "official_resources": [
             {
               "title": "RAGAS - Get started",
+              "raw_title": "RAGAS - Get started",
               "url": "https://docs.ragas.io/en/stable/getstarted/",
               "description": "dataset, evaluate và metrics."
             },
             {
               "title": "RAGAS - Metrics",
+              "raw_title": "RAGAS - Metrics",
               "url": "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/",
               "description": "faithfulness, context precision/recall, answer relevancy."
             },
             {
               "title": "DeepEval - RAG evaluation",
+              "raw_title": "DeepEval - RAG evaluation",
               "url": "https://deepeval.com/docs/getting-started-rag",
               "description": "lựa chọn thay thế nếu không dùng RAGAS."
             },
             {
               "title": "pytest - Parametrize",
+              "raw_title": "pytest - Parametrize",
               "url": "https://docs.pytest.org/en/stable/how-to/parametrize.html",
               "description": "regression cases dữ liệu-driven."
             },
             {
               "title": "Qdrant - Multitenancy",
+              "raw_title": "Qdrant - Multitenancy",
               "url": "https://qdrant.tech/documentation/guides/multiple-partitions/",
               "description": "chỉ đọc sau khi pipeline local ổn định."
             },
             {
               "title": "OpenAI - Embeddings",
+              "raw_title": "OpenAI - Embeddings",
               "url": "https://platform.openai.com/docs/guides/embeddings",
               "description": "chọn embedding model và kích thước vector."
             }
@@ -3081,7 +3509,7 @@
               "expected_outcome": "Script documented thực hiện ingest fixture, dense/hybrid search, grounded answer/refusal và evaluation artifact; `docs/month-05-handoff.md` ghi read-only contract/citation/timeout.",
               "time_allocation": "15 phút chuẩn bị, 45 phút end-to-end run, 25 phút integration/regression test, 20 phút review/handoff (105 phút).",
               "theory_content": "Demo khác production: mục tiêu là reproducibility và evidence, không benchmark vô hạn hay upload file bất kỳ.",
-              "reading_docs": "Qdrant [Quickstart](https://python-client.qdrant.tech/quickstart) — local connection; xem lại `RESOURCES.md` Tuần 2–4.",
+              "reading_docs": "Qdrant [Quickstart](https://python-client.qdrant.tech/quickstart) — local connection; xem lại `` Tuần 2–4.",
               "practice_task": "Viết PowerShell-friendly runbook: khởi động Qdrant, ingest allowlisted fixture, chạy tests/eval, tắt service không xóa volume; ghi handoff cho graph chỉ-đọc.",
               "project_changes": "Thêm `scripts/demo_rag.ps1` hoặc `docs/rag-demo.md`; endpoint trả request id/citation/status, không trả internal scores mặc định; Month-05 chỉ gọi RAG như dependency.",
               "expected_files": "docs/rag-demo.md, docs/month-05-handoff.md, scripts/demo_rag.ps1, tests/integration/test_rag_e2e.py",
@@ -3122,18 +3550,27 @@
           "official_resources": [
             {
               "title": "LangGraph overview",
+              "raw_title": "LangGraph overview",
               "url": "https://docs.langchain.com/oss/python/langgraph/overview",
               "description": "vai trò orchestration runtime và ví dụ `StateGraph` tối thiểu."
             },
             {
               "title": "Graph API overview",
+              "raw_title": "Graph API overview",
               "url": "https://docs.langchain.com/oss/python/langgraph/graph-api",
               "description": "state, node, edge, `START`/`END`, conditional edge và `Command`."
             },
             {
               "title": "Workflows and agents",
+              "raw_title": "Workflows and agents",
               "url": "https://docs.langchain.com/oss/python/langgraph/workflows-agents",
               "description": "phân biệt workflow có đường đi định trước với agent có routing động."
+            },
+            {
+              "title": "LangGraph Functional API",
+              "raw_title": "LangGraph Functional API",
+              "url": "https://docs.langchain.com/oss/python/langgraph/functional-api",
+              "description": "chọn Functional API khi cần thêm persistence vào code tuyến tính hiện có; không bắt buộc trong tháng này."
             }
           ],
           "days": [
@@ -3171,7 +3608,7 @@
               "expected_outcome": "`AgentState` có `messages`, `query`, `route`, `documents`, `draft`, `citations`, `step_count`, `tool_calls_used`, `errors`.",
               "time_allocation": "20 phút đọc, 55 phút code, 20 phút test schema, 10 phút ghi chú (105 phút).",
               "theory_content": "State là snapshot chia sẻ; node trả phần update thay vì mutate object toàn cục. Chỉ lưu dữ liệu JSON-serializable để checkpoint được.",
-              "reading_docs": "“State” và “Nodes” trong Graph API overview ở [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview), [Graph API overview](https://docs.langchain.com/oss/python/langgraph/graph-api), [Workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents).",
+              "reading_docs": "“State” và “Nodes” trong [Graph API overview](https://docs.langchain.com/oss/python/langgraph/graph-api).",
               "practice_task": "Dùng `TypedDict`/Pydantic boundary phù hợp codebase; tạo factory state từ `AgentRunRequest` đã validate.",
               "project_changes": "Thêm `src/ai_assistant_platform/agents/state.py` và schema request/response cho run id/thread id.",
               "expected_files": "src/ai_assistant_platform/agents/state.py, src/ai_assistant_platform/api/schemas/agent.py, tests/unit/test_agent_state.py",
@@ -3196,7 +3633,7 @@
               "expected_outcome": "Query chứa yêu cầu nguồn/tài liệu được gán route `retrieve`; greeting hoặc câu hỏi ngoài knowledge base gán `direct`/`refuse` theo policy.",
               "time_allocation": "15 phút đọc, 55 phút code, 25 phút unit test, 10 phút commit note (105 phút).",
               "theory_content": "Node là function dễ test; logic route ban đầu dùng rule để kiểm soát baseline trước khi để LLM quyết định.",
-              "reading_docs": "Ví dụ `StateGraph`, `START` và normal edge trong Graph API overview.",
+              "reading_docs": "Ví dụ `StateGraph`, `START` và normal edge trong [Graph API overview](https://docs.langchain.com/oss/python/langgraph/graph-api).",
               "practice_task": "Viết `classify_request(state)` và compile graph `START -> classify -> END`.",
               "project_changes": "Thêm `src/ai_assistant_platform/agents/nodes.py`, `src/ai_assistant_platform/agents/graph.py` và fake direct reply node.",
               "expected_files": "src/ai_assistant_platform/agents/nodes.py, src/ai_assistant_platform/agents/graph.py, tests/unit/test_agent_routing.py",
@@ -3246,7 +3683,7 @@
               "expected_outcome": "Node `draft_answer` dùng context Month-04; node `review_answer` xác nhận nhánh retrieval có ít nhất một citation hợp lệ trước `finalize`.",
               "time_allocation": "20 phút đọc lại contract RAG, 50 phút code, 30 phút test, 10 phút ghi chú (110 phút).",
               "theory_content": "Tách node giảm lỗi: generator không tự chứng nhận đầu ra; review ở đây là validation xác định, không phải LLM judge.",
-              "reading_docs": "“Nodes” và workflow routing examples xem [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview), [Graph API overview](https://docs.langchain.com/oss/python/langgraph/graph-api), [Workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents).",
+              "reading_docs": "“Nodes” và workflow routing examples.",
               "practice_task": "Tạo `CitationMissingError`/result an toàn thay vì bịa nguồn; direct answer không được tự thêm citation giả.",
               "project_changes": "Graph trả `AgentRunResponse` cùng `answer`, `citations`, `status`.",
               "expected_files": "src/ai_assistant_platform/agents/nodes.py, src/ai_assistant_platform/api/schemas/agent.py, tests/unit/test_agent_review.py",
@@ -3271,7 +3708,7 @@
               "expected_outcome": "`POST /api/v1/agent/runs` nhận query/thread id, trả route, answer/citations, status và step count.",
               "time_allocation": "15 phút đọc API boundary, 60 phút tích hợp, 30 phút integration test, 15 phút smoke test (120 phút).",
               "theory_content": "HTTP route chỉ convert schema và gọi service; state graph không phụ thuộc FastAPI request object.",
-              "reading_docs": "LangGraph overview example xem [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview), [Graph API overview](https://docs.langchain.com/oss/python/langgraph/graph-api), [Workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents).",
+              "reading_docs": "[LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview) example.",
               "practice_task": "Tiêm compiled graph qua dependency; mapping exception sang response contract hiện có.",
               "project_changes": "Thêm agent route vào app main/router registration.",
               "expected_files": "src/ai_assistant_platform/api/routes/agent.py, src/ai_assistant_platform/api/dependencies.py, src/ai_assistant_platform/main.py, tests/integration/test_agent_api.py",
@@ -3328,18 +3765,27 @@
           "official_resources": [
             {
               "title": "Persistence",
+              "raw_title": "Persistence",
               "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
               "description": "checkpoint, thread, state history và fault tolerance."
             },
             {
               "title": "Memory",
+              "raw_title": "Memory",
               "url": "https://docs.langchain.com/oss/python/langgraph/add-memory",
               "description": "short-term/long-term memory, trimming và database setup."
             },
             {
               "title": "LangGraph memory concepts",
+              "raw_title": "LangGraph memory concepts",
               "url": "https://docs.langchain.com/oss/python/concepts/memory",
               "description": "phạm vi thread và namespace của memory."
+            },
+            {
+              "title": "LangGraph Functional API",
+              "raw_title": "LangGraph Functional API",
+              "url": "https://docs.langchain.com/oss/python/langgraph/functional-api",
+              "description": "chọn Functional API khi cần thêm persistence vào code tuyến tính hiện có; không bắt buộc trong tháng này."
             }
           ],
           "days": [
@@ -3352,7 +3798,7 @@
               "expected_outcome": "Có ADR mô tả `thread_id`, checkpoint namespace, retention 7 ngày cho demo, dữ liệu bị cấm lưu và quy tắc xóa thủ công.",
               "time_allocation": "15 phút xem state Tuần 1, 25 phút đọc, 45 phút ADR/schema, 20 phút review (105 phút).",
               "theory_content": "Checkpoint lưu state để resume/debug; nó không thay thế audit log, authorization hay memory vĩnh viễn.",
-              "reading_docs": "Phần “Threads” và “Checkpoints” trong [Persistence](./RESOURCES.md).",
+              "reading_docs": "Phần “Threads” và “Checkpoints” trong [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence).",
               "practice_task": "Liệt kê từng key `AgentState` là persist/ephemeral/redacted; thêm validator UUID/slug cho `thread_id`.",
               "project_changes": "Mở rộng `AgentRunRequest` để bắt buộc `thread_id` do client tạo hoặc server sinh rồi trả về.",
               "expected_files": "docs/adr/006-agent-checkpoint-contract.md, src/ai_assistant_platform/api/schemas/agent.py, tests/unit/test_thread_id.py",
@@ -3377,7 +3823,7 @@
               "expected_outcome": "Cùng `thread_id` ghi checkpoint sau mỗi node; thread khác không đọc được state của nhau.",
               "time_allocation": "20 phút đọc, 50 phút code, 25 phút unit test, 10 phút ghi chú (105 phút).",
               "theory_content": "Configurable `thread_id` tách configuration runtime khỏi state; saver dùng cho test không chứng minh durability sau process restart.",
-              "reading_docs": "Ví dụ checkpointer tối thiểu trong [Persistence](./RESOURCES.md).",
+              "reading_docs": "Ví dụ checkpointer tối thiểu trong [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence).",
               "practice_task": "Tạo `build_agent_graph(checkpointer)`; truyền `{\"configurable\": {\"thread_id\": ...}}` khi invoke thay vì nhét ID vào global.",
               "project_changes": "`AgentService.run()` nhận checkpointer qua dependency injection để test dùng `InMemorySaver`.",
               "expected_files": "src/ai_assistant_platform/agents/graph.py, src/ai_assistant_platform/services/checkpoints.py, tests/unit/test_agent_checkpoints.py",
@@ -3402,7 +3848,7 @@
               "expected_outcome": "Service trả metadata checkpoint theo thứ tự mới nhất, có `step_count`, route và status; response không trả document text/raw prompt.",
               "time_allocation": "15 phút ôn saver, 25 phút đọc, 50 phút service/test, 15 phút review (105 phút).",
               "theory_content": "History hỗ trợ debug khi state transition rõ; replay dùng cùng input/config, không dùng để chạy lại side effect.",
-              "reading_docs": "Phần “Get state” và “Get state history” trong [Persistence](./RESOURCES.md).",
+              "reading_docs": "Phần “Get state” và “Get state history” trong [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence).",
               "practice_task": "Viết mapper từ snapshot sang `ThreadCheckpointSummary`; giới hạn 20 record và sort xác định.",
               "project_changes": "Thêm endpoint nội bộ `GET /api/v1/agent/threads/{thread_id}/checkpoints` có response model.",
               "expected_files": "src/ai_assistant_platform/services/agent_threads.py, src/ai_assistant_platform/api/routes/agent.py, tests/integration/test_agent_thread_history.py",
@@ -3427,7 +3873,7 @@
               "expected_outcome": "Policy giữ 6 message gần nhất và system context; message cũ bị trim có record `memory_trimmed=true`.",
               "time_allocation": "20 phút đọc, 45 phút implement, 30 phút tests, 10 phút note (105 phút).",
               "theory_content": "Short-term memory thuộc thread; trimming giảm cost/latency nhưng có thể mất ngữ cảnh, nên phải đo và minh bạch.",
-              "reading_docs": "Phần short-term memory và trimming trong [Memory](./RESOURCES.md).",
+              "reading_docs": "Phần short-term [Memory](https://docs.langchain.com/oss/python/langgraph/add-memory) và trimming trong [Memory](https://docs.langchain.com/oss/python/langgraph/add-memory).",
               "practice_task": "Viết pure function `trim_messages(messages, max_messages)`; bảo toàn role/system và không tóm tắt bằng LLM trong scope hôm nay.",
               "project_changes": "Node trước `draft` dùng policy này và thêm `memory_summary` rỗng thay vì suy diễn nội dung đã bỏ.",
               "expected_files": "src/ai_assistant_platform/agents/memory.py, src/ai_assistant_platform/agents/nodes.py, tests/unit/test_agent_memory.py",
@@ -3452,7 +3898,7 @@
               "expected_outcome": "Factory chọn `memory` hoặc `postgres` bằng Settings; Postgres checkpointer có health/config test và DSN chỉ đọc từ env.",
               "time_allocation": "20 phút đọc, 45 phút adapter/config, 30 phút test fake, 15 phút migration note (110 phút).",
               "theory_content": "PostgreSQL phù hợp checkpoint durable; Redis phù hợp transient/cache. Migration phải idempotent và được chạy như bước deploy, không tự chạy mỗi request.",
-              "reading_docs": "Phần database setup trong [Persistence](./RESOURCES.md) và memory persistence trong [Memory](./RESOURCES.md).",
+              "reading_docs": "Phần database setup trong [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence) và [Memory](https://docs.langchain.com/oss/python/langgraph/add-memory) [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence) trong [Memory](https://docs.langchain.com/oss/python/langgraph/add-memory).",
               "practice_task": "Khai báo protocol `CheckpointStore`; thêm `CHECKPOINTER_BACKEND` và `DATABASE_URL` vào `.env.example` chỉ với tên biến; viết `docs/checkpoints.md` hướng dẫn migration.",
               "project_changes": "`create_app()` build checkpointer từ factory, test mặc định vẫn dùng in-memory không cần database thật.",
               "expected_files": "src/ai_assistant_platform/services/checkpoints.py, src/ai_assistant_platform/core/settings.py, .env.example, docs/checkpoints.md, tests/unit/test_checkpoint_factory.py",
@@ -3477,7 +3923,7 @@
               "expected_outcome": "Run đầu dừng sau checkpoint; src/ai_assistant_platform/service instance mới dùng cùng durable store đọc được state và tiếp tục đúng thread.",
               "time_allocation": "15 phút chuẩn bị fixture, 55 phút integration test, 25 phút run manual, 15 phút handoff (110 phút).",
               "theory_content": "Persistence chỉ có giá trị khi một instance mới resume được; in-memory test không thay thế test adapter durable.",
-              "reading_docs": "Phần fault tolerance trong [Persistence](./RESOURCES.md).",
+              "reading_docs": "Phần fault tolerance trong [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence).",
               "practice_task": "Dùng test container/local PostgreSQL nếu đã có Compose, nếu chưa có thì mark integration `requires_postgres` và chạy fake contract test; không dùng database cá nhân.",
               "project_changes": "Viết `docs/month-05-week-02-handoff.md` nêu checkpoint config, retention và API contract cho interrupt tuần 3.",
               "expected_files": "tests/integration/test_agent_resume.py, tests/integration/conftest.py, docs/month-05-week-02-handoff.md",
@@ -3502,7 +3948,7 @@
               "expected_outcome": "Checkpoint contract, API history, trimming và resume test được review; backlog không chứa long-term memory tự động.",
               "time_allocation": "20 phút đọc diff, 30 phút chạy suite, 25 phút sửa nhỏ, 15 phút handoff (90 phút).",
               "theory_content": "Long-term memory là quyết định sản phẩm/privacy, không phải mặc định kỹ thuật cho mọi chat.",
-              "reading_docs": "Phần long-term memory/namespace trong [LangGraph memory concepts](./RESOURCES.md).",
+              "reading_docs": "Phần long-term [Memory](https://docs.langchain.com/oss/python/langgraph/add-memory)/namespace trong [LangGraph memory concepts](https://docs.langchain.com/oss/python/langgraph/add-memory).",
               "practice_task": "Thêm test retention config không âm, sửa naming không nhất quán và viết note “chưa triển khai” cho semantic memory.",
               "project_changes": "Cập nhật architecture doc: `thread_id -> checkpointer -> state history`, chỉ rõ approval sẽ checkpoint trước side effect ở Tuần 3.",
               "expected_files": "docs/architecture/agent-workflow.md, tests/unit/test_agent_memory.py, docs/month-05-week-02-handoff.md",
@@ -3534,13 +3980,21 @@
           "official_resources": [
             {
               "title": "Interrupts",
+              "raw_title": "Interrupts",
               "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
               "description": "pause/resume, `Command(resume=...)` và idempotency quanh side effect."
             },
             {
               "title": "Human-in-the-loop",
+              "raw_title": "Human-in-the-loop",
               "url": "https://docs.langchain.com/oss/python/langchain/human-in-the-loop",
               "description": "approve, edit, reject và checkpointer cho interrupt."
+            },
+            {
+              "title": "LangGraph Functional API",
+              "raw_title": "LangGraph Functional API",
+              "url": "https://docs.langchain.com/oss/python/langgraph/functional-api",
+              "description": "chọn Functional API khi cần thêm persistence vào code tuyến tính hiện có; không bắt buộc trong tháng này."
             }
           ],
           "days": [
@@ -3553,7 +4007,7 @@
               "expected_outcome": "`ExportReportIntent` có scope, format, reason, idempotency key; allowlist chỉ cho PDF/Markdown trong thư mục export của project.",
               "time_allocation": "20 phút đọc, 45 phút schema/policy, 30 phút test, 10 phút ghi chú (105 phút).",
               "theory_content": "Model không có quyền; application policy map tool/action sang permission và phạm vi dữ liệu cố định.",
-              "reading_docs": "Phần approve/edit/reject trong [Human-in-the-loop](./RESOURCES.md).",
+              "reading_docs": "Phần approve/edit/reject trong [Human-in-the-loop](https://docs.langchain.com/oss/python/langchain/human-in-the-loop).",
               "practice_task": "Viết `can_request_export(state)`; từ chối path traversal, URL đích, format lạ và query chưa có citation.",
               "project_changes": "Thêm `export_report` như capability có schema, chưa đăng ký thực thi trực tiếp từ node draft.",
               "expected_files": "src/ai_assistant_platform/agents/policies.py, src/ai_assistant_platform/api/schemas/approval.py, tests/unit/test_export_policy.py",
@@ -3578,7 +4032,7 @@
               "expected_outcome": "Graph trả trạng thái `interrupted` cùng approval ID/summary, không tạo file export.",
               "time_allocation": "20 phút đọc, 50 phút graph/node, 25 phút test, 10 phút review (105 phút).",
               "theory_content": "`interrupt()` tạm dừng execution và checkpoint state; code trước interrupt có thể chạy lại khi resume.",
-              "reading_docs": "Phần interrupts và side effects trong [Interrupts](./RESOURCES.md).",
+              "reading_docs": "Phần [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts) và side effects trong [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts).",
               "practice_task": "Tạo node `request_export_approval`; dùng approval summary gồm citation IDs, format và reason, không đưa raw context.",
               "project_changes": "Nhánh `request_export` từ classify/draft đi tới interrupt thay vì gọi `ExportTool`.",
               "expected_files": "src/ai_assistant_platform/agents/approval.py, src/ai_assistant_platform/agents/graph.py, tests/integration/test_agent_interrupt.py",
@@ -3603,7 +4057,7 @@
               "expected_outcome": "`POST /api/v1/agent/threads/{thread_id}/approval` chấp nhận `approve`, `edit`, `reject`; edit chỉ sửa format/reason allowlisted.",
               "time_allocation": "15 phút ôn interrupt, 25 phút đọc, 50 phút API/service, 20 phút integration test (110 phút).",
               "theory_content": "Resume payload là input không tin cậy; reject là outcome thành công, không phải exception.",
-              "reading_docs": "Ví dụ `Command(resume=...)` trong [Interrupts](./RESOURCES.md).",
+              "reading_docs": "Ví dụ `Command(resume=...)` trong [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts).",
               "practice_task": "Map action sang `Command(resume=decision)`; reject dẫn `finalize_cancelled`, edit revalidate intent rồi quay lại approval summary.",
               "project_changes": "Lưu audit event `approval_requested/decided` với actor pseudonymous và timestamp, không log content report.",
               "expected_files": "src/ai_assistant_platform/api/routes/agent.py, src/ai_assistant_platform/services/agent_approvals.py, tests/integration/test_agent_approval_api.py",
@@ -3628,7 +4082,7 @@
               "expected_outcome": "Tool dùng idempotency key; gọi hai lần trả cùng receipt, chỉ ghi artifact một lần trong fake storage.",
               "time_allocation": "20 phút đọc, 45 phút adapter, 30 phút unit test, 15 phút note (110 phút).",
               "theory_content": "Idempotency bảo vệ khỏi duplicate do retry, resume hay client re-send; key cần gắn semantic intent, không chỉ request UUID.",
-              "reading_docs": "Lưu ý idempotency quanh side effect trong [Interrupts](./RESOURCES.md).",
+              "reading_docs": "Lưu ý idempotency quanh side effect trong [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts).",
               "practice_task": "Tạo `ExportStore.put_if_absent`; receipt gồm export ID/status/hash, không trả local path nội bộ.",
               "project_changes": "Node thực thi chỉ chạy khi approval approved và gọi tool qua adapter interface.",
               "expected_files": "src/ai_assistant_platform/agents/tools.py, src/ai_assistant_platform/services/export_store.py, tests/unit/test_export_idempotency.py",
@@ -3653,7 +4107,7 @@
               "expected_outcome": "Transient timeout/503 retry tối đa 2 lần với backoff testable; validation/permission error không retry.",
               "time_allocation": "20 phút đọc, 45 phút policy/wrapper, 30 phút tests, 15 phút review (110 phút).",
               "theory_content": "Timeout là deadline; retry tăng tải nên cần giới hạn, phân loại error và jitter/backoff. Không retry side effect nếu không có idempotency.",
-              "reading_docs": "Phần durable execution/retry awareness trong [Persistence](./RESOURCES.md).",
+              "reading_docs": "Phần durable execution/retry awareness trong [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence).",
               "practice_task": "Tạo `ToolExecutionPolicy(timeout_seconds=5, max_attempts=2)`; inject clock/sleep fake trong test.",
               "project_changes": "`rag_search` vẫn read-only; `export_report` chỉ được retry sau khi Ngày 18 đã có idempotency key.",
               "expected_files": "src/ai_assistant_platform/agents/reliability.py, src/ai_assistant_platform/agents/tools.py, tests/unit/test_tool_retry_timeout.py",
@@ -3678,7 +4132,7 @@
               "expected_outcome": "Graph dừng khi quá 6 steps hoặc 2 tool calls; timeout/approval stale đưa state tới `failed_safe`/`cancelled`, không loop.",
               "time_allocation": "20 phút thiết kế case, 50 phút implement/test, 30 phút integration smoke, 15 phút document (115 phút).",
               "theory_content": "Step limit chống loop orchestration; tool budget chống cost/side effect. Chúng đo khác nhau và phải kiểm trước tool call.",
-              "reading_docs": "Xem lại graph routing trong [Graph API overview](./RESOURCES.md) và interrupt lifecycle trong [Interrupts](./RESOURCES.md).",
+              "reading_docs": "Xem lại graph routing trong [Graph API overview](https://docs.langchain.com/oss/python/langgraph/graph-api) và interrupt lifecycle trong [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts).",
               "practice_task": "Thêm `enforce_limits` node/conditional edge; fixture loop route, budget exhausted, stale approval và tool timeout.",
               "project_changes": "API response có `status`, `stop_reason`, `step_count`, `tool_calls_used`; không trả stack trace.",
               "expected_files": "src/ai_assistant_platform/agents/policies.py, src/ai_assistant_platform/agents/graph.py, tests/integration/test_agent_reliability.py, docs/agent-reliability.md",
@@ -3703,7 +4157,7 @@
               "expected_outcome": "Demo có một approval thành công, một reject, một timeout; audit timeline không chứa report/secret.",
               "time_allocation": "15 phút chuẩn bị, 35 phút scenario, 25 phút suite, 15 phút audit review (90 phút).",
               "theory_content": "HITL đáng tin khi quyết định có context vừa đủ, state durable và outcome truy vết được.",
-              "reading_docs": "Đọc lại [Human-in-the-loop](./RESOURCES.md), tập trung approve/edit/reject.",
+              "reading_docs": "Đọc lại [Human-in-the-loop](https://docs.langchain.com/oss/python/langchain/human-in-the-loop), tập trung approve/edit/reject.",
               "practice_task": "Viết sequence diagram và update handoff; refactor một duplicated policy nếu test vẫn rõ.",
               "project_changes": "Tạo `docs/month-05-week-03-handoff.md` liệt kê sensitive boundary, retry/budget, audit event và contract cho guardrail tuần 4.",
               "expected_files": "docs/architecture/agent-workflow.md, docs/month-05-week-03-handoff.md, tests/integration/test_agent_approval_api.py",
@@ -3735,26 +4189,31 @@
           "official_resources": [
             {
               "title": "LangGraph overview",
+              "raw_title": "LangGraph overview",
               "url": "https://docs.langchain.com/oss/python/langgraph/overview",
               "description": "liên hệ LangGraph với LangSmith debugging/tracing."
             },
             {
               "title": "DeepEval agent evaluation quickstart",
+              "raw_title": "DeepEval agent evaluation quickstart",
               "url": "https://deepeval.com/docs/getting-started-agents",
               "description": "trace, component evaluation và end-to-end evaluation."
             },
             {
               "title": "DeepEval tool correctness",
+              "raw_title": "DeepEval tool correctness",
               "url": "https://deepeval.com/docs/metrics-tool-correctness",
               "description": "expected tools, threshold và mức strictness."
             },
             {
               "title": "DeepEval task completion",
+              "raw_title": "DeepEval task completion",
               "url": "https://deepeval.com/docs/metrics-task-completion",
               "description": "metric theo full trace và reason của evaluator."
             },
             {
               "title": "LangGraph Functional API",
+              "raw_title": "LangGraph Functional API",
               "url": "https://docs.langchain.com/oss/python/langgraph/functional-api",
               "description": "chọn Functional API khi cần thêm persistence vào code tuyến tính hiện có; không bắt buộc trong tháng này."
             }
@@ -3769,7 +4228,7 @@
               "expected_outcome": "Guardrail validate length, required query, export intent và pattern injection rõ ràng; case nghi ngờ được `blocked_input` có request ID.",
               "time_allocation": "20 phút đọc, 45 phút code, 30 phút test, 10 phút ghi chú (105 phút).",
               "theory_content": "Prompt injection là input không tin cậy; detect pattern chỉ là defense-in-depth, permission/citation/tool boundary vẫn bắt buộc.",
-              "reading_docs": "Phần security boundary trong [LangGraph overview](./RESOURCES.md) và xem lại handoff RAG Month-04.",
+              "reading_docs": "Phần security boundary trong [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview) và xem lại handoff RAG Month-04.",
               "practice_task": "Viết `validate_agent_input`; từ chối query vượt 2,000 ký tự, control character và yêu cầu “bỏ qua policy/đọc secret” theo policy minh bạch.",
               "project_changes": "Agent route gọi guardrail trước `classify`; blocked request không tạo export/LLM/tool call.",
               "expected_files": "src/ai_assistant_platform/agents/guardrails.py, src/ai_assistant_platform/api/routes/agent.py, tests/unit/test_agent_input_guardrail.py",
@@ -3794,7 +4253,7 @@
               "expected_outcome": "Nhánh RAG chỉ final khi citations tồn tại trong retrieved IDs; export receipt chỉ final sau approval; answer vượt limit bị truncated/block theo policy.",
               "time_allocation": "15 phút ôn contracts, 25 phút đọc, 50 phút validator/test, 20 phút review (110 phút).",
               "theory_content": "Output validation xác nhận invariant xác định; LLM judge hữu ích sau đó nhưng không thay validation schema/citation.",
-              "reading_docs": "Phần graph state/nodes trong [Graph API overview](./RESOURCES.md).",
+              "reading_docs": "Phần graph state/nodes trong [Graph API overview](https://docs.langchain.com/oss/python/langgraph/graph-api).",
               "practice_task": "Viết `validate_agent_output(state)` và response Pydantic model; map failure sang `blocked_output` không lộ draft nội bộ.",
               "project_changes": "Review node Tuần 1 gọi validator này sau draft và sau approved export; direct answer không được gắn citation giả.",
               "expected_files": "src/ai_assistant_platform/agents/guardrails.py, src/ai_assistant_platform/agents/nodes.py, tests/unit/test_agent_output_guardrail.py",
@@ -3819,7 +4278,7 @@
               "expected_outcome": "Matrix xác định route nào được RAG read-only, route nào có thể request export, route nào bị deny; test deny-by-default.",
               "time_allocation": "20 phút đọc/thiết kế, 45 phút policy refactor, 30 phút tests, 15 phút ADR (110 phút).",
               "theory_content": "Least privilege bắt đầu bằng deny default; tool parameters cũng là boundary, không chỉ tool name.",
-              "reading_docs": "Phần tools/security concepts trong [Workflows and agents](./RESOURCES.md).",
+              "reading_docs": "Phần tools/security concepts trong [Workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents).",
               "practice_task": "Tạo `AgentPermission` enum/matrix; test tool unknown, export without citation, write outside allowlist và re-run rejected approval.",
               "project_changes": "`classify`/`request_approval` hỏi cùng policy module; graph không import storage implementation trực tiếp.",
               "expected_files": "src/ai_assistant_platform/agents/policies.py, docs/adr/007-agent-permission-matrix.md, tests/unit/test_agent_permissions.py",
@@ -3844,7 +4303,7 @@
               "expected_outcome": "Trace enable bằng Settings; metadata gồm hashed thread ID, route, step/tool count, latency, status; raw authorization/secret bị redact.",
               "time_allocation": "20 phút đọc, 45 phút adapter/settings, 30 phút unit test, 15 phút config review (110 phút).",
               "theory_content": "Trace giúp quan sát execution path; sampling/redaction giảm privacy risk và cost. Tracing off phải không làm workflow fail.",
-              "reading_docs": "Phần LangSmith integration trong [LangGraph overview](./RESOURCES.md).",
+              "reading_docs": "Phần LangSmith integration trong [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview).",
               "practice_task": "Viết `TraceContext`/wrapper không phụ thuộc global env trong test; thêm `LANGSMITH_TRACING` và tên project rỗng vào `.env.example`, không thêm key.",
               "project_changes": "`AgentService` tạo run metadata từ state terminal, gắn `request_id` của API nhưng không gửi message/document raw mặc định.",
               "expected_files": "src/ai_assistant_platform/observability/langsmith.py, src/ai_assistant_platform/core/settings.py, .env.example, tests/unit/test_agent_tracing.py",
@@ -3869,7 +4328,7 @@
               "expected_outcome": "JSONL 10–12 case có expected route, tool calls, approval outcome, citation expectation, category và no-action cases; runner deterministic ghi baseline.",
               "time_allocation": "20 phút đọc, 45 phút dataset/runner, 30 phút schema tests, 15 phút baseline note (110 phút).",
               "theory_content": "Agent eval cần trace/expected behavior; route/budget/permission assertions là deterministic test, khác score quality của answer.",
-              "reading_docs": "[DeepEval agent evaluation quickstart](./RESOURCES.md) — trace và component/end-to-end evaluation.",
+              "reading_docs": "[DeepEval agent evaluation quickstart](https://deepeval.com/docs/getting-started-agents) — trace và component/end-to-end evaluation.",
               "practice_task": "Tạo fixture research, direct, injection, missing citation, export approve/reject, timeout, budget exhaustion; record dataset version and executor config.",
               "project_changes": "`run_agent_eval.py --mode deterministic` gọi graph fake dependencies, không cần OpenAI/LangSmith credential.",
               "expected_files": "evals/agent/dataset.jsonl, evals/agent/schema.py, evals/agent/run_agent_eval.py, tests/evaluation/test_agent_dataset.py",
@@ -3894,7 +4353,7 @@
               "expected_outcome": "Optional runner DeepEval đo Tool Correctness và Task Completion trên 3–5 trace; deterministic threshold và taxonomy có report trước/sau.",
               "time_allocation": "25 phút đọc, 35 phút adapter, 30 phút run/report, 20 phút error analysis (110 phút).",
               "theory_content": "Tool correctness đánh giá tool/args mong đợi; task completion nhìn outcome trace. Cả hai có variance/cost và không thay manual review/safety assertions.",
-              "reading_docs": "[DeepEval tool correctness](./RESOURCES.md) và [DeepEval task completion](./RESOURCES.md).",
+              "reading_docs": "[DeepEval tool correctness](https://deepeval.com/docs/metrics-tool-correctness) và [DeepEval task completion](https://deepeval.com/docs/metrics-task-completion).",
               "practice_task": "Thêm `--mode deepeval` trả `skipped_missing_credentials` khi thiếu provider key; đặt deterministic thresholds ví dụ route pass >= 0.90, unauthorized export = 0, tool calls <= 2.",
               "project_changes": "Viết `evals/agent/reports/month-05.md` gồm baseline/current, latency/cost nếu available, categories routing/retrieval/approval/guardrail/tool/retry/evaluator.",
               "expected_files": "evals/agent/deepeval_adapter.py, evals/agent/thresholds.py, evals/agent/reports/month-05.md, tests/evaluation/test_agent_regression.py",
@@ -3919,7 +4378,7 @@
               "expected_outcome": "End-to-end fake demo cho direct/RAG/blocked/export approval; suite, report và handoff nêu config/health/evaluation command/tracing sampling.",
               "time_allocation": "15 phút chuẩn bị, 40 phút demo+eval, 25 phút test/lint, 20 phút review/handoff (100 phút).",
               "theory_content": "Production handoff là contract vận hành: dependencies, boundaries, health/evaluation signals và known limitations; không phải lời hứa deploy xong.",
-              "reading_docs": "Xem lại [DeepEval agent evaluation quickstart](./RESOURCES.md) và các handoff Tuần 1–3.",
+              "reading_docs": "Xem lại [DeepEval agent evaluation quickstart](https://deepeval.com/docs/getting-started-agents) và các handoff Tuần 1–3.",
               "practice_task": "Viết `docs/month-06-handoff.md` có env variable names, Postgres/Redis/Qdrant readiness dependency, migration/checkpoint note, test/eval commands, trace redaction/sampling và rollback-safe limitation.",
               "project_changes": "Thêm `docs/agent-demo.md`; API demo không gửi real export, dùng fake storage/test fixture; cập nhật README project khi tồn tại.",
               "expected_files": "docs/month-06-handoff.md, docs/agent-demo.md, tests/integration/test_agent_e2e.py, evals/agent/reports/month-05.md",
@@ -3965,23 +4424,27 @@
           "official_resources": [
             {
               "title": "Pydantic Settings",
+              "raw_title": "Pydantic Settings",
               "url": "https://docs.pydantic.dev/latest/concepts/pydantic_settings/",
-              "description": ""
+              "description": "dotenv, environment và validation."
             },
             {
               "title": "Docker multi-stage builds",
+              "raw_title": "Docker multi-stage builds",
               "url": "https://docs.docker.com/build/building/multi-stage/",
-              "description": ""
+              "description": "builder/runtime stages."
             },
             {
               "title": "Dockerfile HEALTHCHECK",
+              "raw_title": "Dockerfile HEALTHCHECK",
               "url": "https://docs.docker.com/reference/dockerfile/#healthcheck",
-              "description": ""
+              "description": "healthcheck semantics."
             },
             {
               "title": "FastAPI deployment concepts",
+              "raw_title": "FastAPI deployment concepts",
               "url": "https://fastapi.tiangolo.com/deployment/concepts/",
-              "description": ""
+              "description": "process và HTTPS proxy."
             }
           ],
           "days": [
@@ -4176,28 +4639,33 @@
           "official_resources": [
             {
               "title": "AWS EC2 getting started",
+              "raw_title": "AWS EC2 getting started",
               "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html",
-              "description": ""
+              "description": "instance, key pair, security group và storage."
             },
             {
               "title": "Docker Engine security",
+              "raw_title": "Docker Engine security",
               "url": "https://docs.docker.com/engine/security/",
-              "description": ""
+              "description": "daemon và quyền Docker."
             },
             {
               "title": "Nginx Beginner’s Guide",
+              "raw_title": "Nginx Beginner’s Guide",
               "url": "https://nginx.org/en/docs/beginners_guide.html",
-              "description": ""
+              "description": "server block, proxy và reload."
             },
             {
               "title": "Certbot User Guide",
+              "raw_title": "Certbot User Guide",
               "url": "https://eff-certbot.readthedocs.io/en/stable/using.html",
-              "description": ""
+              "description": "obtain, renew và dry-run."
             },
             {
               "title": "Docker volumes",
+              "raw_title": "Docker volumes",
               "url": "https://docs.docker.com/engine/storage/volumes/",
-              "description": ""
+              "description": "lifecycle/backup volume."
             }
           ],
           "days": [
@@ -4392,28 +4860,33 @@
           "official_resources": [
             {
               "title": "GitHub: Building and testing Python",
+              "raw_title": "GitHub: Building and testing Python",
               "url": "https://docs.github.com/en/actions/tutorials/build-and-test-code/python",
-              "description": ""
+              "description": "workflow Python, test và artifact."
             },
             {
               "title": "uv: GitHub Actions integration",
+              "raw_title": "uv: GitHub Actions integration",
               "url": "https://docs.astral.sh/uv/guides/integration/github/",
-              "description": ""
+              "description": "setup/cache và lockfile."
             },
             {
               "title": "GitHub: managing deployment environments",
+              "raw_title": "GitHub: managing deployment environments",
               "url": "https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments",
-              "description": ""
+              "description": "approval/protection/environment secret."
             },
             {
               "title": "Docker: GitHub Actions build",
+              "raw_title": "Docker: GitHub Actions build",
               "url": "https://docs.docker.com/build/ci/github-actions/",
-              "description": ""
+              "description": "build/push/caching."
             },
             {
               "title": "GitHub Actions workflow syntax",
+              "raw_title": "GitHub Actions workflow syntax",
               "url": "https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions",
-              "description": ""
+              "description": "events, permissions và concurrency."
             }
           ],
           "days": [
@@ -4608,28 +5081,33 @@
           "official_resources": [
             {
               "title": "OpenTelemetry metrics",
+              "raw_title": "OpenTelemetry metrics",
               "url": "https://opentelemetry.io/docs/concepts/signals/metrics/",
-              "description": ""
+              "description": "signals, metric type và attributes."
             },
             {
               "title": "OpenAI Responses API reference",
+              "raw_title": "OpenAI Responses API reference",
               "url": "https://platform.openai.com/docs/api-reference/responses",
-              "description": ""
+              "description": "trường `usage` trong response; chỉ dùng mock trong test nếu không có key."
             },
             {
               "title": "LangSmith tracing with OpenTelemetry",
+              "raw_title": "LangSmith tracing with OpenTelemetry",
               "url": "https://docs.langchain.com/langsmith/trace-with-opentelemetry",
-              "description": ""
+              "description": "opt-in tracing và export."
             },
             {
               "title": "Ragas available metrics",
+              "raw_title": "Ragas available metrics",
               "url": "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/",
-              "description": ""
+              "description": "metric selection cho RAG evaluation."
             },
             {
               "title": "Google SRE: Alerting on SLOs",
+              "raw_title": "Google SRE: Alerting on SLOs",
               "url": "https://sre.google/workbook/alerting-on-slos/",
-              "description": ""
+              "description": "user-impact alerts và response."
             }
           ],
           "days": [

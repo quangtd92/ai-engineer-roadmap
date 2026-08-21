@@ -2,7 +2,7 @@
 
 Chỉ đọc phần được ghi ở từng ngày; tất cả nguồn dưới đây là tài liệu chính thức hoặc specification chính thức. Không cần API key để đọc hay chạy test bằng fake adapter.
 
-## LLM, output và evaluation
+## Tuần 1 & 2 — LLM, output và evaluation
 
 - [OpenAI Responses API reference](https://platform.openai.com/docs/api-reference/responses) — request, output và `usage`.
 - [OpenAI Responses streaming](https://platform.openai.com/docs/api-reference/responses-streaming) — event stream và lifecycle.
@@ -10,7 +10,7 @@ Chỉ đọc phần được ghi ở từng ngày; tất cả nguồn dưới đ
 - [OpenAI Evals guide](https://platform.openai.com/docs/guides/evals) — dataset, baseline và grader.
 - [Pydantic models](https://docs.pydantic.dev/latest/concepts/models/) — validation và `ValidationError`.
 
-## Tool Calling, MCP và API boundary
+## Tuần 3 & 4 — Tool Calling, MCP và API boundary
 
 - [OpenAI Function Calling](https://platform.openai.com/docs/guides/function-calling) — schema, tool call và tool result.
 - [MCP server concepts](https://modelcontextprotocol.io/docs/learn/server-concepts) — server, tool, resource và security boundary.

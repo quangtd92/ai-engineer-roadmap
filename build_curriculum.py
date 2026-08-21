@@ -99,53 +99,161 @@ def _assign_key(data, key_name, val):
         data["commit_message"] = cmt_clean
 
 def parse_resources(res_md):
-    weeks_resources = {}
-    current_week = None
+    weeks_resources = {1: [], 2: [], 3: [], 4: [], "all": []}
+    all_resources = []
+    current_weeks = []
     lines = res_md.split('\n')
     for line in lines:
-        m = re.search(r'## Tuần (\d+)', line)
-        if m:
-            current_week = int(m.group(1))
-            weeks_resources[current_week] = []
+        stripped = line.strip()
+        week_match = re.search(r'##\s+Tuần\s+(\d+)(?:\s*(?:&|-|\.\.|và)\s*(\d+))?', stripped, re.IGNORECASE)
+        if week_match:
+            w1 = int(week_match.group(1))
+            w2 = int(week_match.group(2)) if week_match.group(2) else w1
+            current_weeks = list(range(w1, w2 + 1))
             continue
-        if current_week and line.strip().startswith('- '):
-            link_m = re.search(r'- \[([^\]]+)\]\(([^)]+)\)(?::\s*(.*))?', line.strip())
+        elif stripped.startswith('## '):
+            current_weeks = []
+            
+        if stripped.startswith('- '):
+            link_m = re.search(r'-\s*(?:([^:\[]+?)\s*[:—\-]\s*)?\[([^\]]+)\]\(([^)]+)\)(?:(?:\s*[:—\-]\s*|\s+)(.*))?', stripped)
             if link_m:
-                weeks_resources[current_week].append({
-                    "title": link_m.group(1).strip(),
-                    "url": link_m.group(2).strip(),
-                    "description": (link_m.group(3) or "").strip()
-                })
+                prefix = (link_m.group(1) or "").strip()
+                title = link_m.group(2).strip()
+                url = link_m.group(3).strip()
+                desc = (link_m.group(4) or "").strip()
+                
+                full_title = f"{prefix} - {title}" if prefix and prefix.lower() not in title.lower() else title
+                
+                res_obj = {
+                    "title": full_title,
+                    "raw_title": title,
+                    "url": url,
+                    "description": desc
+                }
+                all_resources.append(res_obj)
+                if current_weeks:
+                    for w in current_weeks:
+                        if w in weeks_resources:
+                            weeks_resources[w].append(res_obj)
+                else:
+                    for w in [1, 2, 3, 4]:
+                        weeks_resources[w].append(res_obj)
+                        
+    for w in range(1, 5):
+        if not weeks_resources[w]:
+            weeks_resources[w] = list(all_resources)
+            
+    weeks_resources["all"] = all_resources
     return weeks_resources
 
-def linkify_reading_docs(text, week_resources):
+def linkify_reading_docs(text, week_resources, all_resources=None):
     if not text:
         return text
-    # Look for patterns like: Topic: "Title" trong [RESOURCES.md](./RESOURCES.md)
-    # Match: (Topic:\s*)?[“"']([^"”']+)["”']\s*(?:trong\s*)?\[RESOURCES\.md\]\([^)]+\)
-    for res in week_resources:
-        title = res["title"]
-        url = res["url"]
-        # Try fuzzy match title in text
-        # Clean title for matching
-        clean_title = re.sub(r'^[^\-]+-\s*', '', title).strip()
-        
-        # Replace occurrences of [RESOURCES.md](...) preceded by topic/title
-        pattern = r'(?:[A-Za-z0-9_\-]+\s*:\s*)?["“\']?' + re.escape(clean_title) + r'["”\']?\s*(?:trong\s*)?\[RESOURCES\.md\]\([^)]+\)'
-        replacement = f'[{title}]({url})'
-        if re.search(pattern, text, re.IGNORECASE):
-            text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
-            
-    # Generic replacement for any remaining [RESOURCES.md](...)
-    if '[RESOURCES.md]' in text or 'RESOURCES.md' in text:
+
+    combined_resources = list(week_resources)
+    if all_resources:
+        for r in all_resources:
+            if r not in combined_resources:
+                combined_resources.append(r)
+
+    # Step 1: Replace any markdown links that point to RESOURCES.md, e.g. [Persistence](./RESOURCES.md)
+    def replace_res_link(m):
+        link_text = m.group(1).strip()
+        for r in combined_resources:
+            rt = r.get("raw_title", r["title"])
+            if link_text.lower() == rt.lower() or link_text.lower() == r["title"].lower() or link_text.lower() in rt.lower() or rt.lower() in link_text.lower():
+                return f'[{link_text}]({r["url"]})'
         if week_resources:
-            # Replace [RESOURCES.md](./RESOURCES.md) with first relevant resource link or list of links
-            res_links = ", ".join([f'[{r["title"]}]({r["url"]})' for r in week_resources[:3]])
-            text = text.replace('trong [RESOURCES.md](./RESOURCES.md)', f'xem {res_links}')
-            text = text.replace('[RESOURCES.md](./RESOURCES.md)', res_links)
-            text = text.replace('[README tháng](./README.md#tài-liệu-tham-khảo-đã-chọn)', res_links)
+            return f'[{link_text}]({week_resources[0]["url"]})'
+        return m.group(0)
+
+    text = re.sub(r'\[([^\]]+)\]\(\.?/?(?:[A-Za-z0-9_\-]+/)?RESOURCES\.md(?:#[^)]*)?\)', replace_res_link, text)
+
+    # Step 2: Replace named mentions of resources if followed or preceded by topic context
+    for res in combined_resources:
+        title = res["title"]
+        raw_title = res.get("raw_title", title)
+        url = res["url"]
+        
+        variants = [title, raw_title]
+        clean = re.sub(r'^[^\-]+-\s*', '', raw_title).strip()
+        variants.append(clean)
+        
+        if "10 minutes" in raw_title.lower():
+            variants.extend(["pandas 10 minutes", "10 minutes to pandas", "10 minutes"])
+        if "absolute beginners" in raw_title.lower():
+            variants.extend(["NumPy absolute beginners", "absolute beginners"])
+        if "quickstart" in raw_title.lower() or "quickstart" in title.lower():
+            if "numpy" in raw_title.lower() or "numpy" in title.lower():
+                variants.extend(["NumPy quickstart", "quickstart"])
+            elif "pytorch" in raw_title.lower() or "pytorch" in title.lower():
+                variants.extend(["PyTorch Quickstart", "PyTorch quickstart"])
+            else:
+                variants.extend(["quickstart"])
+        if "learn the basics" in raw_title.lower() or "basics/intro" in url:
+            variants.extend(["PyTorch Quickstart", "PyTorch Quickstart phần Save/Load", "Learn the Basics"])
+        if "missing data" in raw_title.lower():
+            variants.extend(["pandas Working with missing data", "Working with missing data", "missing data"])
+        if "linear model" in raw_title.lower():
+            variants.extend(["scikit-learn Linear Models", "Linear Models"])
+        if "logisticregression" in raw_title.lower():
+            variants.extend(["LogisticRegression API", "LogisticRegression"])
+        if "classification metrics" in raw_title.lower() or "model evaluation" in raw_title.lower():
+            variants.extend(["scikit-learn Model evaluation classification metrics", "Classification metrics", "Model evaluation"])
+        if "onehotencoder" in raw_title.lower():
+            variants.extend(["OneHotEncoder", "scikit-learn OneHotEncoder"])
+        if "standardscaler" in raw_title.lower():
+            variants.extend(["StandardScaler", "scikit-learn StandardScaler"])
+        if "how do transformers work" in raw_title.lower():
+            variants.extend(["How do Transformers work", "How do Transformers work?"])
+        if "glossary" in raw_title.lower():
+            variants.extend(["Hugging Face Glossary", "Glossary"])
+        if "buildmodel" in url or "build the neural network" in raw_title.lower():
+            variants.extend(["PyTorch Build Model", "Build Model", "Build the Neural Network"])
+        if "torch.nn.transformer" in raw_title.lower() or "torch.nn.transformer" in url.lower():
+            variants.extend(["torch.nn.Transformer", "`torch.nn.Transformer`"])
+        if "train_test_split" in raw_title.lower():
+            variants.extend(["train_test_split", "`train_test_split`", "scikit-learn `train_test_split`", "scikit-learn train_test_split"])
             
-    return text
+        for v in sorted(set(variants), key=len, reverse=True):
+            v_clean = re.sub(r'[`"“”\']+', '', v).strip()
+            if not v_clean or len(v_clean) < 3:
+                continue
+            
+            parts = re.split(r'(\[[^\]]+\]\([^)]+\))', text)
+            new_parts = []
+            replaced = False
+            for part in parts:
+                if part.startswith('[') and '](' in part:
+                    new_parts.append(part)
+                else:
+                    if not replaced and re.search(r'(?<![A-Za-z0-9_\-])' + re.escape(v_clean) + r'(?![A-Za-z0-9_\-])', part, re.IGNORECASE):
+                        new_part = re.sub(r'(?<![A-Za-z0-9_\-])[`"“\']?' + re.escape(v_clean) + r'[`"”\']?(?![A-Za-z0-9_\-])', f'[{v_clean}]({url})', part, count=1, flags=re.IGNORECASE)
+                        new_parts.append(new_part)
+                        replaced = True
+                    else:
+                        new_parts.append(part)
+            text = "".join(new_parts)
+
+    # Step 3: Handle leftover [RESOURCES.md]
+    has_external_links = bool(re.search(r'\[([^\]]+)\]\(https?://', text))
+    
+    if '[RESOURCES.md]' in text or 'RESOURCES.md' in text:
+        if has_external_links:
+            text = re.sub(r'\s*(?:trong|ở|phần|mục|của Month-\d+)?\s*\[RESOURCES\.md\]\([^)]+\)', '', text)
+            text = re.sub(r'\s*RESOURCES\.md', '', text)
+            text = re.sub(r'\s*,\s*\.', '.', text)
+            text = re.sub(r'\s+và\s*\.', '.', text)
+            text = re.sub(r'\s+\.', '.', text)
+        else:
+            if week_resources:
+                res_links = ", ".join([f'[{r["title"]}]({r["url"]})' for r in week_resources[:3]])
+                text = text.replace('trong [RESOURCES.md](./RESOURCES.md)', f'xem {res_links}')
+                text = text.replace('[RESOURCES.md](./RESOURCES.md)', res_links)
+                text = text.replace('[README tháng](./README.md#tài-liệu-tham-khảo-đã-chọn)', res_links)
+                text = re.sub(r'toàn bộ\s+RESOURCES\.md\s+của\s+Month-\d+', f'toàn bộ tài liệu ({res_links})', text)
+            
+    return text.strip()
 
 def build_all():
     curriculum = {
@@ -239,7 +347,7 @@ def build_all():
                 day_text = re.split(r'\n## ', day_text)[0]
                 calculated_global_day = (m_idx - 1) * 28 + (w_idx - 1) * 7 + day_week_counter
                 day_obj = parse_day_section(day_title, day_text, calculated_global_day, day_week_counter)
-                day_obj["reading_docs"] = linkify_reading_docs(day_obj["reading_docs"], w_data["official_resources"])
+                day_obj["reading_docs"] = linkify_reading_docs(day_obj["reading_docs"], w_data["official_resources"], resources_by_week.get("all", []))
                 w_data["days"].append(day_obj)
                 global_day_counter += 1
                 day_week_counter += 1
