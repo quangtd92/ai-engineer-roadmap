@@ -113,6 +113,7 @@
             textarea.value = state.reasons[key] || '';
           });
           sync();
+          applyActiveMonth();
           return;
         }
       } catch (err) {
@@ -136,8 +137,31 @@
         textarea.value = state.reasons[key] || '';
       });
       sync();
+      applyActiveMonth();
     }
     function count(ids) { return ids.filter(key => state.completed[key]).length; }
+    function getActiveMonthIndex() {
+      for (let mi = 0; mi < roadmap.length; mi++) {
+        const monthKeys = [];
+        for (let wi = 1; wi <= 4; wi++) {
+          for (let di = 1; di <= 7; di++) {
+            monthKeys.push(id(mi + 1, wi, di));
+          }
+        }
+        const doneCount = count(monthKeys);
+        if (doneCount < monthKeys.length) {
+          return mi;
+        }
+      }
+      return roadmap.length - 1;
+    }
+    function applyActiveMonth() {
+      const activeIndex = getActiveMonthIndex();
+      const monthDetails = document.querySelectorAll('.month');
+      monthDetails.forEach((detail, idx) => {
+        detail.open = (idx === activeIndex);
+      });
+    }
     function allDayKeys() {
       const keys = [];
       roadmap.forEach((_, mi) => { for (let wi = 1; wi <= 4; wi++) for (let di = 1; di <= 7; di++) keys.push(id(mi + 1, wi, di)); });
@@ -248,7 +272,7 @@
       save(); sync();
     }
     roadmap.forEach(([label, topic, folder], mi) => {
-      const detail = document.createElement('details'); detail.className = 'month'; detail.open = mi === 0;
+      const detail = document.createElement('details'); detail.className = 'month'; detail.open = false;
       detail.innerHTML = `<summary><input class="month-check" type="checkbox" aria-label="Hoàn thành ${label}"><span><span class="month-title">${label}</span><br><span class="month-meta">${topic}</span></span><progress class="month-progress" value="0" max="28"></progress></summary><div class="weeks"></div>`;
       detail.querySelector('summary').addEventListener('click', event => { if (event.target.matches('input')) event.stopPropagation(); });
       const weeks = detail.querySelector('.weeks');
