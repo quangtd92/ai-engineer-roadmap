@@ -998,6 +998,12 @@
           saveState();
           renderDaysList();
           renderDayDetail();
+
+          if (checked) {
+            setTimeout(() => {
+              goToNextDay();
+            }, 300);
+          }
         };
       }
 
@@ -1021,6 +1027,39 @@
           renderDaysList();
         };
       }
+    }
+
+    function goToNextDay() {
+      if (!curriculumData) return false;
+      const currentMonth = curriculumData.months.find(m => m.month_num === selectedMonthIdx);
+      if (!currentMonth) return false;
+      const currentWeek = currentMonth.weeks.find(w => w.week_num === selectedWeekIdx);
+      if (!currentWeek) return false;
+
+      const currentDayPos = currentWeek.days.findIndex(d => d.week_day === selectedDayIdx);
+      if (currentDayPos !== -1 && currentDayPos + 1 < currentWeek.days.length) {
+        selectedDayIdx = currentWeek.days[currentDayPos + 1].week_day;
+      } else {
+        const currentWeekPos = currentMonth.weeks.findIndex(w => w.week_num === selectedWeekIdx);
+        if (currentWeekPos !== -1 && currentWeekPos + 1 < currentMonth.weeks.length) {
+          selectedWeekIdx = currentMonth.weeks[currentWeekPos + 1].week_num;
+          selectedDayIdx = currentMonth.weeks[currentWeekPos + 1].days[0]?.week_day || 1;
+        } else {
+          const currentMonthPos = curriculumData.months.findIndex(m => m.month_num === selectedMonthIdx);
+          if (currentMonthPos !== -1 && currentMonthPos + 1 < curriculumData.months.length) {
+            const nextMonth = curriculumData.months[currentMonthPos + 1];
+            selectedMonthIdx = nextMonth.month_num;
+            selectedWeekIdx = nextMonth.weeks[0]?.week_num || 1;
+            selectedDayIdx = nextMonth.weeks[0]?.days[0]?.week_day || 1;
+          } else {
+            return false;
+          }
+        }
+      }
+
+      saveLastVisited();
+      renderApp();
+      return true;
     }
 
     function setupSearch() {
