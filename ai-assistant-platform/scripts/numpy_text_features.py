@@ -108,16 +108,16 @@ def main():
     print("=" * 60)
 
     
-    # 1. Gán lại kết quả fillna để tránh lỗi NaN
-    text_series = df["text"].fillna("")
+    # # 1. Gán lại kết quả fillna để tránh lỗi NaN
+    # text_series = df["text"].fillna("")
 
-    # 2. Vectorized operations bằng Pandas string accessor (.str)
-    text_lengths = text_series.str.len()
-    word_counts = text_series.str.split().str.len()
-    has_question_marks = text_series.str.contains("?", regex=False).astype(int)
+    # # 2. Vectorized operations bằng Pandas string accessor (.str)
+    # text_lengths = text_series.str.len()
+    # word_counts = text_series.str.split().str.len()
+    # has_question_marks = text_series.str.contains("?", regex=False).astype(int)
 
-    # 3. Chuyển sang ma trận NumPy 2D
-    Y = np.column_stack([text_lengths, word_counts, has_question_marks]).astype(np.float32)
+    # # 3. Chuyển sang ma trận NumPy 2D
+    # Y = np.column_stack([text_lengths, word_counts, has_question_marks]).astype(np.float32)
 
 
 if __name__ == "__main__":
