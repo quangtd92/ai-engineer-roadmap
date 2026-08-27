@@ -1,5 +1,9 @@
 import logging
 
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
 
 def clean_intent_dataframe(df):
     logger = logging.getLogger(__name__)
@@ -47,3 +51,47 @@ def clean_intent_dataframe(df):
 
     return df, summary
     
+class IntentPreprocessor:
+    def __init__(self):
+        self.scaler = StandardScaler()
+        self.encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
+        self.is_fitted = False
+
+    def extract_numeric_features_from_text(self, df):
+        cleaned_texts = [str(t) if pd.notna(t) else "" for t in df['text']]
+        text_lengths = np.array([len(t) for t in cleaned_texts], dtype=np.int32)
+        word_counts = np.array([len(t.split()) for t in cleaned_texts], dtype=np.int32)
+        has_question_marks = np.array(
+            ["?" in t for t in cleaned_texts], dtype=np.int32
+        )
+
+        return np.column_stack([text_lengths, word_counts, has_question_marks])
+
+    def fit(self, df):
+        result_extracted = self.extract_numeric_features_from_text(df)
+        self.scaler.fit(result_extracted)
+        self.encoder.fit(df[['source']])
+        self.is_fitted = True
+
+        return self
+
+    def transform(self, df):
+        if not self.is_fitted:
+            raise ValueError("You must fit the preprocessor before transforming data")
+        
+        result_extracted = self.extract_numeric_features_from_text(df)
+        scaled_features = self.scaler.transform(result_extracted)
+        encoded_source = self.encoder.transform(df[['source']])
+        print(f"result_extracted {result_extracted}")
+        print(f"scaled_features {scaled_features}")
+        print(f"encoded_source {encoded_source}")
+
+        df_transformed = np.hstack([scaled_features, encoded_source]).astype(np.float32)
+        # print(f"df_transformed {df_transformed}")
+        # print(f"df_transformed shape {df_transformed.shape}")
+        # print(f"df_transformed info {df_transformed.info()}")
+        
+        return df_transformed
+
+    def fit_transform(self, df):
+        return self.fit(df).transform(df)

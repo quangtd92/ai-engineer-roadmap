@@ -1,6 +1,11 @@
+import numpy as np
 import pandas as pd
+import pytest
 
-from ai_assistant_platform.ml.preprocessing import clean_intent_dataframe
+from ai_assistant_platform.ml.preprocessing import (
+    IntentPreprocessor,
+    clean_intent_dataframe,
+)
 
 
 def test_clean_intent_dataframe_valid_data():
@@ -116,3 +121,122 @@ def test_clean_intent_dataframe_summary_report():
     assert summary["dropped_intent_rows"] == 0
     assert summary["dropped_duplicate_rows"] == 1
     assert len(df_clean) == 2
+
+def test_dataframe_fit_transform():
+    df_raw = pd.DataFrame(
+        {
+            "id": [1, 2, 3, 3],
+            "text": ["Text 1", None, "Text 3", "Text 3"],
+            "intent": ["intent.a", "intent.b", "intent.c", "intent.c"],
+            "source": ["web", "phone", "app", "app"],
+            "created_at": ["t1", "t2", "t3", "t3"],
+        }
+    )
+    intent_preprocessor = IntentPreprocessor()
+    fit_result = intent_preprocessor.fit(df_raw)
+    transform_result = intent_preprocessor.transform(df_raw)
+    assert fit_result.is_fitted == True
+    assert transform_result.shape == (4, 6)
+    assert transform_result.size == 24
+
+def test_dataframe_fit_transform_equivalent():
+    df_raw = pd.DataFrame(
+        {
+            "id": [1, 2, 3, 3],
+            "text": ["Text 1", None, "Text 3", "Text 3"],
+            "intent": ["intent.a", "intent.b", "intent.c", "intent.c"],
+            "source": ["web", "phone", "app", "app"],
+            "created_at": ["t1", "t2", "t3", "t3"],
+        }
+    )
+    intent_preprocessor = IntentPreprocessor()
+    intent_preprocessor.fit(df_raw)
+    transform_result = intent_preprocessor.transform(df_raw)
+    fit_transform_result = intent_preprocessor.fit_transform(df_raw)
+    assert np.array_equal(transform_result, fit_transform_result)
+
+    df_raw_2 = pd.DataFrame(
+        {
+            "id": [1, 2],
+            "text": ["Text 1", "Text 3"],
+            "intent": ["intent.a", "intent.c"],
+            "source": ["web", "app"],
+            "created_at": ["t1", "t2"],
+        }
+    )
+    intent_preprocessor.fit(df_raw_2)
+    transform_result_2 = intent_preprocessor.transform(df_raw_2)
+    fit_transform_result_2 = intent_preprocessor.fit_transform(df_raw_2)
+    assert np.array_equal(transform_result_2, fit_transform_result_2)
+
+def test_dataframe_unknown_category():
+    df_raw = pd.DataFrame(
+        {
+            "id": [1, 2, 3, 3],
+            "text": ["Text 1", None, "Text 3", "Text 3"],
+            "intent": ["intent.a", "intent.b", "intent.c", "intent.c"],
+            "source": ["web", "web", "web", "web"],
+            "created_at": ["t1", "t2", "t3", "t3"],
+        }
+    )
+    df_test_raw = pd.DataFrame(
+        {
+            "id": [1, 2, 3, 3],
+            "text": ["Text 1", None, "Text 3", "Text 3"],
+            "intent": ["intent.a", "intent.b", "intent.c", "intent.c"],
+            "source": ["web", "mobile_app", "web", "mobile_app"],
+            "created_at": ["t1", "t2", "t3", "t3"],
+        }
+    )
+    intent_preprocessor = IntentPreprocessor()
+    intent_preprocessor.fit(df_raw)
+    transform_result = intent_preprocessor.transform(df_test_raw)
+   
+    # Shape trả về vẫn khớp: 4 dòng, 4 cột (3 numeric + 1 one-hot)
+    assert transform_result.shape == (4, 4)
+    # Cột one-hot thứ 4 tại các dòng có source lạ ("mobile_app") phải mang giá trị 0.0
+    assert transform_result[1, 3] == 0.0
+    assert transform_result[3, 3] == 0.0
+
+
+def test_dataframe_not_fit():
+    df_raw = pd.DataFrame(
+        {
+            "id": [1, 2, 3, 3],
+            "text": ["Text 1", None, "Text 3", "Text 3"],
+            "intent": ["intent.a", "intent.b", "intent.c", "intent.c"],
+            "source": ["web", "phone", "app", "app"],
+            "created_at": ["t1", "t2", "t3", "t3"],
+        }
+    )
+    intent_preprocessor = IntentPreprocessor()
+    with pytest.raises(ValueError, match="You must fit"):
+        intent_preprocessor.transform(df_raw)
+
+def test_dataframe_output_consistent():
+    df_raw = pd.DataFrame(
+        {
+            "id": [1, 2, 3, 3],
+            "text": ["Text 1", None, "Text 3", "Text 3"],
+            "intent": ["intent.a", "intent.b", "intent.c", "intent.c"],
+            "source": ["web", "web", "web", "web"],
+            "created_at": ["t1", "t2", "t3", "t3"],
+        }
+    )
+    df_test_raw = pd.DataFrame(
+        {
+            "id": [1, 2, 3, 3],
+            "text": ["Text 1", None, "Text 3", "Text 3"],
+            "intent": ["intent.a", "intent.b", "intent.c", "intent.c"],
+            "source": ["web", "mobile_app", "web", "mobile_app"],
+            "created_at": ["t1", "t2", "t3", "t3"],
+        }
+    )
+    intent_preprocessor = IntentPreprocessor()
+    intent_preprocessor.fit(df_raw)
+    transform_result = intent_preprocessor.transform(df_raw)
+    transform_result_test = intent_preprocessor.transform(df_test_raw)
+    assert transform_result.shape[1] == transform_result_test.shape[1]
+    assert transform_result.dtype == np.float32
+    assert transform_result_test.dtype == np.float32
+   
