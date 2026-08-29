@@ -89,9 +89,9 @@ class IntentPreprocessor:
         result_extracted = self.extract_numeric_features_from_text(df)
         scaled_features = self.scaler.transform(result_extracted)
         encoded_source = self.encoder.transform(df[['source']])
-        print(f"result_extracted {result_extracted}")
-        print(f"scaled_features {scaled_features}")
-        print(f"encoded_source {encoded_source}")
+        # print(f"result_extracted {result_extracted}")
+        # print(f"scaled_features {scaled_features}")
+        # print(f"encoded_source {encoded_source}")
 
         df_transformed = np.hstack([scaled_features, encoded_source]).astype(np.float32)
         # print(f"df_transformed {df_transformed}")
