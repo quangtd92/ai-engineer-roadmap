@@ -2,6 +2,7 @@ import logging
 
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 
@@ -50,7 +51,13 @@ def clean_intent_dataframe(df):
     }
 
     return df, summary
-    
+
+def train_test_split_stratified(df, test_size):
+    df_X, df_y = train_test_split(
+        df, test_size=test_size, random_state=42, stratify=df["intent"]
+    )
+    return df_X, df_y
+
 class IntentPreprocessor:
     def __init__(self):
         self.scaler = StandardScaler()
