@@ -1,8 +1,0 @@
-id,text,intent,source,created_at
-3,Cho tôi xem các cuộc họp trong tuần này,intent.daily_schedule,app_desktop,2023-10-27 10:02:00
-43,Tìm file danh sách nhân sự công ty,intent.search_file,app_desktop,2023-10-27 10:42:00
-9,Kiểm tra lịch làm việc ngày mai của tôi,intent.daily_schedule,phone,2023-10-27 10:08:00
-54,Tạo file tài liệu ghi chú dự án,intent.create_document,phone,2023-10-27 10:53:00
-13,Đặt lịch họp với team kỹ thuật ngày mai,intent.create_meeting,phone,2023-10-27 10:12:00
-20,Tạo buổi họp với Team HR vào 4h chiều,intent.create_meeting,app_desktop,2023-10-27 10:19:00
-32,Gửi mail cập nhật tiến độ dự án cho ban giám đốc,intent.send_email,phone,2023-10-27 10:31:00

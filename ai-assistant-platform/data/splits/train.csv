@@ -1,36 +1,36 @@
 id,text,intent,source,created_at
-39,Tìm giúp tôi bảng tính chi phí tháng này,intent.search_file,phone,2023-10-27 10:38:00
-24,Soạn email cho team marketing,intent.send_email,web_ui,2023-10-27 10:23:00
-31,Gửi email xác nhận lịch phỏng vấn,intent.send_email,app_desktop,2023-10-27 10:30:00
-48,Tạo tài liệu mới và chia sẻ với team,intent.create_document,app_desktop,2023-10-27 10:47:00
-36,Có file 'kế hoạch marketing' ở đâu?,intent.search_file,phone,2023-10-27 10:35:00
-28,Gửi thư phản hồi cho đối tác,intent.send_email,web_ui,2023-10-27 10:27:00
-55,Tạo tài liệu báo cáo tổng kết tháng,intent.create_document,web_ui,2023-10-27 10:54:00
-26,Soạn email thông báo họp,intent.send_email,app_desktop,2023-10-27 10:25:00
-18,Tạo cuộc họp trao đổi chiều nay,intent.create_meeting,,2023-10-27 10:17:00
-10,Thời gian biểu hôm nay có những gì?,intent.daily_schedule,app_desktop,2023-10-27 10:09:00
-12,Tạo một cuộc họp với đội marketing vào 2h chiều nay,intent.create_meeting,app_desktop,2023-10-27 10:11:00
-40,Tìm file slide thuyết trình sản phẩm,intent.search_file,app_desktop,2023-10-27 10:39:00
-22,Đặt lịch hẹn gặp đối tác vào sáng mai,intent.create_meeting,web_ui,2023-10-27 10:21:00
-52,Tạo bản thảo hợp đồng dịch vụ mới,intent.create_document,web_ui,2023-10-27 10:51:00
-38,Tìm tài liệu của team Kế hoạch,intent.search_file,web_ui,2023-10-27 10:37:00
-30,Soạn thư mời tham dự hội thảo gửi khách hàng,intent.send_email,web_ui,
-47,Soạn một tài liệu cho cuộc họp sáng nay,intent.create_document,phone,2023-10-27 10:46:00
-5,Lịch làm việc hôm nay thế nào?,intent.daily_schedule,web_ui,2023-10-27 10:04:00
+3,Cho tôi xem các cuộc họp trong tuần này,intent.daily_schedule,app_desktop,2023-10-27 10:02:00
 1,Tôi muốn biết lịch trình hôm nay,intent.daily_schedule,web_ui,2023-10-27 10:00:00
-16,Đặt lịch họp với khách hàng,intent.create_meeting,phone,2023-10-27 10:15:00
-8,Hôm nay có sự kiện gì quan trọng không?,intent.daily_schedule,web_ui,2023-10-27 10:07:00
-14,Tạo lịch họp dự án mới,intent.create_meeting,web_ui,2023-10-27 10:13:00
-7,Xem lịch trình công tác tuần tới,intent.daily_schedule,app_desktop,2023-10-27 10:06:00
-2,Có cuộc họp nào vào ngày mai không,intent.daily_schedule,phone,2023-10-27 10:01:00
-17,Lên lịch họp với An sáng nay,intent.create_meeting,phone,2023-10-27 10:16:00
+53,Khởi tạo tài liệu kế hoạch phát triển quý 4,intent.create_document,app_desktop,2023-10-27 10:52:00
 21,Lên lịch họp tổng kết quý vào thứ Sáu,intent.create_meeting,app_desktop,2023-10-27 10:20:00
-23,Gửi email cho tôi với tiêu đề 'Báo cáo hàng tuần',intent.send_email,app_desktop,2023-10-27 10:22:00
+24,Soạn email cho team marketing,intent.send_email,web_ui,2023-10-27 10:23:00
+36,Có file 'kế hoạch marketing' ở đâu?,intent.search_file,phone,2023-10-27 10:35:00
+18,Tạo cuộc họp trao đổi chiều nay,intent.create_meeting,,2023-10-27 10:17:00
+47,Soạn một tài liệu cho cuộc họp sáng nay,intent.create_document,phone,2023-10-27 10:46:00
+10,Thời gian biểu hôm nay có những gì?,intent.daily_schedule,app_desktop,2023-10-27 10:09:00
+17,Lên lịch họp với An sáng nay,intent.create_meeting,phone,2023-10-27 10:16:00
+43,Tìm file danh sách nhân sự công ty,intent.search_file,app_desktop,2023-10-27 10:42:00
+42,Tìm tài liệu hướng dẫn kỹ thuật cho dự án mới,intent.search_file,phone,2023-10-27 10:41:00
+29,Gửi email xin nghỉ phép đến trưởng phòng,intent.send_email,phone,2023-10-27 10:28:00
+54,Tạo file tài liệu ghi chú dự án,intent.create_document,phone,2023-10-27 10:53:00
 34,Tìm kiếm file báo cáo tháng 10,intent.search_file,app_desktop,2023-10-27 10:33:00
-45,Tạo tài liệu mới tên 'Báo cáo dự án',intent.create_document,app_desktop,2023-10-27 10:44:00
-27,Gửi email cho tôi và đính kèm file báo cáo,intent.send_email,,2023-10-27 10:26:00
+51,Tạo văn bản tóm tắt nội dung cuộc họp,intent.create_document,phone,2023-10-27 10:50:00
 41,Tìm kiếm hợp đồng lao động đã ký,intent.search_file,web_ui,2023-10-27 10:40:00
+12,Tạo một cuộc họp với đội marketing vào 2h chiều nay,intent.create_meeting,app_desktop,2023-10-27 10:11:00
+16,Đặt lịch họp với khách hàng,intent.create_meeting,phone,2023-10-27 10:15:00
+32,Gửi mail cập nhật tiến độ dự án cho ban giám đốc,intent.send_email,phone,2023-10-27 10:31:00
 11,Lịch trình buổi chiều có bận không?,intent.daily_schedule,web_ui,2023-10-27 10:10:00
-37,Tìm file PDF về dự án X,intent.search_file,app_desktop,2023-10-27 10:36:00
+7,Xem lịch trình công tác tuần tới,intent.daily_schedule,app_desktop,2023-10-27 10:06:00
 46,Tạo một file Google Docs mới,intent.create_document,web_ui,2023-10-27 10:45:00
-49,Tạo một file word về kế hoạch dự án,intent.create_document,web_ui,2023-10-27 10:48:00
+31,Gửi email xác nhận lịch phỏng vấn,intent.send_email,app_desktop,2023-10-27 10:30:00
+23,Gửi email cho tôi với tiêu đề 'Báo cáo hàng tuần',intent.send_email,app_desktop,2023-10-27 10:22:00
+28,Gửi thư phản hồi cho đối tác,intent.send_email,web_ui,2023-10-27 10:27:00
+20,Tạo buổi họp với Team HR vào 4h chiều,intent.create_meeting,app_desktop,2023-10-27 10:19:00
+38,Tìm tài liệu của team Kế hoạch,intent.search_file,web_ui,2023-10-27 10:37:00
+37,Tìm file PDF về dự án X,intent.search_file,app_desktop,2023-10-27 10:36:00
+45,Tạo tài liệu mới tên 'Báo cáo dự án',intent.create_document,app_desktop,2023-10-27 10:44:00
+8,Hôm nay có sự kiện gì quan trọng không?,intent.daily_schedule,web_ui,2023-10-27 10:07:00
+30,Soạn thư mời tham dự hội thảo gửi khách hàng,intent.send_email,web_ui,
+13,Đặt lịch họp với team kỹ thuật ngày mai,intent.create_meeting,phone,2023-10-27 10:12:00
+5,Lịch làm việc hôm nay thế nào?,intent.daily_schedule,web_ui,2023-10-27 10:04:00
+55,Tạo tài liệu báo cáo tổng kết tháng,intent.create_document,web_ui,2023-10-27 10:54:00

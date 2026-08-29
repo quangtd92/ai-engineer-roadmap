@@ -1,9 +1,0 @@
-id,text,intent,source,created_at
-42,Tìm tài liệu hướng dẫn kỹ thuật cho dự án mới,intent.search_file,phone,2023-10-27 10:41:00
-51,Tạo văn bản tóm tắt nội dung cuộc họp,intent.create_document,phone,2023-10-27 10:50:00
-53,Khởi tạo tài liệu kế hoạch phát triển quý 4,intent.create_document,app_desktop,2023-10-27 10:52:00
-33,Soạn và gửi email cảm ơn sau buổi phỏng vấn,intent.send_email,web_ui,2023-10-27 10:32:00
-29,Gửi email xin nghỉ phép đến trưởng phòng,intent.send_email,phone,2023-10-27 10:28:00
-6,Hôm nay tôi có những công việc gì cần làm?,intent.daily_schedule,phone,2023-10-27 10:05:00
-44,Tìm kiếm biên bản cuộc họp tuần trước,intent.search_file,,2023-10-27 10:43:00
-19,Đặt lịch họp với team sales lúc 10h,intent.create_meeting,phone,2023-10-27 10:18:00
