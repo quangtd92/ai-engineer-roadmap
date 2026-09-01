@@ -12,6 +12,23 @@
 - Use concrete examples, references, or evidence whenever they help understanding.
 - Avoid unnecessary background information, unrelated theory, or long explanations unless the user explicitly asks for them.
 
+
+## Math Formatting
+
+- Do not use LaTeX math delimiters such as `$...$` or `$$...$$` in normal explanations.
+- Prefer standard Unicode mathematical symbols or normal text instead.
+- Use backticks for variable names and inline mathematical expressions when appropriate.
+- Examples:
+  - `$X$` → `X`
+  - `$y$` → `y`
+  - `$f(X) \approx y$` → `f(X) ≈ y`
+  - `$y \in \mathbb{R}$` → `y ∈ ℝ` (real numbers)
+  - `$y \in \{0, 1, \dots, C-1\}$` → `y ∈ {0, 1, ..., C-1}` (integer class labels)
+  - `$(-\infty, +\infty)$` → `(-∞, +∞)`
+  - ` $\rightarrow$` → ` ->`
+- Keep mathematical notation readable in plain text. Prefer forms such as `x²`, `√x`, `≤`, `≥`, `≠`, `≈`, `∈`, `∞`, and `→` when they are sufficient.
+- Use LaTeX only when the user explicitly asks for LaTeX or when a target format/tool requires it.
+
 ## Learning Guidance
 
 The main goal is to help the user understand the topic and be able to do the work independently.
