@@ -21,8 +21,9 @@ def main(n_samples: int = 100, seed: int = 42):
     
     model = LinearRegression().fit(X, y)
 
-    print(f"model coef_: {model.coef_[0]}")
-    print(f"model intercept_: {model.intercept_}")
+    # phương trình đường thẳng y = w * X + b
+    print(f"model coef_ (w): {model.coef_[0]}") # hệ số góc
+    print(f"model intercept_ (b): {model.intercept_}") # hệ số chặn
 
     y_predicted = model.predict(X)
     
