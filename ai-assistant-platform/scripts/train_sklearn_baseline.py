@@ -1,5 +1,3 @@
-
-
 from pathlib import Path
 
 import joblib
@@ -8,6 +6,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
 from ai_assistant_platform.ml.label_mapping import LabelMapping
+from ai_assistant_platform.ml.metrics import calculate_confusion_matrix
 from ai_assistant_platform.ml.preprocessing import IntentPreprocessor
 
 TRAIN_DATA_PATH = Path("data/splits/train.csv")
@@ -40,6 +39,10 @@ def main():
 
     acc = accuracy_score(y_validation, y_val_pred)
     print(f"Accuracy: {acc}")
+
+    classes = list(range(len(label_mapping.classes_)))
+    cm = calculate_confusion_matrix(y_validation, y_val_pred, labels=classes)
+    print(f"Confusion Matrix (labels={label_mapping.classes_}):\n{cm}")
 
     # Tạo thư mục models/ nếu chưa tồn tại
     MODEL_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)

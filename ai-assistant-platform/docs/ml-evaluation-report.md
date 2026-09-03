@@ -58,11 +58,45 @@ Phần này được thiết lập sẵn để ghi nhận kết quả huấn luy
   - Test: `data/splits/test.csv` (held-out test, chỉ chạy khi chốt baseline)
 
 ### 3.2. Bảng theo dõi Metrics (Validation Set)
-*(Sẽ được cập nhật từ Ngày 9 - Ngày 11)*
 
 | Model Version | Accuracy | Macro F1 | Weighted F1 | Ghi chú / Lỗi chính quan sát được |
 | :--- | :--- | :--- | :--- | :--- |
-| *Baseline Logistic Regression* | *Chưa chạy* | *Chưa chạy* | *Chưa chạy* | *Chờ thực nghiệm Ngày 9* |
+| *Baseline Logistic Regression* | `0.125` (1/8) | *Chờ Ngày 11* | *Chờ Ngày 11* | Model bị lệch (bias) nặng về `create_meeting` và `send_email`; chỉ dùng 4 feature bề mặt nên thiếu ngữ nghĩa văn bản. |
 
-### 3.3. Confusion Matrix & Error Analysis
-*(Sẽ được bổ sung ma trận nhầm lẫn 5x5 ở Ngày 10 để phân tích các cặp intent hay bị dự đoán nhầm)*
+### 3.3. Confusion Matrix & Error Analysis (Ngày 10)
+
+Thứ tự nhãn cố định theo bảng chữ cái từ `label_mapping.classes_`:
+- `0`: `intent.create_document`
+- `1`: `intent.create_meeting`
+- `2`: `intent.daily_schedule`
+- `3`: `intent.search_file`
+- `4`: `intent.send_email`
+
+#### Ma trận nhầm lẫn thực nghiệm trên Validation Set (8 mẫu)
+
+| Nhãn thực tế (Ground Truth) \ Dự đoán (Pred) | `create_document` (0) | `create_meeting` (1) | `daily_schedule` (2) | `search_file` (3) | `send_email` (4) | Tổng mẫu thực tế |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`intent.create_document` (0)** | **0** | 1 | 0 | 0 | 1 | 2 |
+| **`intent.create_meeting` (1)** | 0 | **0** | 0 | 0 | 1 | 1 |
+| **`intent.daily_schedule` (2)** | 0 | 1 | **1** | 0 | 0 | 2 |
+| **`intent.search_file` (3)** | 0 | 2 | 0 | **0** | 0 | 2 |
+| **`intent.send_email` (4)** | 0 | 1 | 0 | 0 | **0** | 1 |
+| **Tổng mẫu dự đoán** | **0** | **5** | **1** | **0** | **2** | **8** |
+
+#### Phân tích lỗi (Error Analysis)
+
+1. **Hiện tượng thiên lệch dự đoán (Prediction Bias / Collapse)**:
+   - Mô hình dự đoán nhãn `intent.create_meeting` tới **5/8 lần** (chiếm 62.5% tổng số dự đoán) và `intent.send_email` **2/8 lần**.
+   - Hoàn toàn **không có bất kỳ mẫu nào** được dự đoán vào `intent.create_document` hay `intent.search_file` (cột 0 và cột 3 toàn số 0).
+   - Chỉ duy nhất **1 mẫu** thuộc `intent.daily_schedule` được dự đoán chính xác (ô `[2, 2] = 1`), dẫn đến Accuracy chỉ đạt `1/8 = 0.125` (12.5%).
+
+2. **Các cặp nhãn bị nhầm lẫn chính**:
+   - `search_file` -> nhầm thành `create_meeting` (2/2 mẫu, tỷ lệ nhầm 100%).
+   - `create_document` -> nhầm thành `create_meeting` (1 mẫu) và `send_email` (1 mẫu).
+   - `create_meeting` -> nhầm thành `send_email` (1/1 mẫu).
+   - `daily_schedule` -> nhầm thành `create_meeting` (1 mẫu).
+
+3. **Nguyên nhân kỹ thuật cốt lõi**:
+   - **Đặc trưng quá nông (Feature limitation)**: Bộ đặc trưng hiện tại chỉ gồm `text_length`, `word_count`, `has_question_mark` và `source`. Các feature này chỉ đo độ dài hình thức và nguồn gửi, hoàn toàn **không chứa thông tin ngữ nghĩa (semantics)** của từ khóa câu hỏi (ví dụ: các từ "họp", "lịch", "tìm file", "soạn thư").
+   - **Tập dữ liệu nhỏ**: Khi độ dài các câu hỏi giữa các intent tương đương nhau, Logistic Regression với bộ feature bề mặt sẽ học trọng số nghiêng về class có intercept cao hoặc đặc trưng trùng lặp.
+   - **Ý nghĩa bài học**: Ma trận nhầm lẫn phản ánh rõ ràng mô hình đang bị thiên lệch thay vì học được quy luật phân loại thực sự. Đây là thước đo nền tảng (baseline benchmark) để so sánh khi nâng cấp lên các kỹ thuật trích xuất ngữ nghĩa và mạng nơ-ron (PyTorch) ở các tuần kế tiếp.
