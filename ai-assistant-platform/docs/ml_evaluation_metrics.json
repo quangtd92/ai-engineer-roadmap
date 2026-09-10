@@ -1,0 +1,38 @@
+{
+  "model": "LogisticRegression",
+  "accuracy": 0.125,
+  "macro_f1": 0.1333,
+  "weighted_f1": 0.1667,
+  "per_class": {
+    "intent.create_document": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "intent.create_meeting": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "intent.daily_schedule": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "support": 2
+    },
+    "intent.search_file": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "intent.send_email": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    }
+  }
+}

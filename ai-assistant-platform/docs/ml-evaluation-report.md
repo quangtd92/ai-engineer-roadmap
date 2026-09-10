@@ -61,7 +61,7 @@ Phần này được thiết lập sẵn để ghi nhận kết quả huấn luy
 
 | Model Version | Accuracy | Macro F1 | Weighted F1 | Ghi chú / Lỗi chính quan sát được |
 | :--- | :--- | :--- | :--- | :--- |
-| *Baseline Logistic Regression* | `0.125` (1/8) | *Chờ Ngày 11* | *Chờ Ngày 11* | Model bị lệch (bias) nặng về `create_meeting` và `send_email`; chỉ dùng 4 feature bề mặt nên thiếu ngữ nghĩa văn bản. |
+| *Baseline Logistic Regression* | `0.125` (1/8) | `0.133` | `0.167` | Model bị lệch (bias) nặng về `create_meeting` và `send_email`; chỉ dùng 4 feature bề mặt nên thiếu ngữ nghĩa văn bản. |
 
 ### 3.3. Confusion Matrix & Error Analysis (Ngày 10)
 
@@ -100,3 +100,28 @@ Thứ tự nhãn cố định theo bảng chữ cái từ `label_mapping.classes
    - **Đặc trưng quá nông (Feature limitation)**: Bộ đặc trưng hiện tại chỉ gồm `text_length`, `word_count`, `has_question_mark` và `source`. Các feature này chỉ đo độ dài hình thức và nguồn gửi, hoàn toàn **không chứa thông tin ngữ nghĩa (semantics)** của từ khóa câu hỏi (ví dụ: các từ "họp", "lịch", "tìm file", "soạn thư").
    - **Tập dữ liệu nhỏ**: Khi độ dài các câu hỏi giữa các intent tương đương nhau, Logistic Regression với bộ feature bề mặt sẽ học trọng số nghiêng về class có intercept cao hoặc đặc trưng trùng lặp.
    - **Ý nghĩa bài học**: Ma trận nhầm lẫn phản ánh rõ ràng mô hình đang bị thiên lệch thay vì học được quy luật phân loại thực sự. Đây là thước đo nền tảng (baseline benchmark) để so sánh khi nâng cấp lên các kỹ thuật trích xuất ngữ nghĩa và mạng nơ-ron (PyTorch) ở các tuần kế tiếp.
+
+
+---
+
+## 3.4. Bảng Chỉ Số Chi Tiết Theo Từng Intent (Ngày 11)
+
+| Intent | Precision | Recall | F1-Score | Support |
+| :--- | :---: | :---: | :---: | :---: |
+| `intent.create_document` | 0.00 | 0.00 | 0.00 | 2 |
+| `intent.create_meeting` | 0.00 | 0.00 | 0.00 | 1 |
+| `intent.daily_schedule` | 1.00 | 0.50 | 0.67 | 2 |
+| `intent.search_file` | 0.00 | 0.00 | 0.00 | 2 |
+| `intent.send_email` | 0.00 | 0.00 | 0.00 | 1 |
+| **Macro Avg** | **0.20** | **0.10** | **0.13** | 8 |
+| **Weighted Avg** | **0.25** | **0.12** | **0.17** | 8 |
+
+### Nhận xét và Phân tích Trade-off:
+1. **Macro F1 (0.133) vs Weighted F1 (0.167)**:
+   - Macro F1 đánh giá công bằng từng class độc lập. Do 4/5 class hoàn toàn không đoán trúng (F1 = 0.0), Macro F1 bị kéo xuống rất thấp (0.133).
+   - Weighted F1 tính theo trọng số support của từng class (0.167), cao hơn Macro F1 do class đoán được có số mẫu chiếm 25%.
+2. **Precision và Recall Trade-off**:
+   - `intent.daily_schedule` đạt Precision tuyệt đối (1.00) nhưng Recall chỉ 0.50 (bỏ sót 50% ý định lịch trình).
+   - Mô hình thiên lệch (bias) dự đoán dồn vào `create_meeting` và `send_email` khiến các nhãn khác có Recall = 0.
+3. **Kết luận**:
+   - Bộ feature đếm ký tự thô không đủ phân biệt ngữ nghĩa. Đây là mốc baseline để kiểm chứng sự cải thiện khi dùng mô hình học sâu (PyTorch) ở Tuần 3.
