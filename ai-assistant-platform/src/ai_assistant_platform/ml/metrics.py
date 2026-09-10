@@ -57,11 +57,7 @@ def calculate_classification_metrics(
         "precision": precision.tolist(),
         "recall": recall.tolist(),
         "f1": f1.tolist(),
-        "support": support.tolist()
+        "support": support.tolist(),
     }
 
-    return {
-        "macro_f1": macro_f1,
-        "weighted_f1": weighted_f1,
-        "per_class": per_class
-    }
+    return {"macro_f1": macro_f1, "weighted_f1": weighted_f1, "per_class": per_class}

@@ -23,12 +23,12 @@ def main():
         print("df_train_text_set intersection df_test_text_set")
         print(df_train_text_set.intersection(df_test_text_set))
         raise AssertionError("df_train_text_set intersection df_test_text_set")
-    
+
     if df_train_text_set.intersection(df_validate_text_set):
         print("df_train_text_set intersection df_validate_text_set")
         print(df_train_text_set.intersection(df_validate_text_set))
         raise AssertionError("df_train_text_set intersection df_validate_text_set")
-    
+
     if df_test_text_set.intersection(df_validate_text_set):
         print("df_test_text_set intersection df_validate_text_set")
         print(df_test_text_set.intersection(df_validate_text_set))
@@ -45,7 +45,9 @@ def main():
 
     unseen_validate_intents = df_validate_intent_set - df_train_intent_set
     if unseen_validate_intents:
-        print(f"df_validate_intent_set - df_train_intent_set: {unseen_validate_intents}")
+        print(
+            f"df_validate_intent_set - df_train_intent_set: {unseen_validate_intents}"
+        )
         raise AssertionError("df_validate_intent_set - df_train_intent_set")
 
     intent_preprocessor = IntentPreprocessor()
@@ -61,11 +63,15 @@ def main():
         print("x_train.shape[1] == x_test.shape[1] == x_validate.shape[1]")
         print(f"x_train.shape[1] {x_train.shape[1]}")
     else:
-        print("x_train.shape[1] != x_test.shape[1] or x_train.shape[1] != x_validate.shape[1]")
+        print(
+            "x_train.shape[1] != x_test.shape[1] or x_train.shape[1] != x_validate.shape[1]"
+        )
         print(f"x_train.shape[1] {x_train.shape[1]}")
         print(f"x_test.shape[1] {x_test.shape[1]}")
         print(f"x_validate.shape[1] {x_validate.shape[1]}")
-        raise AssertionError("x_train.shape[1] != x_test.shape[1] or x_train.shape[1] != x_validate.shape[1]")
+        raise AssertionError(
+            "x_train.shape[1] != x_test.shape[1] or x_train.shape[1] != x_validate.shape[1]"
+        )
 
     if x_train.shape[0] == len(df_train):
         print("x_train.shape[0] == len(df_train)")
@@ -132,6 +138,6 @@ def main():
 
     return 0
 
+
 if __name__ == "__main__":
     main()
-

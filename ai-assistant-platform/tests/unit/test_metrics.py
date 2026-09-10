@@ -13,11 +13,13 @@ def test_confusion_matrix_shape_and_values():
 
     cm = calculate_confusion_matrix(y_true, y_pred, labels=labels)
 
-    expected = np.array([
-        [1, 1, 0],
-        [1, 1, 0],
-        [0, 0, 2],
-    ])
+    expected = np.array(
+        [
+            [1, 1, 0],
+            [1, 1, 0],
+            [0, 0, 2],
+        ]
+    )
     assert cm.shape == (3, 3)
     np.testing.assert_array_equal(cm, expected)
 
@@ -29,12 +31,14 @@ def test_confusion_matrix_fixed_labels_order():
 
     cm = calculate_confusion_matrix(y_true, y_pred, labels=labels)
 
-    expected = np.array([
-        [1, 1, 0, 0],
-        [1, 1, 0, 0],
-        [0, 0, 2, 0],
-        [0, 0, 0, 0],
-    ])
+    expected = np.array(
+        [
+            [1, 1, 0, 0],
+            [1, 1, 0, 0],
+            [0, 0, 2, 0],
+            [0, 0, 0, 0],
+        ]
+    )
     assert cm.shape == (4, 4)
     np.testing.assert_array_equal(cm, expected)
 
@@ -53,8 +57,8 @@ def test_classification_metrics():
             "precision": [0.5, 0.5],
             "recall": [0.5, 0.5],
             "f1": [0.5, 0.5],
-            "support": [2, 2]
-        }
+            "support": [2, 2],
+        },
     }
 
     assert metrics == expected

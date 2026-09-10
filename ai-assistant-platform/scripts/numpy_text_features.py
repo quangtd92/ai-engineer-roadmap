@@ -24,9 +24,7 @@ def extract_features_from_texts(texts: list[str]) -> tuple[np.ndarray, list[str]
     # 1. Trích xuất đặc trưng
     text_lengths = np.array([len(t) for t in cleaned_texts], dtype=np.int32)
     word_counts = np.array([len(t.split()) for t in cleaned_texts], dtype=np.int32)
-    has_question_marks = np.array(
-        ["?" in t for t in cleaned_texts], dtype=np.int32
-    )
+    has_question_marks = np.array(["?" in t for t in cleaned_texts], dtype=np.int32)
 
     # 2. Ghép các vector 1D thành ma trận đặc trưng 2D (n_samples, n_features)
     # np.column_stack xếp các mảng 1D thành các cột của ma trận 2D
@@ -99,15 +97,18 @@ def main():
         if len(raw_text) > 42:
             raw_text = raw_text[:39] + "..."
         feat_repr = f"[{X[i, 0]:4.0f}, {X[i, 1]:2.0f}, {X[i, 2]:1.0f}]"
-        print(f"  {i+1:<4} | {raw_text:<45} | {feat_repr}")
+        print(f"  {i + 1:<4} | {raw_text:<45} | {feat_repr}")
 
     print("\n" + "=" * 60)
     print("Xác nhận hoàn thành:")
-    print(f"  X.shape == ({X.shape[0]}, 3) -> Đúng định dạng 2D matrix cho model input.")
-    print(f"  X.dtype == {X.dtype} -> Kiểu số thuần túy, tương thích PyTorch/scikit-learn.")
+    print(
+        f"  X.shape == ({X.shape[0]}, 3) -> Đúng định dạng 2D matrix cho model input."
+    )
+    print(
+        f"  X.dtype == {X.dtype} -> Kiểu số thuần túy, tương thích PyTorch/scikit-learn."
+    )
     print("=" * 60)
 
-    
     # # 1. Gán lại kết quả fillna để tránh lỗi NaN
     # text_series = df["text"].fillna("")
 

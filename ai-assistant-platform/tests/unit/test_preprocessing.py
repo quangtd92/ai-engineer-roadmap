@@ -122,6 +122,7 @@ def test_clean_intent_dataframe_summary_report():
     assert summary["dropped_duplicate_rows"] == 1
     assert len(df_clean) == 2
 
+
 def test_dataframe_fit_transform():
     df_raw = pd.DataFrame(
         {
@@ -138,6 +139,7 @@ def test_dataframe_fit_transform():
     assert fit_result.is_fitted == True
     assert transform_result.shape == (4, 6)
     assert transform_result.size == 24
+
 
 def test_dataframe_fit_transform_equivalent():
     df_raw = pd.DataFrame(
@@ -169,6 +171,7 @@ def test_dataframe_fit_transform_equivalent():
     fit_transform_result_2 = intent_preprocessor.fit_transform(df_raw_2)
     assert np.array_equal(transform_result_2, fit_transform_result_2)
 
+
 def test_dataframe_unknown_category():
     df_raw = pd.DataFrame(
         {
@@ -191,7 +194,7 @@ def test_dataframe_unknown_category():
     intent_preprocessor = IntentPreprocessor()
     intent_preprocessor.fit(df_raw)
     transform_result = intent_preprocessor.transform(df_test_raw)
-   
+
     # Shape trả về vẫn khớp: 4 dòng, 4 cột (3 numeric + 1 one-hot)
     assert transform_result.shape == (4, 4)
     # Cột one-hot thứ 4 tại các dòng có source lạ ("mobile_app") phải mang giá trị 0.0
@@ -212,6 +215,7 @@ def test_dataframe_not_fit():
     intent_preprocessor = IntentPreprocessor()
     with pytest.raises(ValueError, match="You must fit"):
         intent_preprocessor.transform(df_raw)
+
 
 def test_dataframe_output_consistent():
     df_raw = pd.DataFrame(
@@ -239,4 +243,3 @@ def test_dataframe_output_consistent():
     assert transform_result.shape[1] == transform_result_test.shape[1]
     assert transform_result.dtype == np.float32
     assert transform_result_test.dtype == np.float32
-   

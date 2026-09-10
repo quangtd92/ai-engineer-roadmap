@@ -1,4 +1,3 @@
-
 import pandas as pd
 import pytest
 
@@ -93,10 +92,32 @@ def test_splits_reproducible():
     assert df_test_1.equals(df_test_2)
     assert df_validate_1.equals(df_validate_2)
 
+
 def test_splits_raw_count():
     raw_data = {
         "id": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-        "text": ["Text 1", "Text 2", "Text 3", "Text 4", "Text 5", "Text 6", "Text 7", "Text 8", "Text 9", "Text 10", "Text 11", "Text 12", "Text 13", "Text 14", "Text 15", "Text 16", "Text 17", "Text 18", "Text 19", "Text 20"],
+        "text": [
+            "Text 1",
+            "Text 2",
+            "Text 3",
+            "Text 4",
+            "Text 5",
+            "Text 6",
+            "Text 7",
+            "Text 8",
+            "Text 9",
+            "Text 10",
+            "Text 11",
+            "Text 12",
+            "Text 13",
+            "Text 14",
+            "Text 15",
+            "Text 16",
+            "Text 17",
+            "Text 18",
+            "Text 19",
+            "Text 20",
+        ],
         "intent": ["a"] * 7 + ["b"] * 7 + ["c"] * 6,
     }
     df_raw = pd.DataFrame(raw_data)
@@ -105,6 +126,7 @@ def test_splits_raw_count():
     df_test_1, df_validate_1 = train_test_split_stratified(df_tmp_1, test_size=0.5)
 
     assert len(df_raw) == len(train_1) + len(df_test_1) + len(df_validate_1)
+
 
 def test_splits_raises_error_on_too_few_samples():
     raw_data = {
@@ -116,11 +138,33 @@ def test_splits_raises_error_on_too_few_samples():
 
     with pytest.raises(ValueError):
         train_test_split_stratified(df_raw, test_size=0.5)
-    
+
+
 def test_splits_no_overlap():
     raw_data = {
         "id": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-        "text": ["Text 1", "Text 2", "Text 3", "Text 4", "Text 5", "Text 6", "Text 7", "Text 8", "Text 9", "Text 10", "Text 11", "Text 12", "Text 13", "Text 14", "Text 15", "Text 16", "Text 17", "Text 18", "Text 19", "Text 20"],
+        "text": [
+            "Text 1",
+            "Text 2",
+            "Text 3",
+            "Text 4",
+            "Text 5",
+            "Text 6",
+            "Text 7",
+            "Text 8",
+            "Text 9",
+            "Text 10",
+            "Text 11",
+            "Text 12",
+            "Text 13",
+            "Text 14",
+            "Text 15",
+            "Text 16",
+            "Text 17",
+            "Text 18",
+            "Text 19",
+            "Text 20",
+        ],
         "intent": ["a"] * 7 + ["b"] * 7 + ["c"] * 6,
     }
     df_raw = pd.DataFrame(raw_data)

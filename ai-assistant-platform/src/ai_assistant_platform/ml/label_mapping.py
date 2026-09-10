@@ -11,7 +11,7 @@ class LabelMapping:
         self.classes_: list[str] = []
 
     def fit(self, labels: Iterable[str]) -> "LabelMapping":
-        unique_labels  = sorted(set(labels))
+        unique_labels = sorted(set(labels))
         self.label_encoder.fit(unique_labels)
         self.is_fit = True
         self.classes_ = list(self.label_encoder.classes_)
@@ -27,9 +27,9 @@ class LabelMapping:
         if not self.is_fit:
             raise ValueError("You must fit the label mapping before transforming data")
         return self.label_encoder.inverse_transform(indices)
-    
+
     def encode(self, labels: Iterable[str]) -> list[int]:
         return self.transform(labels)
-    
+
     def decode(self, indices: Iterable[int]) -> list[str]:
         return self.inverse_transform(indices)

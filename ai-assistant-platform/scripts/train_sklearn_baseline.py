@@ -21,7 +21,9 @@ REPORT_OUTPUT_PATH = Path("docs/ml_evaluation_metrics.json")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Huấn luyện Logistic Regression Baseline cho Intent Classification")
+    parser = argparse.ArgumentParser(
+        description="Huấn luyện Logistic Regression Baseline cho Intent Classification"
+    )
     parser.add_argument(
         "--write-report",
         action="store_true",
@@ -82,6 +84,7 @@ def main() -> None:
         "preprocessor": intent_preprocessor,
         "model": model,
         "label_mapping": label_mapping,
+        "model_version": "sklearn_intent_v1",
     }
     joblib.dump(artifacts, MODEL_OUTPUT_PATH)
     print(f"\nModel artifact saved to {MODEL_OUTPUT_PATH}")
