@@ -1,38 +1,77 @@
 {
-  "model": "LogisticRegression",
-  "accuracy": 0.125,
-  "macro_f1": 0.1333,
-  "weighted_f1": 0.1667,
-  "per_class": {
-    "intent.create_document": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "support": 2
-    },
-    "intent.create_meeting": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "support": 1
-    },
-    "intent.daily_schedule": {
-      "precision": 1.0,
-      "recall": 0.5,
-      "f1": 0.6667,
-      "support": 2
-    },
-    "intent.search_file": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "support": 2
-    },
-    "intent.send_email": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "support": 1
+  "validate": {
+    "model": "LogisticRegression",
+    "accuracy": 0.125,
+    "macro_f1": 0.1333,
+    "weighted_f1": 0.1667,
+    "per_class": {
+      "intent.create_document": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 2
+      },
+      "intent.create_meeting": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      "intent.daily_schedule": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6667,
+        "support": 2
+      },
+      "intent.search_file": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 2
+      },
+      "intent.send_email": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      }
+    }
+  },
+  "test": {
+    "accuracy_test": 0.4286,
+    "macro_f1_test": 0.4133,
+    "weighted_f1_test": 0.4476,
+    "per_class_test": {
+      "intent.create_document": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 1
+      },
+      "intent.create_meeting": {
+        "precision": 0.3333,
+        "recall": 0.5,
+        "f1": 0.4,
+        "support": 2
+      },
+      "intent.daily_schedule": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      "intent.search_file": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      "intent.send_email": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6667,
+        "support": 2
+      }
     }
   }
 }

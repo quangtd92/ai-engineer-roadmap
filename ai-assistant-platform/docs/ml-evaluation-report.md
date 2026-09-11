@@ -125,3 +125,80 @@ Thứ tự nhãn cố định theo bảng chữ cái từ `label_mapping.classes
    - Mô hình thiên lệch (bias) dự đoán dồn vào `create_meeting` và `send_email` khiến các nhãn khác có Recall = 0.
 3. **Kết luận**:
    - Bộ feature đếm ký tự thô không đủ phân biệt ngữ nghĩa. Đây là mốc baseline để kiểm chứng sự cải thiện khi dùng mô hình học sâu (PyTorch) ở Tuần 3.
+
+---
+
+## 3.5. Kết Quả Đánh Giá Trên Held-Out Test Set Lần Đầu (Ngày 13)
+
+Theo đúng nguyên tắc phương pháp luận Machine Learning, tập **Test Set** (`data/splits/test.csv`) được giữ kín (held-out) và chỉ được mở ra đánh giá **đúng một lần duy nhất** sau khi đã hoàn tất mọi quyết định về kiến trúc mô hình, pipeline trích xuất đặc trưng và phân tích lỗi trên Validation set.
+
+### 3.5.1. Thông tin thực nghiệm
+- **Ngày thực hiện**: 2026-09-11
+- **Phiên bản dữ liệu**: `data/splits/` v1.0
+  - Train: 37 mẫu (`data/splits/train.csv`)
+  - Validation: 8 mẫu (`data/splits/validation.csv`)
+  - Test: 7 mẫu (`data/splits/test.csv`)
+- **Lệnh thực thi**:
+  ```powershell
+  uv run python scripts/train_sklearn_baseline.py --write-report --evaluate-test
+  ```
+- **Ràng buộc quy trình**:
+  - Toàn bộ tham số tiền xử lý (`IntentPreprocessor`: scaler, encoder) và bộ mã hóa nhãn (`LabelMapping`) được giữ nguyên từ quá trình `fit` trên tập Train; chỉ gọi `transform` và `encode` trên tập Test.
+  - Không thực hiện bất kỳ thao tác điều chỉnh siêu tham số (hyperparameter tuning) hay thay đổi đặc trưng nào sau khi đã quan sát kết quả trên tập Test nhằm ngăn chặn rò rỉ thông tin (data leakage) và bias quyết định.
+
+### 3.5.2. Bảng so sánh tổng hợp Validation vs Test Set
+
+| Tập đánh giá (Split) | Số mẫu (Support) | Accuracy | Macro F1 | Weighted F1 | Nhận xét tổng quan |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Validation Set** | 8 | 0.1250 (1/8) | 0.1333 | 0.1667 | Mô hình đoán đúng 1 mẫu `daily_schedule`, dồn bias nặng vào `create_meeting`. |
+| **Test Set (Held-out)** | 7 | 0.4286 (3/7) | 0.4133 | 0.4476 | Đoán đúng 3/7 mẫu (`create_document`, `create_meeting`, `send_email`). |
+
+### 3.5.3. Ma trận nhầm lẫn thực nghiệm trên Test Set (7 mẫu)
+
+Thứ tự nhãn cố định từ `label_mapping.classes_`:
+- `0`: `intent.create_document`
+- `1`: `intent.create_meeting`
+- `2`: `intent.daily_schedule`
+- `3`: `intent.search_file`
+- `4`: `intent.send_email`
+
+| Nhãn thực tế (Ground Truth) \ Dự đoán (Pred) | `create_document` (0) | `create_meeting` (1) | `daily_schedule` (2) | `search_file` (3) | `send_email` (4) | Tổng mẫu thực tế |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`intent.create_document` (0)** | **1** | 0 | 0 | 0 | 0 | 1 |
+| **`intent.create_meeting` (1)** | 0 | **1** | 0 | 1 | 0 | 2 |
+| **`intent.daily_schedule` (2)** | 0 | 1 | **0** | 0 | 0 | 1 |
+| **`intent.search_file` (3)** | 0 | 1 | 0 | **0** | 0 | 1 |
+| **`intent.send_email` (4)** | 0 | 0 | 0 | 1 | **1** | 2 |
+| **Tổng mẫu dự đoán** | **1** | **3** | **0** | **2** | **1** | **7** |
+
+### 3.5.4. Bảng chỉ số chi tiết theo từng Intent trên Test Set
+
+| Intent | Precision | Recall | F1-Score | Support |
+| :--- | :---: | :---: | :---: | :---: |
+| `intent.create_document` | 1.0000 | 1.0000 | 1.0000 | 1 |
+| `intent.create_meeting` | 0.3333 | 0.5000 | 0.4000 | 2 |
+| `intent.daily_schedule` | 0.0000 | 0.0000 | 0.0000 | 1 |
+| `intent.search_file` | 0.0000 | 0.0000 | 0.0000 | 1 |
+| `intent.send_email` | 1.0000 | 0.5000 | 0.6667 | 2 |
+| **Macro Avg** | **0.4667** | **0.4000** | **0.4133** | 7 |
+| **Weighted Avg** | **0.4762** | **0.4286** | **0.4476** | 7 |
+
+### 3.5.5. Phân tích nguyên nhân chênh lệch giữa Validation và Test
+
+1. **Hiện tượng dao động do cỡ mẫu nhỏ (Small Sample Variance)**:
+   - Khoảng cách từ `12.5%` lên `42.86%` thực chất chỉ tương ứng với **2 câu dự đoán đúng thêm** (từ 1/8 lên 3/7).
+   - Với kích thước tập Test gồm 7 mẫu, giá trị của 1 mẫu đơn lẻ chiếm tới `1/7 ≈ 14.29%` tổng Accuracy. Do đó, bất kỳ sự trùng hợp ngẫu nhiên nào cũng khuếch đại chỉ số phần trăm, tạo nên biến động phương sai cao (high variance) thay vì chứng minh năng lực khái quát hóa vượt trội.
+2. **Đặc trưng hình thức không chứa ngữ nghĩa văn bản**:
+   - Bộ đặc trưng hiện tại hoàn toàn là heuristic hình thức: `text_length`, `word_count`, `has_question_marks`, và `source`.
+   - Ở tập Test, 3 câu đoán trúng ngẫu nhiên có độ dài và nguồn gửi phân bổ rơi vào vùng quyết định của các nhãn `create_document`, `create_meeting` và `send_email`.
+3. **Mô hình tiếp tục thất bại hoàn toàn ở 2 intent**:
+   - Hai nhãn `intent.daily_schedule` (0/1 câu) và `intent.search_file` (0/1 câu) vẫn có Precision, Recall và F1-Score bằng `0.0000`.
+   - Cả 2 mẫu thực tế của 2 intent này đều bị mô hình dự đoán nhầm thành `intent.create_meeting`.
+
+### 3.5.6. Kết luận Milestone Baseline và Bàn giao sang Tuần 3 (PyTorch)
+- **Đạt mục tiêu Milestone Tuần 2**: Baseline cổ điển (Logistic Regression) đã hoàn tất chu trình chuẩn: huấn luyện, đánh giá Validation, phân tích lỗi qua Confusion Matrix, đóng gói service wrapper và kiểm thử độc lập trên Held-out Test Set.
+- **Tiêu chuẩn đối sánh (Benchmark)**:
+  - Macro F1 trên Validation: `0.1333`
+  - Macro F1 trên Held-out Test: `0.4133`
+- **Định hướng Tuần 3**: Thay thế các đặc trưng bề mặt bằng mô hình học sâu PyTorch (Word Embeddings / Neural Networks) nhằm trích xuất ngữ nghĩa thực của câu lệnh, giải quyết triệt để lỗi thiên lệch nhãn và các intent có F1 = 0.
+

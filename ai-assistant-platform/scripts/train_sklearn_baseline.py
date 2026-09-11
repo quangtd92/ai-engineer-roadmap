@@ -16,6 +16,7 @@ from ai_assistant_platform.ml.preprocessing import IntentPreprocessor
 
 TRAIN_DATA_PATH = Path("data/splits/train.csv")
 VALIDATION_DATA_PATH = Path("data/splits/validation.csv")
+TEST_DATA_PATH = Path("data/splits/test.csv")
 MODEL_OUTPUT_PATH = Path("models/sklearn_intent_baseline.joblib")
 REPORT_OUTPUT_PATH = Path("docs/ml_evaluation_metrics.json")
 
@@ -29,22 +30,34 @@ def main() -> None:
         action="store_true",
         help="Xuất kết quả đánh giá ra file docs/ml_evaluation_metrics.json",
     )
+    parser.add_argument(
+        "--evaluate-test",
+        action="store_true",
+        help="Đánh giá trên tập test",
+    )
     args = parser.parse_args()
-
+    print(f"{args=}")
+    # return
     # 1. Tải dữ liệu
     df_train = pd.read_csv(TRAIN_DATA_PATH)
     df_validation = pd.read_csv(VALIDATION_DATA_PATH)
+    if args.evaluate_test:
+        df_test = pd.read_csv(TEST_DATA_PATH)
 
     # 2. Tiền xử lý đặc trưng
     intent_preprocessor = IntentPreprocessor()
     X_train = intent_preprocessor.fit_transform(df_train)
     X_validation = intent_preprocessor.transform(df_validation)
+    if args.evaluate_test:
+        X_test = intent_preprocessor.transform(df_test)
 
     # 3. Mã hóa nhãn (Label Encoding)
     label_mapping = LabelMapping()
     label_mapping.fit(df_train["intent"])
     y_train = label_mapping.encode(df_train["intent"])
     y_validation = label_mapping.encode(df_validation["intent"])
+    if args.evaluate_test:
+        y_test = label_mapping.encode(df_test["intent"])
 
     # 4. Huấn luyện mô hình
     model = LogisticRegression(max_iter=1000, random_state=42)
@@ -52,7 +65,12 @@ def main() -> None:
 
     # 5. Đánh giá trên tập Validation
     y_val_pred = model.predict(X_validation)
-    acc = accuracy_score(y_validation, y_val_pred)
+    acc_val = accuracy_score(y_validation, y_val_pred)
+
+    if args.evaluate_test:
+        # 6. Đánh giá trên tập Test
+        y_test_pred = model.predict(X_test)
+        acc_test = accuracy_score(y_test, y_test_pred)
 
     classes = list(range(len(label_mapping.classes_)))
     class_names = [str(c) for c in label_mapping.classes_]
@@ -60,14 +78,20 @@ def main() -> None:
     cm = calculate_confusion_matrix(y_validation, y_val_pred, labels=classes)
     metrics = calculate_classification_metrics(y_validation, y_val_pred, labels=classes)
 
+    if args.evaluate_test:
+        cm_test = calculate_confusion_matrix(y_test, y_test_pred, labels=classes)
+        metrics_test = calculate_classification_metrics(
+            y_test, y_test_pred, labels=classes
+        )
+
     print(f"y_val_pred: {y_val_pred}")
-    print(f"Accuracy: {acc:.4f}")
+    print(f"Accuracy: {acc_val:.4f}")
     print(f"Macro F1: {metrics['macro_f1']:.4f}")
     print(f"Weighted F1: {metrics['weighted_f1']:.4f}")
     print(f"\nConfusion Matrix (labels={class_names}):\n{cm}")
 
     # In chi tiết từng class ra console
-    print("\nPer-Class Metrics:")
+    print("\nPer-Class Metrics (Validation):")
     per_class = metrics["per_class"]
     print(f"{'Class':<30} {'Precision':<10} {'Recall':<10} {'F1':<10} {'Support':<8}")
     print("-" * 68)
@@ -77,6 +101,26 @@ def main() -> None:
         f = per_class["f1"][i]
         s = per_class["support"][i]
         print(f"{name:<30} {p:<10.4f} {r:<10.4f} {f:<10.4f} {s:<8}")
+
+    if args.evaluate_test:
+        print("\n" + "=" * 30 + " Test Set Evaluation " + "=" * 30)
+        print(f"y_test_pred: {y_test_pred}")
+        print(f"Accuracy (Test): {acc_test:.4f}")
+        print(f"Macro F1 (Test): {metrics_test['macro_f1']:.4f}")
+        print(f"Weighted F1 (Test): {metrics_test['weighted_f1']:.4f}")
+        print(f"\nConfusion Matrix (labels={class_names}):\n{cm_test}")
+        print("\nPer-Class Metrics (Test):")
+        per_class_test = metrics_test["per_class"]
+        print(
+            f"{'Class':<30} {'Precision':<10} {'Recall':<10} {'F1':<10} {'Support':<8}"
+        )
+        print("-" * 68)
+        for i, name in enumerate(class_names):
+            p = per_class_test["precision"][i]
+            r = per_class_test["recall"][i]
+            f = per_class_test["f1"][i]
+            s = per_class_test["support"][i]
+            print(f"{name:<30} {p:<10.4f} {r:<10.4f} {f:<10.4f} {s:<8}")
 
     # 6. Lưu model artifact
     MODEL_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -91,25 +135,43 @@ def main() -> None:
 
     # 7. Xuất file JSON nếu có cờ --write-report
     if args.write_report:
-        report_data = {
-            "model": "LogisticRegression",
-            "accuracy": round(float(acc), 4),
-            "macro_f1": round(float(metrics["macro_f1"]), 4),
-            "weighted_f1": round(float(metrics["weighted_f1"]), 4),
-            "per_class": {
-                name: {
-                    "precision": round(float(per_class["precision"][i]), 4),
-                    "recall": round(float(per_class["recall"][i]), 4),
-                    "f1": round(float(per_class["f1"][i]), 4),
-                    "support": int(per_class["support"][i]),
-                }
-                for i, name in enumerate(class_names)
-            },
+        report_payload = {
+            "validate": {
+                "model": "LogisticRegression",
+                "accuracy": round(float(acc_val), 4),
+                "macro_f1": round(float(metrics["macro_f1"]), 4),
+                "weighted_f1": round(float(metrics["weighted_f1"]), 4),
+                "per_class": {
+                    name: {
+                        "precision": round(float(per_class["precision"][i]), 4),
+                        "recall": round(float(per_class["recall"][i]), 4),
+                        "f1": round(float(per_class["f1"][i]), 4),
+                        "support": int(per_class["support"][i]),
+                    }
+                    for i, name in enumerate(class_names)
+                },
+            }
         }
+
+        if args.evaluate_test:
+            report_payload["test"] = {
+                "accuracy_test": round(float(acc_test), 4),
+                "macro_f1_test": round(float(metrics_test["macro_f1"]), 4),
+                "weighted_f1_test": round(float(metrics_test["weighted_f1"]), 4),
+                "per_class_test": {
+                    name: {
+                        "precision": round(float(per_class_test["precision"][i]), 4),
+                        "recall": round(float(per_class_test["recall"][i]), 4),
+                        "f1": round(float(per_class_test["f1"][i]), 4),
+                        "support": int(per_class_test["support"][i]),
+                    }
+                    for i, name in enumerate(class_names)
+                },
+            }
 
         REPORT_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
         with open(REPORT_OUTPUT_PATH, "w", encoding="utf-8") as f:
-            json.dump(report_data, f, indent=2, ensure_ascii=False)
+            json.dump(report_payload, f, indent=2, ensure_ascii=False)
         print(f"Metrics report exported to {REPORT_OUTPUT_PATH}")
 
 
