@@ -202,3 +202,40 @@ Thứ tự nhãn cố định từ `label_mapping.classes_`:
   - Macro F1 trên Held-out Test: `0.4133`
 - **Định hướng Tuần 3**: Thay thế các đặc trưng bề mặt bằng mô hình học sâu PyTorch (Word Embeddings / Neural Networks) nhằm trích xuất ngữ nghĩa thực của câu lệnh, giải quyết triệt để lỗi thiên lệch nhãn và các intent có F1 = 0.
 
+---
+
+## 4. Thực nghiệm PyTorch Intent Classifier & Validation Loop (Tuần 3 - Ngày 19)
+
+### 4.1. Thiết lập Huấn luyện & Đánh giá
+- **Kiến trúc mô hình**: `IntentClassifier` (gồm 2 lớp fully connected `Linear(input_dim, 64)` -> `ReLU` -> `Linear(64, num_classes)`).
+- **Hàm mất mát**: `nn.CrossEntropyLoss()`.
+- **Bộ tối ưu hóa**: `Adam(lr=0.001)`.
+- **Dữ liệu**:
+  - Train: `data/splits/train.csv` (37 mẫu, `batch_size=32`, `shuffle=True`).
+  - Validation: `data/splits/validation.csv` (8 mẫu, `batch_size=32`, `shuffle=False`).
+- **Ràng buộc đánh giá**:
+  - Chạy hàm `evaluate_model` với `model.eval()` và `torch.no_grad()`.
+  - Không tính toán hay tích lũy gradient trong pha validation.
+
+### 4.2. Nhật ký Huấn luyện (5 Epochs)
+
+| Epoch | Train Loss | Validation Loss | Validation Macro F1 |
+| :---: | :---: | :---: | :---: |
+| 1 | 1.6813 | 1.6488 | 0.0800 |
+| 2 | 1.5839 | 1.6450 | 0.0800 |
+| 3 | 1.6061 | 1.6419 | 0.1143 |
+| 4 | 1.5837 | 1.6393 | 0.1143 |
+| 5 | 1.6640 | 1.6363 | 0.1143 |
+
+### 4.3. Bảng Đối Sánh: Baseline vs PyTorch (Validation Set)
+
+| Mô hình | Validation Loss | Macro F1 | Weighted F1 | Nhận xét |
+| :--- | :---: | :---: | :---: | :--- |
+| **Baseline Logistic Regression** (Tuần 2) | N/A | **0.1333** | 0.1667 | Dùng Logistic Regression của scikit-learn với solver lbfgs. |
+| **PyTorch Intent Classifier (5 epochs)** (Tuần 3) | 1.6363 | **0.1143** | 0.1829 | Validation loss giảm đều qua từng epoch (1.6488 -> 1.6363). |
+
+### 4.4. Nhận xét Kỹ thuật
+1. **Quá trình tối ưu hóa**: Validation loss giảm đều sau mỗi epoch, khẳng định mô hình và pipeline gradient đang cập nhật đúng hướng, không bị nổ gradient hay overfit sớm.
+2. **So sánh F1 với Baseline**: Macro F1 của PyTorch (0.1143) tương đương mức Baseline (0.1333). Do vẫn sử dụng chung bộ feature thô bề mặt (độ dài, ký tự), mô hình học sâu chưa thể tạo sự vượt trội về ngữ nghĩa cho đến khi được trang bị pretrained word embeddings hoặc transformer ở các giai đoạn sau.
+
+

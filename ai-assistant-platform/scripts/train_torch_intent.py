@@ -10,7 +10,7 @@ from ai_assistant_platform.ml.dataset import IntentDataset
 from ai_assistant_platform.ml.intent_model import IntentClassifier
 from ai_assistant_platform.ml.label_mapping import LabelMapping
 from ai_assistant_platform.ml.preprocessing import IntentPreprocessor
-from ai_assistant_platform.ml.training import train_one_epoch
+from ai_assistant_platform.ml.training import evaluate_model, train_one_epoch
 
 
 def main():
@@ -23,24 +23,34 @@ def main():
     # ---------------------
 
     TRAIN_DATA_PATH = Path("data/splits/train.csv")
+    VALIDATION_DATA_PATH = Path("data/splits/validation.csv")
     df_train = pd.read_csv(TRAIN_DATA_PATH)
+    df_validation = pd.read_csv(VALIDATION_DATA_PATH)
 
     # Trích xuất numeric & one-hot features
     preprocessor = IntentPreprocessor()
     X_train = preprocessor.fit_transform(
         df_train
     )  # Trả về ma trận numpy (N, n_features)
+    X_validation = preprocessor.transform(df_validation)
 
     # Mã hóa chuỗi text intent thành số nguyên (0, 1, 2, ...)
     label_mapping = LabelMapping()
     label_mapping.fit(df_train["intent"])
     y_train = label_mapping.encode(df_train["intent"])
+    y_validation = label_mapping.encode(df_validation["intent"])
 
     train_dataset = IntentDataset(X_train, y_train)
+    validation_dataset = IntentDataset(X_validation, y_validation)
     train_loader = DataLoader(
         train_dataset,
         batch_size=args.batch_size,
         shuffle=True,  # Phải shuffle khi train
+    )
+    validation_loader = DataLoader(
+        validation_dataset,
+        batch_size=args.batch_size,
+        shuffle=False,  # Không shuffle khi validation
     )
 
     input_dim = X_train.shape[1]
@@ -61,7 +71,19 @@ def main():
             optimizer=optimizer,
             device="cpu",
         )
-        print(f"Epoch {epoch}/{args.epochs} - Loss: {avg_loss:.4f}")
+        val_loss, val_metrics = evaluate_model(
+            model=model,
+            dataloader=validation_loader,
+            criterion=criterion,
+            device="cpu",
+            labels=list(range(num_classes)),
+        )
+        print(
+            f"Epoch {epoch}/{args.epochs} - "
+            f"Train Loss: {avg_loss:.4f} - "
+            f"Val Loss: {val_loss:.4f} - "
+            f"Val Macro F1: {val_metrics['macro_f1']:.4f}"
+        )
 
 
 if __name__ == "__main__":
