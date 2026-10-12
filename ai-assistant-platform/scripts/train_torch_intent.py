@@ -1,6 +1,8 @@
 import argparse
+import json
 from pathlib import Path
 
+import joblib
 import pandas as pd
 import torch
 from torch import nn
@@ -19,8 +21,14 @@ def main():
     parser.add_argument("--epochs", type=int, default=1, help="Số epoch cần huấn luyện")
     parser.add_argument("--batch-size", type=int, default=32, help="Kích thước batch")
     parser.add_argument("--lr", type=float, default=0.001, help="Learning rate")
+    parser.add_argument(
+        "--save-model", action="store_true", help="Lưu model sau khi train"
+    )
     args = parser.parse_args()
     # ---------------------
+
+    MODEL_PATH = Path("models/intent_classifier.pt")
+    METADATA_PATH = Path("models/intent_metadata.json")
 
     TRAIN_DATA_PATH = Path("data/splits/train.csv")
     VALIDATION_DATA_PATH = Path("data/splits/validation.csv")
@@ -84,6 +92,22 @@ def main():
             f"Val Loss: {val_loss:.4f} - "
             f"Val Macro F1: {val_metrics['macro_f1']:.4f}"
         )
+
+    if args.save_model:
+        Path("models").mkdir(parents=True, exist_ok=True)
+        torch.save(model.state_dict(), MODEL_PATH)
+
+        metadata  = {
+            "model_version": "torch_intent_v1",
+            "input_dim": input_dim,
+            "hidden_dim": 64,
+            "num_classes": num_classes,
+            "classes": list(label_mapping.classes_),
+        }
+        
+        with open(METADATA_PATH, "w", encoding="utf-8") as f:
+            json.dump(metadata, f, indent=2, ensure_ascii=False)
+        joblib.dump(preprocessor, "models/intent_preprocessor.joblib")
 
 
 if __name__ == "__main__":
