@@ -6,6 +6,7 @@ class PredictionResponse(BaseModel):
     confidence: float
     model_version: str
 
+
 class IntentPredictionRequest(BaseModel):
     text: str
     source: str = "web_ui"

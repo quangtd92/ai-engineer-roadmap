@@ -77,19 +77,80 @@ Sequence B (7 tokens): [15, 9, 2, 8, 13, 6, 10, 0, 0] -> Mask: [1, 1, 1, 1, 1, 1
 
 Token ID chỉ là các chỉ số định danh rời rạc (categorical integers). Một số nguyên lớn hơn không có nghĩa là từ đó có giá trị lớn hơn hay quan trọng hơn.
 
+Script minh họa của project: [embedding_overview.py](../scripts/embedding_overview.py).
+
 ### 3.1. Bảng Embedding (`torch.nn.Embedding`)
+
 Để đưa vào mạng nơ-ron, mỗi token ID được ánh xạ thành một vector thực nhiều chiều (dense vector) thông qua bảng embedding:
+
 - Bảng embedding thực chất là ma trận trọng số có kích thước `W_embed ∈ ℝ^(vocab_size × embedding_dim)`.
 - Khi truyền vào một token ID `k`, thao tác lookup tương đương với việc lấy ra dòng thứ `k` của ma trận: `v = W_embed[k, :]`.
-- **Quan trọng**: Các vector này là tham số có thể huấn luyện (learnable parameters). Qua quá trình huấn luyện, các từ có ngữ nghĩa hoặc ngữ cảnh tương đồng sẽ tự động hội tụ về gần nhau trong không gian vector.
+- Cùng một token ID sẽ lấy cùng một dòng trong bảng embedding, miễn là đang dùng cùng một embedding layer và trọng số chưa bị cập nhật.
+- Các vector là tham số có thể huấn luyện (learnable parameters). Khi optimizer cập nhật `embedding.weight`, biểu diễn của token cũng thay đổi.
+
+Trong demo hiện tại, embedding layer được tạo như sau:
+
+```python
+embedding = nn.Embedding(
+    num_embeddings=len(vocabulary),
+    embedding_dim=4,
+    padding_idx=vocabulary["<pad>"],
+)
+embedded = embedding(tensor_vocab_pad_batch)
+```
+
+Ý nghĩa các tham số:
+
+- `num_embeddings=28`: vocabulary có 28 token, gồm cả `<pad>` và `<unk>`.
+- `embedding_dim=4`: mỗi token ID được biểu diễn bằng một vector gồm 4 số thực.
+- `padding_idx=0`: vector của `<pad>` không được cập nhật khi training và trong demo được trả về dưới dạng `[0, 0, 0, 0]`.
+
+> [!IMPORTANT]
+> Các giá trị embedding trong demo được khởi tạo ngẫu nhiên và model chưa được train. Vì vậy, chúng chỉ minh họa thao tác lookup và tensor shape, chưa thể hiện ý nghĩa ngữ nghĩa của từ.
 
 ### 3.2. Biến đổi kích thước Tensor (Shape Transformation)
-1. **Đầu vào (Input IDs)**:
-   - Kích thước: `(batch_size, sequence_length)`
-   - Kiểu dữ liệu: `torch.long`
-2. **Sau khi Embedding Lookup**:
-   - Kích thước: `(batch_size, sequence_length, embedding_dim)`
-   - Kiểu dữ liệu: `torch.float32`
+
+Ba câu mẫu sau khi padding tạo thành tensor token ID có shape `(3, 11)`:
+
+- `batch_size = 3`: có ba câu.
+- `sequence_length = 11`: câu dài nhất có 11 token; hai câu ngắn hơn được thêm `<pad>`.
+- Kiểu dữ liệu của token ID là `torch.int64`, cũng chính là `torch.long` mà `nn.Embedding` yêu cầu.
+
+Kết quả chạy script:
+
+| Thành phần | Shape | Ý nghĩa |
+| --- | --- | --- |
+| Token IDs | `(3, 11)` | Mỗi vị trí chứa một ID trong vocabulary |
+| Embedding weight | `(28, 4)` | 28 token, mỗi token có vector 4 chiều |
+| Embedding output | `(3, 11, 4)` | Mỗi ID trong từng câu được thay bằng vector 4 chiều |
+
+Quy tắc tổng quát:
+
+```text
+(batch_size, sequence_length)
+             ↓ nn.Embedding
+(batch_size, sequence_length, embedding_dim)
+```
+
+Embedding lookup giữ nguyên hai chiều `batch_size` và `sequence_length`, sau đó thêm chiều `embedding_dim` ở cuối.
+
+### 3.3. Quan sát từ kết quả demo
+
+- Token `nay` có cùng token ID ở câu thứ nhất và câu thứ ba, nên hai vị trí này nhận cùng một vector embedding trong một lần chạy.
+- Những vị trí có token ID `0` là `<pad>` và trả về vector toàn số `0` vì layer sử dụng `padding_idx=0`.
+- Giá trị cụ thể của các vector có thể khác ở lần chạy tiếp theo vì script chưa cố định random seed.
+- `padding_idx` chỉ xử lý vector của padding trong embedding layer. Khi tính self-attention, model vẫn cần attention mask để ngăn các token thật chú ý vào vị trí padding.
+
+### 3.4. So sánh với đặc trưng thủ công
+
+Classifier trước đó dùng các đặc trưng được định nghĩa sẵn như độ dài câu hoặc số từ. Embedding khác ở chỗ model có thể học trực tiếp vector biểu diễn cho từng token trong quá trình training. Tuy nhiên, embedding lookup đơn lẻ vẫn chưa xét ngữ cảnh: token có cùng ID luôn nhận cùng vector ban đầu. Các tầng self-attention phía sau mới kết hợp thông tin từ những token khác để tạo biểu diễn phụ thuộc ngữ cảnh.
+
+### 3.5. Tự kiểm tra
+
+- Nếu đổi `embedding_dim` từ `4` thành `8`, output phải đổi từ `(3, 11, 4)` thành `(3, 11, 8)`.
+- Nếu vocabulary có thêm token mới, chiều đầu tiên của `embedding.weight` phải tăng theo `len(vocabulary)`.
+- Nếu truyền tensor số thực thay vì `torch.long`, `nn.Embedding` sẽ báo lỗi vì input phải chứa các chỉ số nguyên.
+- Không được kết luận hai từ gần nghĩa chỉ dựa trên embedding ngẫu nhiên chưa qua training.
 
 ---
 

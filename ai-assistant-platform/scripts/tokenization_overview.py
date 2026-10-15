@@ -21,11 +21,14 @@ def build_vocabulary(texts: list[str]) -> dict[str, int]:
         token = tokenize(text)
         token_batch.append(token)
 
-    result = sorted(set(
-        item for batch in token_batch
-        for item in batch
-        if (item != "<pad>" and item != "<unk>")
-    ))
+    result = sorted(
+        {
+            item
+            for batch in token_batch
+            for item in batch
+            if (item != "<pad>" and item != "<unk>")
+        }
+    )
 
     vocab = {
         "<pad>": 0,
@@ -44,7 +47,7 @@ def build_vocabulary(texts: list[str]) -> dict[str, int]:
 def encode(tokens: list[str], vocabulary: dict[str, int]) -> list[int]:
     token_ids = []
     for value in tokens:
-        token_ids.append(vocabulary.get(value, vocabulary['<unk>']))
+        token_ids.append(vocabulary.get(value, vocabulary["<unk>"]))
     return token_ids
 
 
@@ -61,7 +64,9 @@ def pad_batch(
         return [], []
     max_length = len(max(sequences, key=len))
     padded_ids = [seq + [pad_id] * (max_length - len(seq)) for seq in sequences]
-    attention_masks = [[1] * len(seq) + [0] * (max_length - len(seq)) for seq in sequences]
+    attention_masks = [
+        [1] * len(seq) + [0] * (max_length - len(seq)) for seq in sequences
+    ]
     return padded_ids, attention_masks
 
 
@@ -77,14 +82,18 @@ def main() -> None:
     vocabulary = build_vocabulary([sequence_a, sequence_b])
     print(vocabulary)
     vocab_encode_a = encode(tokenize(sequence_a), vocabulary)
-    print('vocab_encode_a', vocab_encode_a)
+    print("vocab_encode_a", vocab_encode_a)
     vocab_encode_b = encode(tokenize(sequence_b), vocabulary)
-    print('vocab_encode_b', vocab_encode_b)
+    print("vocab_encode_b", vocab_encode_b)
     vocab_encode_c = encode(tokenize(sequence_c), vocabulary)
-    print('vocab_encode_c', vocab_encode_c)
-    vocab_pad_batch, attention_mask = pad_batch([vocab_encode_a, vocab_encode_b, vocab_encode_c], 0)
-    print('vocab_pad_batch', vocab_pad_batch)
-    print('attention_mask', attention_mask)
+    print("vocab_encode_c", vocab_encode_c)
+    vocab_pad_batch, attention_mask = pad_batch(
+        [vocab_encode_a, vocab_encode_b, vocab_encode_c],
+        vocabulary["<pad>"],
+    )
+    print("vocab_pad_batch", vocab_pad_batch)
+    print("attention_mask", attention_mask)
+
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,3 @@
-
-
 import json
 from pathlib import Path
 
@@ -53,7 +51,6 @@ class IntentService:
             probs = torch.softmax(logits, dim=1)[0]
             pred_idx = torch.argmax(probs).item()
             confidence = float(probs[pred_idx].item())
-
 
         predicted_intent = self.metadata["classes"][pred_idx]
         return PredictionResponse(

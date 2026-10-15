@@ -13,6 +13,7 @@ def get_settings():
 def get_inference_service():
     return InferenceService()
 
+
 from ai_assistant_platform.services.intent_service import IntentService
 
 
