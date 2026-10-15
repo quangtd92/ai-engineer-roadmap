@@ -42,7 +42,7 @@ flowchart TD
 
 Giai đoạn đầu tiên của mọi hệ thống Transformer là chuyển đổi văn bản dạng chuỗi ký tự tự nhiên thành các số nguyên (Token IDs) mà mô hình số học có thể xử lý.
 
-Chi tiết cài đặt minh họa tại script: [tokenization_overview.py](file:///e:/repos/cilel1/ai-assistant-platform/scripts/tokenization_overview.py).
+Chi tiết cài đặt minh họa tại script: [tokenization_overview.py](../scripts/tokenization_overview.py).
 
 ### 2.1. Phân biệt các khái niệm cốt lõi
 - **Raw Text**: Chuỗi ký tự thô do người dùng nhập (ví dụ: `"Tôi muốn biết lịch trình hôm nay"`).
@@ -69,7 +69,7 @@ Sequence B (7 tokens): [15, 9, 2, 8, 13, 6, 10, 0, 0] -> Mask: [1, 1, 1, 1, 1, 1
 ```
 
 > [!NOTE]
-> Script [tokenization_overview.py](file:///e:/repos/cilel1/ai-assistant-platform/scripts/tokenization_overview.py) sử dụng phương pháp tách từ theo khoảng trắng (whitespace tokenization) nhằm mục đích giáo khoa. Trong các LLM sản xuất thực tế (GPT-4, LLaMA), các thuật toán subword tinh vi hơn như **Byte-Pair Encoding (BPE)** hoặc **WordPiece** được sử dụng để tránh hiện tượng bùng nổ kích thước từ vựng và xử lý linh hoạt mọi từ ghép, tiền tố, hậu tố.
+> Script [tokenization_overview.py](../scripts/tokenization_overview.py) sử dụng phương pháp tách từ theo khoảng trắng (whitespace tokenization) nhằm mục đích giáo khoa. Trong các LLM sản xuất thực tế (GPT-4, LLaMA), các thuật toán subword tinh vi hơn như **Byte-Pair Encoding (BPE)** hoặc **WordPiece** được sử dụng để tránh hiện tượng bùng nổ kích thước từ vựng và xử lý linh hoạt mọi từ ghép, tiền tố, hậu tố.
 
 ---
 
@@ -170,6 +170,8 @@ flowchart LR
     M2 --> O["Output Context Vectors<br/>(seq_len, d_v)"]
 ```
 
+Script minh họa của project: [attention_shapes.py](../scripts/attention_shapes.py).
+
 ### 4.1. Bộ ba Query (Q), Key (K), Value (V)
 Từ vector embedding ban đầu của mỗi token, mô hình chiếu qua ba ma trận trọng số học được để tạo thành 3 vector:
 - **Query (Q)**: Vector đại diện cho câu hỏi: *"Tôi là token hiện tại, tôi đang cần tìm kiếm thông tin gì xung quanh?"*
@@ -199,6 +201,32 @@ Từ vector embedding ban đầu của mỗi token, mô hình chiếu qua ba ma 
 5. **Tổng hợp thông tin (Weighted Sum)**: `Output = Weights · V`
    - Kích thước: `(batch, seq_len, seq_len) × (batch, seq_len, d_v) -> (batch, seq_len, d_v)`.
    - Mỗi token nhận được một vector ngữ cảnh mới, là trung bình có trọng số của toàn bộ các vector Value trong câu.
+
+### 4.3. Minh họa tính toán ma trận nhỏ từ script demo
+
+Trong demo [attention_shapes.py](../scripts/attention_shapes.py), chuỗi gồm `seq_len = 3` token với số chiều `d_k = 4` và `d_v = 4`:
+
+| Thành phần | Kích thước (Shape) | Ý nghĩa thực thi |
+| --- | --- | --- |
+| `Q`, `K`, `V` | `(3, 4)` | 3 token đầu vào, mỗi token biểu diễn bằng vector 4 chiều |
+| `Scores = Q @ Kᵀ` | `(3, 3)` | Bảng tương thích giữa từng cặp token; `(3, 4) @ (4, 3) -> (3, 3)` |
+| `Scores / √d_k` | `(3, 3)` | Chia cho `√4 = 2` để kiểm soát độ lớn giá trị |
+| `Weights = softmax(Scores, dim=-1)` | `(3, 3)` | Ma trận trọng số xác suất; tổng mỗi dòng bằng đúng `1.0` |
+| `Output = Weights @ V` | `(3, 4)` | Biểu diễn ngữ cảnh mới của 3 token; `(3, 3) @ (3, 4) -> (3, 4)` |
+
+### 4.4. Trực giác thực tế trong `ai-assistant-platform`
+
+Xét câu lệnh của trợ lý: *"Tạo cuộc họp khẩn cấp"*:
+- Khi token `"họp"` đóng vai trò là Query `Q`, nó tìm kiếm thông tin bổ nghĩa xung quanh.
+- Vector Key `K` của token `"khẩn"` và `"cấp"` có độ tương đồng cao với Query của `"họp"`.
+- Do đó, trọng số attention giữa `"họp"` với `"khẩn"` và `"cấp"` sẽ chiếm tỉ lệ lớn trong phân phối Softmax.
+- Phép nhân `Weights · V` giúp vector đầu ra của `"họp"` tích hợp trực tiếp ngữ nghĩa khẩn cấp từ Value `V` của các từ xung quanh, thay vì chỉ mang ý nghĩa chung chung như ở tầng embedding tĩnh ban đầu.
+
+### 4.5. Tự kiểm tra (Self-Check)
+
+- **Vì sao bắt buộc phải chuyển vị `K` thành `(d_k, seq_len)` trước khi nhân?** Phép nhân ma trận yêu cầu số cột của ma trận thứ nhất bằng số hàng của ma trận thứ hai. `Q` có shape `(seq_len, d_k)` và `K` có shape `(seq_len, d_k)`, nên bắt buộc phải chuyển vị `K` thành `(d_k, seq_len)` để ra ma trận tương quan `(seq_len, seq_len)`.
+- **Softmax phải áp dụng trên chiều nào?** Luôn áp dụng trên `dim=-1` (chiều cuối cùng - tức từng dòng của ma trận điểm số), đảm bảo mỗi token phân bổ tổng mức chú ý bằng 100% (`1.0`) cho toàn bộ câu.
+- **Nếu thay đổi một vector Key thì kết quả thay đổi ra sao?** Khi một vector Key thay đổi, điểm tương đồng `Q · Kᵀ` tương ứng sẽ thay đổi, kéo theo toàn bộ hàng trọng số sau Softmax được phân bổ lại, và vector ngữ cảnh đầu ra sẽ dịch chuyển.
 
 ---
 
