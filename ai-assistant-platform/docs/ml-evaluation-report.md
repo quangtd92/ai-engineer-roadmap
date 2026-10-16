@@ -238,4 +238,47 @@ Thứ tự nhãn cố định từ `label_mapping.classes_`:
 1. **Quá trình tối ưu hóa**: Validation loss giảm đều sau mỗi epoch, khẳng định mô hình và pipeline gradient đang cập nhật đúng hướng, không bị nổ gradient hay overfit sớm.
 2. **So sánh F1 với Baseline**: Macro F1 của PyTorch (0.1143) tương đương mức Baseline (0.1333). Do vẫn sử dụng chung bộ feature thô bề mặt (độ dài, ký tự), mô hình học sâu chưa thể tạo sự vượt trội về ngữ nghĩa cho đến khi được trang bị pretrained word embeddings hoặc transformer ở các giai đoạn sau.
 
+---
+
+## 5. Tổng Kết Milestone PyTorch Intent Classifier & Phân Tích Giới Hạn (Tuần 3 - Ngày 21 / Day 49)
+
+### 5.1. Bàn Giao Kỹ Thuật Milestone Tuần 3
+Tuần 3 đã hoàn thiện đầy đủ chu trình kỹ thuật của một hệ thống học sâu (Deep Learning) tích hợp trong backend FastAPI:
+1. **Dữ liệu & Tải dữ liệu**: `IntentDataset` bọc dữ liệu feature vector/nhãn class với dtype chuẩn (`float32` cho feature, `long` cho target); `DataLoader` thiết lập đúng nguyên lý: train set có `shuffle=True`, validation set có `shuffle=False`.
+2. **Kiến trúc mô hình**: `IntentClassifier` kế thừa `nn.Module`, gồm 2 tầng Linear với phi tuyến ReLU, nhận `(batch_size, input_dim)` và trả logits `(batch_size, num_classes)`.
+3. **Training & Validation Loop**: Quy trình chuẩn gồm `zero_grad()`, `backward()`, `optimizer.step()`, kết hợp pha kiểm thử với `model.eval()` và `torch.no_grad()` để đo lường loss cùng Macro F1.
+4. **Tách biệt Đào tạo và Phục vụ (Offline Training vs Online Serving)**:
+   - Mô hình được huấn luyện offline độc lập qua script `scripts/train_torch_intent.py` và lưu trữ thành 3 artifact: weights `models/intent_classifier.pt`, metadata `models/intent_metadata.json`, và pipeline tiền xử lý `models/intent_preprocessor.joblib`.
+   - Service runtime (`IntentService`) nạp artifact một lần duy nhất lúc khởi động qua dependency injection, phục vụ endpoint `POST /api/v1/ml/intent` với thời gian đáp ứng dưới mili-giây, tuyệt đối **không thực hiện training hay tích lũy gradient trong request**.
+
+### 5.2. Bảng Đối Sánh Tổng Quan Toàn Bộ Milestone
+
+| Mô hình | Đặc trưng đầu vào | Phương pháp đánh giá | Macro F1 (Val) | Khả năng phục vụ API | Trạng thái tích hợp |
+| :--- | :--- | :--- | :---: | :---: | :---: |
+| **Baseline (Scikit-learn Logistic Regression)** | 4 đặc trưng thô (độ dài, số từ, dấu `?`, source) | `fit` -> `predict_proba` trên CPU | **0.1333** | Có service wrapper | Đạt mốc Tuần 2 |
+| **PyTorch Neural Network (MLP 2 lớp)** | 4 đặc trưng thô (độ dài, số từ, dấu `?`, source) | Mini-batch SGD (Adam), cross-entropy loss | **0.1143 - 0.2500** | Endpoint `POST /api/v1/ml/intent` | Đạt mốc Tuần 3 |
+
+### 5.3. Phân Tích Giới Hạn Cốt Lõi Của Mô Hình (Model Limitations)
+
+> [!WARNING]
+> Theo tiêu chuẩn Definition of Done (DoD) của Tuần 3: **Tuyệt đối không tuyên bố mô hình hoạt động tốt khi kích thước tập dữ liệu còn nhỏ**. Việc đánh giá khách quan các rào cản kỹ thuật là bắt buộc:
+
+1. **Giới hạn kích thước tập dữ liệu (Extreme Small Sample Size & High Variance)**:
+   - Kích thước tập dữ liệu hiện tại (`N_train = 37`, `N_val = 8`, `N_test = 7`) quá nhỏ so với số tham số của mạng nơ-ron.
+   - Trên tập Validation chỉ gồm 8 mẫu, mỗi mẫu dự đoán đúng/sai làm dịch chuyển Accuracy tới `12.5%`. Sự dao động (variance) giữa các lần huấn luyện có thể rất lớn chỉ do thứ tự xáo trộn batch hoặc khởi tạo seed ngẫu nhiên.
+2. **Giới hạn đặc trưng bề mặt (Surface Heuristic Bottleneck - Thiếu vắng Semantic Meaning)**:
+   - Dù chuyển sang kiến trúc Deep Learning (PyTorch), mô hình vẫn chỉ nhận các con số thống kê hình thức (`text_length`, `word_count`, `has_question_marks`, `source`).
+   - Hai câu có độ dài và nguồn gửi tương đương như *"Lên lịch họp dự án với team"* và *"Xóa toàn bộ thư trong hòm thư"* sẽ sinh ra vector đặc trưng gần như giống hệt nhau, khiến bất kỳ mô hình phân loại nào (kể cả mạng sâu nhiều lớp) cũng không thể phân biệt chính xác ý định nếu không có thông tin ngữ nghĩa từ vựng.
+3. **Hiện tượng thiên lệch nhãn và sụp đổ dự đoán (Class Imbalance & Collapse)**:
+   - Do số lượng mẫu phân bổ không đều giữa 5 intent, mô hình có xu hướng dự đoán dồn vào nhóm intent có tần suất xuất hiện cao hơn (`intent.create_meeting`), khiến các intent ít mẫu (`intent.search_file`, `intent.create_document`) rơi vào tình trạng F1 = 0.
+4. **Độ tin cậy của xác suất (Softmax Confidence Miscalibration)**:
+   - Hàm `torch.softmax` chuyển logits thành xác suất từ 0 đến 1, nhưng khi mô hình chưa được học trên tập dữ liệu đủ lớn và đa dạng, giá trị confidence cao không đồng nghĩa với việc mô hình thực sự chắc chắn về mặt ngữ nghĩa (overconfident on out-of-distribution inputs). API người dùng cần hiển thị cảnh báo mức độ tin cậy kèm theo.
+
+### 5.4. Định Hướng Chuyển Giao Sang Tuần 4 (Handoff to Transformer Foundation)
+Để vượt qua giới hạn của các đặc trưng bề mặt, Tuần 4 sẽ tập trung vào nền tảng của kiến trúc **Transformer**:
+- Thay thế vector đặc trưng thô bằng kỹ thuật phân tách chuỗi từ vựng thành **Token** và **Token IDs** (Tokenization).
+- Chuyển đổi mã token thành không gian ngữ nghĩa nhiều chiều thông qua **Word Embeddings** (`torch.nn.Embedding`).
+- Nắm vững cơ chế tính toán trọng số quan hệ ngữ cảnh giữa các từ thông qua **Scaled Dot-Product Attention** và **Multi-Head Attention**.
+
+
 

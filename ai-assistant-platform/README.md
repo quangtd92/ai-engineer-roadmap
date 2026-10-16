@@ -87,6 +87,26 @@ Chạy bộ kiểm thử tự động và kiểm tra chất lượng mã nguồn
 | `GET` | `/api/v1/status` | Async status endpoint kiểm tra khả năng phục vụ |
 | `POST` | `/api/v1/chat` | Echo/process endpoint gửi tin nhắn tới assistant |
 | `POST` | `/api/v1/inference/score` | Chấm điểm deterministic PyTorch toy model từ vector số thực |
+| `POST` | `/api/v1/ml/intent` | Dự đoán ý định người dùng (Intent Classification) bằng PyTorch Neural Network |
+
+### 🧠 Huấn Luyện Mô Hình ML (Machine Learning Training Pipeline)
+
+Dự án tách biệt hoàn toàn giữa quá trình **Huấn luyện Offline** và **Phục vụ Trực tuyến (Online Serving)**:
+
+1. **Huấn luyện mô hình PyTorch Intent Classifier**:
+   ```powershell
+   # Huấn luyện 5 epochs và lưu model artifact (.pt, metadata .json, preprocessor .joblib)
+   uv run python scripts/train_torch_intent.py --epochs 5 --save-model
+   ```
+   Artifacts sinh ra trong thư mục `models/`:
+   - `models/intent_classifier.pt`: Trọng số mạng nơ-ron PyTorch (`state_dict`).
+   - `models/intent_metadata.json`: Cấu hình kiến trúc, số chiều input/hidden/classes và nhãn phân loại.
+   - `models/intent_preprocessor.joblib`: Pipeline tiền xử lý (`IntentPreprocessor` đã fit trên tập train).
+
+2. **Huấn luyện mô hình Scikit-learn Baseline (Tham chiếu)**:
+   ```powershell
+   uv run python scripts/train_sklearn_baseline.py --write-report --evaluate-test
+   ```
 
 ### Ví dụ Lệnh `curl` kiểm tra
 
@@ -107,7 +127,22 @@ Chạy bộ kiểm thử tự động và kiểm tra chất lượng mã nguồn
      -d "{\"content\": \"Xin chào AI Assistant\"}"
    ```
 
-4. **PyTorch Toy Model Inference** (Sử dụng curl)
+4. **PyTorch Intent Prediction Endpoint**:
+   ```powershell
+   curl -X POST "http://localhost:8001/api/v1/ml/intent" `
+     -H "Content-Type: application/json" `
+     -d "{\"text\": \"Tôi muốn kiểm tra lịch làm việc hôm nay\", \"source\": \"web_ui\"}"
+   ```
+   *Kết quả mẫu*:
+   ```json
+   {
+     "intent": "intent.daily_schedule",
+     "confidence": 0.4215,
+     "model_version": "torch_intent_v1"
+   }
+   ```
+
+5. **PyTorch Toy Model Inference** (Vector số thực)
    ```powershell
    curl -X POST "http://localhost:8001/api/v1/inference/score" `
      -H "Content-Type: application/json" `
@@ -128,30 +163,48 @@ Chạy bộ kiểm thử tự động và kiểm tra chất lượng mã nguồn
      ```powershell
      cp .env.example .env
      ```
+4. **Lỗi `Artifact not found at models/...` khi gọi endpoint intent**:
+   - Chạy lệnh huấn luyện để sinh artifact trước khi khởi động server:
+     ```powershell
+     uv run python scripts/train_torch_intent.py --epochs 5 --save-model
+     ```
 
 ---
 
-## 🧪 Quy trình chạy và Lệnh Smoke Test đầy đủ
+## 🧪 Quy trình chạy và Lệnh Smoke Test đầy đủ (Docker & Local)
 
-### **Bước 1: Build và khởi động Container**
+### **Bước 1: Huấn luyện và chuẩn bị Artifact**
+```powershell
+uv run python scripts/train_torch_intent.py --epochs 5 --save-model
+```
+
+### **Bước 2: Build và khởi động Container**
 ```powershell
 # Chạy tại thư mục ai-assistant-platform
 docker compose up --build -d
 ```
 
-### **Bước 2: Health Check**
+### **Bước 3: Health Check**
 ```powershell
 curl -X GET "http://localhost:8001/api/v1/health"
 ```
 *Kết quả mong đợi*: `HTTP 200 OK`, `{"status":"ok","environment":"development"}`
 
-### **Bước 3: Status Check**
+### **Bước 4: Status Check**
 ```powershell
 curl -X GET "http://localhost:8001/api/v1/status"
 ```
 *Kết quả mong đợi*: `HTTP 200 OK`, `{"message":"Service is healthy and ready to process requests."}`
 
-### **Bước 4: Chat Endpoint**
+### **Bước 5: Intent Classification Smoke Test (PyTorch)**
+```powershell
+curl -X POST "http://localhost:8001/api/v1/ml/intent" `
+     -H "Content-Type: application/json" `
+     -d "{\"text\": \"Tạo một cuộc họp vào 2h chiều\", \"source\": \"web_ui\"}"
+```
+*Kết quả mong đợi*: `HTTP 200 OK`, `{"intent":"intent.create_meeting","confidence":0.35,"model_version":"torch_intent_v1"}`
+
+### **Bước 6: Chat Endpoint**
 ```powershell
 curl -X POST "http://localhost:8001/api/v1/chat" `
      -H "Content-Type: application/json" `
@@ -159,23 +212,14 @@ curl -X POST "http://localhost:8001/api/v1/chat" `
 ```
 *Kết quả mong đợi*: `HTTP 200 OK`, `{"content":"Xin chào AI Assistant","request_id":"..."}`
 
-### **Bước 5: Toy Model Inference**
-```powershell
-curl -X POST "http://localhost:8001/api/v1/inference/score" `
-     -H "Content-Type: application/json" `
-     -d "{\"values\": [1.0, 2.0]}"
-```
-*Kết quả mong đợi*: `HTTP 200 OK`, `{"score": <giá trị float>}`
-
 ---
 
-## 🤖 Ghi chú về PyTorch Toy Inference Model
+## 🤖 Nguyên Tắc Thiết Kế: Offline Training vs Online Serving
 
-> [!NOTE]
-> Endpoint `/api/v1/inference/score` tích hợp một mô hình tuyến tính đơn giản (`nn.Linear(2, 1)`) với seed cố định (`torch.manual_seed(2)`).
-> 
-> **Mục tiêu**: Kiểm thử và hoàn thiện toàn bộ luồng tích hợp PyTorch vào FastAPI (chế độ `eval()`, tắt gradient với `torch.no_grad()`, schema validation chống `NaN`/`Inf`, chuyển đổi Tensor sang scalar chuẩn).
-> 
-> **Lưu ý**: Đây là deterministic score baseline cho mục đích kiến trúc hệ thống, **không phải model AI/ML nghiệp vụ hoàn chỉnh**. Quá trình huấn luyện model thực tế (Training loop, Dataset/DataLoader, Loss functions, Optimizers) sẽ được triển khai trong **Month 02**.
-> 
-> Chi tiết xem thêm tại: [Month 02 Handoff & Technical Baseline](docs/month-02-handoff.md).
+> [!IMPORTANT]
+> **Separation of Concerns trong MLOps / AI Engineering**:
+> - **Huấn luyện (Offline Training)**: Tốn tài nguyên tính toán (backpropagation, autograd, data shuffle) và diễn ra theo batch định kỳ thông qua `scripts/train_torch_intent.py`.
+> - **Phục vụ (Online Serving)**: Endpoint FastAPI `/api/v1/ml/intent` tải trọng số tĩnh (`models/intent_classifier.pt`) và tiền xử lý (`models/intent_preprocessor.joblib`) qua Singleton / Dependency Injection. Ở mỗi request, hệ thống đặt chế độ `model.eval()`, bọc khối `torch.no_grad()`, và suy luận trong vài mili-giây.
+> - **Tuyệt đối không chạy training hay cập nhật gradient bên trong request lifecycle của API**.
+
+Chi tiết thực nghiệm và phân tích giới hạn mô hình xem tại: [docs/ml-evaluation-report.md](docs/ml-evaluation-report.md).
