@@ -86,7 +86,7 @@ Script minh họa của project: [embedding_overview.py](../scripts/embedding_ov
 - Bảng embedding thực chất là ma trận trọng số có kích thước `W_embed ∈ ℝ^(vocab_size × embedding_dim)`.
 - Khi truyền vào một token ID `k`, thao tác lookup tương đương với việc lấy ra dòng thứ `k` của ma trận: `v = W_embed[k, :]`.
 - Cùng một token ID sẽ lấy cùng một dòng trong bảng embedding, miễn là đang dùng cùng một embedding layer và trọng số chưa bị cập nhật.
-- Các vector là tham số có thể huấn luyện (learnable parameters). Khi optimizer cập nhật `embedding.we\right`, biểu diễn của token cũng thay đổi.
+- Các vector là tham số có thể huấn luyện (learnable parameters). Khi optimizer cập nhật `embedding.weight`, biểu diễn của token cũng thay đổi.
 
 Trong demo hiện tại, embedding layer được tạo như sau:
 
@@ -121,7 +121,7 @@ Kết quả chạy script:
 | Thành phần | Shape | Ý nghĩa |
 | --- | --- | --- |
 | Token IDs | `(3, 11)` | Mỗi vị trí chứa một ID trong vocabulary |
-| Embedding we\right | `(28, 4)` | 28 token, mỗi token có vector 4 chiều |
+| Embedding weight | `(28, 4)` | 28 token, mỗi token có vector 4 chiều |
 | Embedding output | `(3, 11, 4)` | Mỗi ID trong từng câu được thay bằng vector 4 chiều |
 
 Quy tắc tổng quát:
@@ -148,7 +148,7 @@ Classifier trước đó dùng các đặc trưng được định nghĩa sẵn 
 ### 3.5. Tự kiểm tra
 
 - Nếu đổi `embedding_dim` từ `4` thành `8`, output phải đổi từ `(3, 11, 4)` thành `(3, 11, 8)`.
-- Nếu vocabulary có thêm token mới, chiều đầu tiên của `embedding.we\right` phải tăng theo `len(vocabulary)`.
+- Nếu vocabulary có thêm token mới, chiều đầu tiên của `embedding.weight` phải tăng theo `len(vocabulary)`.
 - Nếu truyền tensor số thực thay vì `torch.long`, `nn.Embedding` sẽ báo lỗi vì input phải chứa các chỉ số nguyên.
 - Không được kết luận hai từ gần nghĩa chỉ dựa trên embedding ngẫu nhiên chưa qua training.
 
@@ -165,7 +165,7 @@ flowchart LR
     M1 --> S["Scale by 1/√d_k"]
     S --> MS["Optional Masking<br/>(Padding / Causal)"]
     MS --> SM["Softmax (dim=-1)"]
-    SM -->|Attention We\rights (seq_len, seq_len)| M2["MatMul (We\rights · V)"]
+    SM -->|Attention Weights (seq_len, seq_len)| M2["MatMul (Weights · V)"]
     V["Value (V)<br/>(seq_len, d_v)"] --> M2
     M2 --> O["Output Context Vectors<br/>(seq_len, d_v)"]
 ```
@@ -195,10 +195,10 @@ Từ vector embedding ban đầu của mỗi token, mô hình chiếu qua ba ma 
    - Với các vị trí padding hoặc token tương lai (trong decoder), gán giá trị tại đó bằng `-∞` (`-inf`).
    - Khi đi qua `softmax`, `e^(-∞) = 0`, đảm bảo trọng số chú ý tại các vị trí đó hoàn toàn bằng 0.
 
-4. **Chuẩn hóa xác suất (Softmax)**: `We\rights = softmax(Scores_scaled, dim=-1)`
-   - Tổng trọng số của từng dòng bằng 1.0. `We\rights[i, j]` là mức độ token `i` chú ý vào token `j`.
+4. **Chuẩn hóa xác suất (Softmax)**: `Weights = softmax(Scores_scaled, dim=-1)`
+   - Tổng trọng số của từng dòng bằng 1.0. `Weights[i, j]` là mức độ token `i` chú ý vào token `j`.
 
-5. **Tổng hợp thông tin (We\righted Sum)**: `Output = We\rights · V`
+5. **Tổng hợp thông tin (Weighted Sum)**: `Output = Weights · V`
    - Kích thước: `(batch, seq_len, seq_len) × (batch, seq_len, d_v) -> (batch, seq_len, d_v)`.
    - Mỗi token nhận được một vector ngữ cảnh mới, là trung bình có trọng số của toàn bộ các vector Value trong câu.
 
@@ -211,8 +211,8 @@ Trong demo [attention_shapes.py](../scripts/attention_shapes.py), chuỗi gồm 
 | `Q`, `K`, `V` | `(3, 4)` | 3 token đầu vào, mỗi token biểu diễn bằng vector 4 chiều |
 | `Scores = Q @ Kᵀ` | `(3, 3)` | Bảng tương thích giữa từng cặp token; `(3, 4) @ (4, 3) -> (3, 3)` |
 | `Scores / √d_k` | `(3, 3)` | Chia cho `√4 = 2` để kiểm soát độ lớn giá trị |
-| `We\rights = softmax(Scores, dim=-1)` | `(3, 3)` | Ma trận trọng số xác suất; tổng mỗi dòng bằng đúng `1.0` |
-| `Output = We\rights @ V` | `(3, 4)` | Biểu diễn ngữ cảnh mới của 3 token; `(3, 3) @ (3, 4) -> (3, 4)` |
+| `Weights = softmax(Scores, dim=-1)` | `(3, 3)` | Ma trận trọng số xác suất; tổng mỗi dòng bằng đúng `1.0` |
+| `Output = Weights @ V` | `(3, 4)` | Biểu diễn ngữ cảnh mới của 3 token; `(3, 3) @ (3, 4) -> (3, 4)` |
 
 ### 4.4. Trực giác thực tế trong `ai-assistant-platform`
 
@@ -241,7 +241,7 @@ Script minh họa của project: [multihead_position_shapes.py](../scripts/multi
 Thay vì chỉ tính toán một không gian chú ý duy nhất với chiều `embed_dim`, kiến trúc Transformer chia nhỏ không gian này thành `h` "đầu" (heads) độc lập:
 - Kích thước mỗi head: `head_dim = embed_dim // num_heads` (ràng buộc bắt buộc: `embed_dim` phải chia hết cho `num_heads`).
 - **Ý nghĩa & Trực giác**: 
-  - Mỗi head sở hữu bộ ma trận trọng số $(W_Q^i, W_K^i, W_V^i)$ riêng biệt, tương tự như việc cử ra $h$ chuyên gia khác nhau đọc cùng một câu:
+  - Mỗi head sở hữu bộ ma trận trọng số (W_Qⁱ, W_Kⁱ, W_Vⁱ) riêng biệt, tương tự như việc cử ra h chuyên gia khác nhau đọc cùng một câu:
     - *Head 1*: Chuyên theo dõi cấu trúc ngữ pháp (liên kết chủ ngữ - vị ngữ: `"Tôi"` → `"muốn"`).
     - *Head 2*: Chuyên theo dõi thực thể thời gian/địa điểm (liên kết hành động với thời gian: `"họp"` → `"chiều nay"`).
     - *Head 3*: Chuyên giải quyết đại từ quan hệ và từ thay thế (liên kết `"nó"` → `"báo cáo"` trước đó).
@@ -306,8 +306,9 @@ Với cấu hình mẫu trong script [multihead_position_shapes.py](../scripts/m
 
 #### A. Vấn đề bất biến hoán vị (Permutation Invariance)
 Phép tính Self-Attention:
-$$\text{Attention}(Q, K, V) = \text{Softmax}\left(\frac{QK^T}{\sqrt{d_k}}
-\right)V$$
+
+`Attention(Q, K, V) = softmax((Q · Kᵀ) / √d_k) · V`
+
 hoàn toàn phụ thuộc vào tích vô hướng giữa các cặp token mà **không hề phụ thuộc vào khoảng cách hay thứ tự xuất hiện** của chúng trong câu.
 Nếu hoán đổi vị trí hai từ:
 - Câu 1: *"Tôi bận buổi sáng, rảnh buổi chiều"*
@@ -316,7 +317,7 @@ Nếu hoán đổi vị trí hai từ:
 Tập hợp các vector từ vựng là như nhau, nên ma trận attention và vector đầu ra sẽ bị xáo trộn tương ứng mà không nhận thức được ngữ nghĩa thời gian đã bị đảo ngược hoàn toàn.
 
 #### B. Cơ chế Nhúng vị trí (Learned Positional Embedding)
-Để cung cấp toạ độ vị trí cho mô hình, ta gán cho mỗi vị trí $0, 1, 2, \dots, \text{seq\_len}-1$ một vector nhúng có cùng số chiều `embed_dim`:
+Để cung cấp toạ độ vị trí cho mô hình, ta gán cho mỗi vị trí `0, 1, 2, ..., seq_len - 1` một vector nhúng có cùng số chiều `embed_dim`:
 
 ```python
 # 1. Tạo tensor vị trí [0, 1, 2, 3]
@@ -336,9 +337,9 @@ x_with_positional_embedding = x_combine + pos
 #### C. So sánh các kỹ thuật Positional Encoding phổ biến
 | Phương pháp | Cơ chế hoạt động | Ưu điểm | Nhược điểm / Ứng dụng |
 | :--- | :--- | :--- | :--- |
-| **Sinusoidal (Tuyệt đối - Cố định)** | Dùng hàm $\sin, \cos$ với các tần số khác nhau: $PE_{(pos, 2i)} = \sin(pos / 10000^{2i/d})$. | Không tốn tham số học, có thể suy diễn chuỗi dài hơn lúc huấn luyện. | Ít linh hoạt, cố định công thức (Paper gốc Transformer 2017). |
+| **Sinusoidal (Tuyệt đối - Cố định)** | Dùng hàm sin, cos với các tần số khác nhau: `PE(pos, 2i) = sin(pos / 10000^(2i/d))`. | Không tốn tham số học, có thể suy diễn chuỗi dài hơn lúc huấn luyện. | Ít linh hoạt, cố định công thức (Paper gốc Transformer 2017). |
 | **Learned Embedding (Tuyệt đối - Học được)** | Dùng `nn.Embedding(max_seq_len, embed_dim)` học trực tiếp qua Gradient Descent. | Tối ưu linh hoạt cho dữ liệu thực tế, cài đặt đơn giản. | Không mở rộng được ngoài `max_seq_len` lúc train (BERT, GPT-2). |
-| **Rotary Position Embedding (RoPE - Tương đối)** | Xoay vector Query và Key trong không gian 2D theo góc tỉ lệ với vị trí token ($R_{\Theta, m} x$). | Bảo toàn khoảng cách tương đối giữa các token, ngoại suy độ dài context cực tốt. | **Tiêu chuẩn vàng trong toàn bộ các LLM hiện đại** (LLaMA-3, Mistral, Gemma, Qwen). |
+| **Rotary Position Embedding (RoPE - Tương đối)** | Xoay vector Query và Key trong không gian 2D theo góc tỉ lệ với vị trí token (`R_θ,m · x`). | Bảo toàn khoảng cách tương đối giữa các token, ngoại suy độ dài context cực tốt. | **Tiêu chuẩn vàng trong toàn bộ các LLM hiện đại** (LLaMA-3, Mistral, Gemma, Qwen). |
 
 ---
 
@@ -347,7 +348,7 @@ x_with_positional_embedding = x_combine + pos
 - **Tại sao khi gọi `x.transpose(1, 2)` trước `view()` thường phải gọi kèm `.contiguous()`?**
   Phép `transpose` hoặc `permute` chỉ thay đổi metadata (stride và shape) mà không sắp xếp lại thứ tự dữ liệu trên bộ nhớ RAM/VRAM. Lệnh `.view()` đòi hỏi các phần tử trong tensor phải nằm liên tục trong bộ nhớ (`is_contiguous() == True`). Hàm `.contiguous()` sẽ sao chép và định dạng lại vùng nhớ liền mạch, hoặc có thể dùng trực tiếp `.reshape()` (tự động gọi contiguous khi cần thiết).
 - **Tại sao cộng trực tiếp (Addition) Positional Embedding vào Token Embedding mà không dùng phép ghép nối (Concatenation)?**
-  Phép cộng giúp tiết kiệm bộ nhớ và giữ nguyên kích thước tensor `d_model`. Về mặt hình học, trong không gian số chiều cao (ví dụ: $d = 768$ hoặc $4096$), các vector ngẫu nhiên gần như trực giao (orthogonal) với nhau. Mạng nơ-ron có đủ dung lượng biểu diễn để tách biệt thông tin ngữ nghĩa từ và thông tin vị trí mà không gây nhiễu chéo.
+  Phép cộng giúp tiết kiệm bộ nhớ và giữ nguyên kích thước tensor `d_model`. Về mặt hình học, trong không gian số chiều cao (ví dụ: `d = 768` hoặc `4096`), các vector ngẫu nhiên gần như trực giao (orthogonal) với nhau. Mạng nơ-ron có đủ dung lượng biểu diễn để tách biệt thông tin ngữ nghĩa từ và thông tin vị trí mà không gây nhiễu chéo.
 - **Làm sao kiểm tra chắc chắn hàm `split_heads` và `combine_heads` không làm biến dạng dữ liệu?**
   Sử dụng assertion `assert torch.allclose(x, combine_heads(split_heads(x, num_heads)))`. Nếu trả về `True`, hai hàm là nghịch đảo hoàn hảo của nhau về mặt cấu trúc toán học.
 

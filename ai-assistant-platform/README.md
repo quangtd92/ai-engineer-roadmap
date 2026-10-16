@@ -223,3 +223,11 @@ curl -X POST "http://localhost:8001/api/v1/chat" `
 > - **Tuyệt đối không chạy training hay cập nhật gradient bên trong request lifecycle của API**.
 
 Chi tiết thực nghiệm và phân tích giới hạn mô hình xem tại: [docs/ml-evaluation-report.md](docs/ml-evaluation-report.md).
+
+---
+
+## 📚 Tài liệu Kỹ thuật & Báo cáo Nghiên cứu
+
+- **Nền tảng Kiến trúc Transformer**: [Transformer Foundation Report](docs/transformer-foundation.md)
+- **Báo cáo Đánh giá Baseline ML**: [ML Evaluation Report](docs/ml-evaluation-report.md)
+- **Kế hoạch Chuyển giao Tháng 03**: [Month 03 Handoff & Technical Baseline](docs/month-03-handoff.md)
