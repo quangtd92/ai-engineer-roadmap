@@ -220,7 +220,7 @@ Xét câu lệnh của trợ lý: *"Tạo cuộc họp khẩn cấp"*:
 - Khi token `"họp"` đóng vai trò là Query `Q`, nó tìm kiếm thông tin bổ nghĩa xung quanh.
 - Vector Key `K` của token `"khẩn"` và `"cấp"` có độ tương đồng cao với Query của `"họp"`.
 - Do đó, trọng số attention giữa `"họp"` với `"khẩn"` và `"cấp"` sẽ chiếm tỉ lệ lớn trong phân phối Softmax.
-- Phép nhân `We\rights · V` giúp vector đầu ra của `"họp"` tích hợp trực tiếp ngữ nghĩa khẩn cấp từ Value `V` của các từ xung quanh, thay vì chỉ mang ý nghĩa chung chung như ở tầng embedding tĩnh ban đầu.
+- Phép nhân `Weights · V` giúp vector đầu ra của `"họp"` tích hợp trực tiếp ngữ nghĩa khẩn cấp từ Value `V` của các từ xung quanh, thay vì chỉ mang ý nghĩa chung chung như ở tầng embedding tĩnh ban đầu.
 
 ### 4.5. Tự kiểm tra (Self-Check)
 
@@ -251,7 +251,7 @@ Thay vì chỉ tính toán một không gian chú ý duy nhất với chiều `e
 flowchart TD
     In["Input Tensor x<br/>shape: (batch, seq_len, embed_dim)"] --> View["Reshape / View<br/>(batch, seq_len, num_heads, head_dim)"]
     View --> Permute["Permute / Transpose (1, 2)<br/>(batch, num_heads, seq_len, head_dim)"]
-    Permute --> Attn["Parallel Self-Attention trên từng Head<br/>Scores = (Q @ Kᵀ) / √head_dim<br/>We\rights = Softmax(Scores)<br/>Context = We\rights @ V"]
+    Permute --> Attn["Parallel Self-Attention trên từng Head<br/>Scores = (Q @ Kᵀ) / √head_dim<br/>Weights = Softmax(Scores)<br/>Context = Weights @ V"]
     Attn --> OutHeads["Output Heads Tensor<br/>(batch, num_heads, seq_len, head_dim)"]
     OutHeads --> RestorePermute["Transpose / Permute (1, 2)<br/>(batch, seq_len, num_heads, head_dim)"]
     RestorePermute --> Combine["Reshape / Flatten Heads<br/>(batch, seq_len, embed_dim)"]
@@ -365,13 +365,65 @@ Dựa trên cách kết hợp khối Encoder và Decoder cùng cơ chế che m�
 | **Thế mạnh bài toán** | Trích xuất đặc trưng câu, Phân loại ý định (Intent), Nhận dạng thực thể (NER), Semantic Search. | Sinh văn bản tự nhiên, Đàm thoại (Chatbot), Lập trình mã nguồn, Tiếp nối câu (Text Completion). | Dịch máy (Machine Translation), Tóm tắt văn bản dài (Summarization), Audio-to-Text. |
 | **Đầu ra mục tiêu** | Representation vector hoặc nhãn phân loại tĩnh. | Chuỗi token kế tiếp được sinh lặp lại (Next-token generation). | Chuỗi token mục tiêu (Target sequence) độc lập với nguồn. |
 
-### 6.1. Chi tiết cơ chế Next-Token Prediction trong Decoder-only LLM
-Các mô hình AI tạo sinh hiện đại hoạt động dựa trên nguyên lý dự đoán token tiếp theo:
-1. Nhận prompt người dùng: `"Lên lịch họp vào thứ"`
-2. Đưa qua các tầng Causal Self-Attention (token `"thứ"` chỉ được nhìn thấy `"Lên"`, `"lịch"`, `"họp"`, `"vào"`, `"thứ"`).
-3. Tầng Linear cuối cùng ánh xạ vector đầu ra về kích thước từ vựng `(vocab_size)`.
-4. Tính xác suất Softmax và chọn ra token kế tiếp có xác suất cao nhất: `"Sáu"`.
-5. Nối `"Sáu"` vào prompt cũ thành: `"Lên lịch họp vào thứ Sáu"` và lặp lại chu trình cho đến khi gặp token kết thúc chuỗi `<eos>` (End-of-Sequence).
+### 6.1. Chi tiết cơ chế Causal Masking và Next-Token Prediction trong Decoder-only LLM
+
+Các mô hình ngôn ngữ lớn (LLM) hiện đại (GPT-4, LLaMA-3, Mistral, Gemma) là các mô hình **Decoder-only tự hồi quy (Autoregressive)**: sinh chuỗi văn bản bằng cách dự đoán lặp lại một token kế tiếp tại mỗi bước suy diễn.
+
+#### A. Mặt nạ Causal Mask (Mặt nạ nhân quả)
+Trong quá trình huấn luyện và suy diễn, mô hình không được phép "nhìn trộm" các từ tương lai. Cơ chế Causal Mask đảm bảo token tại vị trí `t` chỉ có thể tương tác chú ý (attend) với các token từ vị trí `0` đến `t`.
+
+Ma trận trọng số chú ý được áp dụng một mặt nạ tam giác dưới (Lower Triangular Mask):
+- Các vị trí hợp lệ giữ nguyên điểm số chú ý `Scores(i, j)`.
+- Các vị trí tương lai (`j > i`) bị gán giá trị âm vô cùng `-∞` trước khi qua hàm Softmax. Khi tính `exp(-∞)`, trọng số chú ý tại các vị trí này triệt tiêu hoàn toàn về `0%`.
+
+Minh họa ma trận Causal Attention Mask với 3 token đầu vào:
+```text
+Token Query \ Token Key   ["Summarize",  "this",  "ticket"]
+"Summarize"               [    1.0,        0.0,      0.0   ]  <- chỉ nhìn thấy chính nó
+"this"                    [    0.4,        0.6,      0.0   ]  <- nhìn thấy "Summarize" và "this"
+"ticket"                  [    0.3,        0.2,      0.5   ]  <- nhìn thấy toàn bộ quá khứ
+```
+
+#### B. Mô phỏng quy trình sinh tự hồi quy (Autoregressive Loop) với prompt: `"Summarize this ticket"`
+
+Dưới đây là từng bước tính toán chi tiết khi mô hình nhận prompt đầu vào:
+
+##### Bước 0: Token hóa đầu vào (Tokenization)
+- **Chuỗi gốc:** `"Summarize this ticket"`
+- **Tokenizer phân rã:** `["Summarize", "this", "ticket"]`
+- **Ánh xạ thành Token IDs:** `[34125, 428, 7924]` (dựa trên bảng từ vựng `vocab_size`).
+- **Tensor đầu vào:** Shape `(1, 3)` -> qua tầng Embedding -> `(1, 3, embed_dim)`.
+
+##### Bước 1: Dự đoán token thứ nhất (token thứ 4 trong chuỗi)
+1. Tensor đi qua `N` khối Decoder Layers với Causal Self-Attention.
+2. Tại vị trí token cuối cùng (`"ticket"`), vector ngữ cảnh đầu ra tích hợp thông tin của toàn bộ câu lệnh phía trước.
+3. Vector biểu diễn cuối cùng (shape `1 × embed_dim`) được đưa qua tầng chiếu tuyến tính (Unembedding Linear Layer): ánh xạ từ `embed_dim` sang kích thước từ vựng `vocab_size` (ví dụ: 32,000 chiều) để tạo ra vector điểm số thô **Logits**.
+4. Hàm Softmax chuyển đổi Logits thành phân phối xác suất trên toàn bộ từ vựng:
+   - `P(":") = 48.2%`
+   - `P("\n") = 26.5%`
+   - `P("details") = 3.1%`
+5. Thuật toán lấy mẫu (Greedy Search hoặc Top-p Sampling) chọn token có xác suất cao nhất: `":"` (ID: `25`).
+
+##### Bước 2: Ghép token mới và lặp lại bước kế tiếp
+1. Nối token vừa sinh vào cuối chuỗi ngữ cảnh:
+   - Chuỗi mới: `["Summarize", "this", "ticket", ":"]` (độ dài chuỗi tăng lên 4).
+2. Chạy lại forward pass qua mô hình (trong thực tế production, kỹ thuật **KV Cache** được sử dụng để tái sử dụng Key/Value của các token trước đó, chỉ tính toán Query cho token mới `":"`).
+3. Vector đầu ra của token `":"` tiếp tục được chiếu sang Logits -> Softmax.
+4. Dự đoán token tiếp theo: `"\n"` (ID: `198`).
+
+##### Bước 3: Tiếp tục sinh nội dung tóm tắt
+- Chuỗi mới: `["Summarize", "this", "ticket", ":", "\n"]`
+- Dự đoán tiếp: `"The"` -> `"customer"` -> `"reported"` -> `"an"` -> `"error"` -> ...
+
+##### Bước 4: Điều kiện dừng (Stopping Condition)
+Chu trình suy diễn lặp lại liên tục cho đến khi gặp một trong hai điều kiện:
+1. Mô hình dự đoán ra token đặc biệt kết thúc chuỗi `<eos>` (End-of-Sequence, ví dụ token `<|endoftext|>` hoặc `</s>`).
+2. Số lượng token sinh ra chạm ngưỡng giới hạn `max_tokens` do người dùng cấu hình.
+
+#### C. Vì sao các LLM hiện đại chọn kiến trúc Decoder-only?
+1. **Khả năng mở rộng vượt trội (Scalability):** Việc tối ưu hóa một kiến trúc đồng nhất (chỉ gồm các khối Causal Decoder) trên hàng ngàn GPU dễ dàng và ổn định hơn kiến trúc Encoder-Decoder hai nhánh.
+2. **Nhiệm vụ học tổng quát (Universal Objective):** Mục tiêu huấn luyện "dự đoán token tiếp theo" trên lượng dữ liệu khổng lồ (Unsupervised Causal Language Modeling) tự động ép mô hình học được ngữ pháp, kiến thức thế giới, suy luận logic và khả năng làm theo chỉ dẫn (In-context Learning).
+3. **Hiệu năng phục vụ tối ưu (Inference Optimization):** Cơ chế Causal Mask cho phép tận dụng triệt để KV Caching để tăng tốc độ phản hồi đáng kể trong các ứng dụng đàm thoại trực tuyến.
 
 ---
 

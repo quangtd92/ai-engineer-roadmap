@@ -59,7 +59,7 @@ def main() -> None:
     print('x_combine.shape', x_combine.shape)
     print('x_combine', x_combine)
     # tạo position IDs từ 0 đến seq_len - 1
-    batch_size, seq_len, embed_dim = x_combine.shape
+    _batch_size, seq_len, embed_dim = x_combine.shape
     print('x_combine.shape', x_combine.shape)
     position_ids = torch.arange(seq_len)
     print('position_ids', position_ids)
