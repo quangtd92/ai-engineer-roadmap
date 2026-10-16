@@ -8,15 +8,15 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout.reconfigure(encoding="utf-8")
 
 
-# ?? l?m g?: Minh h?a c? ch? Embedding Lookup v? k?ch th??c tensor ??u ra.
-# C?n l?m g?: Chuy?n chu?i th?nh token ID qua vocabulary, th?c hi?n padding,
-# ??a v?o nn.Embedding v? in ra shape c?a tr?ng s? c?ng tensor k?t qu?.
-# ??u v?o: Kh?ng nh?n tham s?; s? d?ng c?c c?u m?u khai b?o trong h?m.
-# ??u ra: Kh?ng tr? v? gi? tr?; in th?ng tin embedding v? tensor shape ra terminal.
+# Để làm gì: Minh họa cơ chế Embedding Lookup và kích thước tensor đầu ra.
+# Cần làm gì: Chuyển chuỗi thành token ID qua vocabulary, thực hiện padding,
+# đưa vào nn.Embedding và in ra shape của trọng số tensor kết quả.
+# Đầu vào: Không nhận tham số; sử dụng các cấu mẫu khai báo trong hàm.
+# Đầu ra: Không trả về giá trị; in thông tin embedding và tensor shape ra terminal.
 def main():
-    sequence_1 = "H?m nay c? s? ki?n g? quan tr?ng kh?ng?"
-    sequence_2 = "G?i th? ph?n h?i cho ??i t?c"
-    sequence_3 = "T?o m?t cu?c h?p v?i ??i marketing v?o 2h chi?u nay"
+    sequence_1 = "Hôm nay có sự kiện gì quan trọng không?"
+    sequence_2 = "Gửi thư phản hồi cho đối tác"
+    sequence_3 = "Tạo một cuộc họp với đội marketing vào 2h chiều nay"
 
     vocabulary = build_vocabulary([sequence_1, sequence_2, sequence_3])
     print(vocabulary, "len", len(vocabulary))

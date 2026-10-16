@@ -56,7 +56,8 @@ Chạy bộ kiểm thử tự động và kiểm tra chất lượng mã nguồn
 
 - **Chạy toàn bộ Integration & Unit Tests**:
   ```powershell
-  uv run pytest
+  uv run python -m pytest
+  # hoặc: uv run pytest
   ```
 - **Kiểm tra Linting**:
   ```powershell
